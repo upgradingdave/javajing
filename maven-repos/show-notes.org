@@ -1,0 +1,54 @@
+* Steps for creating custom repo
+
+** Setup remote server: 
+
+- Create directory maven/repo on remote server
+- Set up apache (or any web server) to access it
+- Verify you can connect via ssh 
+- Verify you can connect via http(s)
+
+** Setup local mvn client to deploy to custom repo: 
+
+- Add scp wagon extension to your pom 
+- Add `server` entry to ~/.m2/settings.xml
+- Deploy artifact:
+#+BEGIN_SRC bash
+mvn -DaltDeploymentRepository=homegrown-repo::default::scp://<domain>:<port>/<path-to-repo> javadoc:jar source:jar deploy -e
+#+END_SRC
+- (optionally) Add DistributionManagement definition to pom 
+
+** Setup local mvn client to use custom repo: 
+
+- Add repositories section to pom
+- Add dependencies
+
+** Troubleshooting
+
+use `-X` to get full debug output
+
+* More info
+
+Overiew of Maven Repositories
+
+http://maven.apache.org/settings.html#Repositories
+http://www.sonatype.com/books/nexus-book/reference/repoman.html
+
+Repository Management
+
+http://maven.apache.org/repository-management.html
+
+Central Repository
+http://repo.maven.apache.org/
+
+Search Central Repo
+http://search.maven.org/#browse
+
+Wagon Providers
+http://maven.apache.org/guides/mini/guide-wagon-providers.html
+http://maven.apache.org/guides/mini/guide-http-settings.html
+
+
+
+
+
+
