@@ -1,0 +1,68 @@
+Java servlet containers such as weblogic, jetty, tomcat, etc run on
+various ports. For example, tomcat listens on port 8080 by default.
+It's often convenient to proxy servlets and java apps over port 80 so
+you don't need to remember port numbers. It's also a good practice
+from security perspective. Rather than opening various ports, you can
+lock down all access over port 80 and/or 443. 
+
+Here's a demo of how to use Apache mod_proxy to set this up. 
+
+* Steps
+
+** verify apache proxy and rewrite modules are enabled
+
+Apache2: 
+
+#+SRC_BEGIN
+# might need to set APACHE_RUN_USER environment variable using this:
+. /etc/apache2/envvars
+
+apache2 -l # list of compiled in modules
+apache2 -M # list of dynamically loaded modules
+
+apache2 -M | grep proxy
+
+apache2 -M | grep rewrite
+
+#+SRC_END
+
+** Configure new vhost
+
+Create app-name.conf file under /etc/apache2/sites-available
+
+** configure proxy
+
+#+SRC_BEGIN
+        ProxyPass /confluence http://WCIAPPS02:8080/confluence
+        <Location /confluence>
+                ProxyPassReverse http://WCIAPPS02:8080/confluence
+                Order allow,deny
+                Allow from all
+        </Location>
+#+SRC_END
+
+** Rewrite urls
+
+** enable new vhost
+
+#+SRC_BEGIN
+sudo a2ensite <app-name>.conf
+#+SRC_END
+
+** check configs
+
+#+SRC_BEGIN
+sudo apache2ctl configtest
+#+SRC_END
+
+** Set up subdomain
+
+** restart apache and test
+
+
+
+
+
+
+
+
