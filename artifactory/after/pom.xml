@@ -1,0 +1,81 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.upgradingdave</groupId>
+  <artifactId>simple-webapp</artifactId>
+  <name>Simple Webapp</name>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <repositories>
+    <!-- Override (disable) central -->
+    <repository>
+      <id>central</id>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </repository>
+    <repository>
+      <id>upgradingdave-ro</id>
+      <name>Upgradingdave Artifactory</name>
+      <url>http://localhost:8081/artifactory/repo</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <!-- Override (disable) central -->
+    <pluginRepository>
+      <id>central</id>
+      <url>http://repo1.maven.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+    <pluginRepository>
+      <id>upgradingdave-ro</id>
+      <name>Upgradingdave Read Only</name>
+      <url>http://dev.upgradingdave.com/artifactory/repo</url>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <distributionManagement>
+    <repository>
+      <id>upgradingdave-release</id>
+      <name>Upgradingdave Release Repository</name>
+      <url>http://dev.upgradingdave.com/artifactory/libs-release-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>upgradingdave-snapshots</id>
+      <name>Upgradingdave Snapshot Repository</name>
+      <url>http://dev.upgradingdave.com/artifactory/libs-snapshot-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.10</version>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.6.4</version>
+    </dependency>
+  </dependencies>
+
+</project>
