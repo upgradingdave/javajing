@@ -1,0 +1,43 @@
+* Steps to use Slf4j
+
+- Add Slf4j as a dependency to your app
+- Add logger statements!
+- Compile and can run without anything else and now anyone who uses
+  your app can use the log framework of their choice.
+
+- To actually see log statements, you'll need to add a library that
+  actually implements the slf4j logging interface api. 
+- Pick an implementation, in this demo, we'll use log4j. Add
+  corresponding slf4j "binding" dependency 
+- Run the app and now you can see log statements
+
+- To control logging of third party libraries is a bit trickier and
+  will depend on number of things, but for spring you can do the
+  following. 
+
+* Arguments against using commons-logging
+
+http://articles.qos.ch/thinkAgain.html?
+
+Seems the biggest frustration with commons-logging is that it tries to
+dynamically discover logging implementations (such as log4j) on the
+classpath during runtime. 
+
+Spring framework has a dependency on commons-logging, and they say
+they'd use slf4j if they could do it over again: 
+
+http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/overview.html#d0e767
+
+
+* Links
+
+Slf4j
+http://www.slf4j.org/
+
+Log4j Framework
+http://logging.apache.org/log4j/1.2/
+
+Log4j has been around since 1998
+http://wiki.apache.org/logging-log4j/Log4jvsJDKLogging
+
+
