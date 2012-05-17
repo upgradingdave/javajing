@@ -1,0 +1,11 @@
+* notes
+PropertyPlaceholderConfigurer
+
+context:property-placeholder
+
+* need to research
+
+best way to pick up changes to properties files?
+
+Great blog post tips for using spring properties: 
+http://www.summa-tech.com/blog/2009/04/20/6-tips-for-managing-property-files-with-spring/
