@@ -1,17 +1,23 @@
 Java servlet containers such as weblogic, jetty, tomcat, etc run on
 various ports. For example, tomcat listens on port 8080 by default.
-It's often convenient to proxy servlets and java apps over port 80 so
-you don't need to remember port numbers. It's also a good practice
-from security perspective. Rather than opening various ports, you can
-lock down all access over port 80 and/or 443. 
+It's often convenient to proxy servlets and java apps over
+port 80. This is useful for several reasons: 
 
-Here's a demo of how to use Apache mod_proxy to set this up. 
+- End users don't need to remember port numbers to access production
+- It's also a good practice from security perspective. Rather than
+  opening various ports, you can lock down everything and then allow
+  access over port 80 and/or 443.
+- Saves time to your dev environment to use port 80 so you can ensure
+  the app uses portable urls
+
+Here's a demo of how to use Apache mod_proxy to set this up inside
+your development environment. 
 
 * Steps
 
-** verify apache proxy and rewrite modules are enabled
+** Verify apache proxy and rewrite modules are enabled
 
-Apache2: 
+Here's how you can check whether the modules are enabled: 
 
 #+SRC_BEGIN
 # might need to set APACHE_RUN_USER environment variable using this:
@@ -26,22 +32,37 @@ apache2 -M | grep rewrite
 
 #+SRC_END
 
+In Apache2, use the following commands to enable the modules
+
+#+SRC_BEGIN
+a2enmod proxy
+a2enmod proxy_http
+a2enmod rewrite
+#+SRC_END
+
 ** Configure new vhost
 
 Create app-name.conf file under /etc/apache2/sites-available
 
-** configure proxy
+<VirtualHost *:80>
+    ServerAdmin upgradingdave@gmail.com
+    ServerName javajing.com
+    DocumentRoot /home/dparoulek/projects/javajing/apache-proxy/simple-webapp/src/main/webapp
+    ErrorLog "logs/javajing-error"
+    CustomLog "logs/javajing-access_log" common
 
-#+SRC_BEGIN
-        ProxyPass /confluence http://WCIAPPS02:8080/confluence
-        <Location /confluence>
-                ProxyPassReverse http://WCIAPPS02:8080/confluence
-                Order allow,deny
-                Allow from all
-        </Location>
-#+SRC_END
+    <Location />
+      Order allow,deny
+      Allow from all
+    </Location>
 
-** Rewrite urls
+    ProxyRequests On
+    RewriteEngine On
+
+    RewriteRule ^/$ http://localhost:8080/simple-webapp [P]
+    RewriteRule ^/(.+)$ http://localhost:8080/simple-webapp/$1 [P]
+
+</VirtualHost>
 
 ** enable new vhost
 
@@ -57,9 +78,17 @@ sudo apache2ctl configtest
 
 ** Set up subdomain
 
+I like to add to local hosts file. 
+
 ** restart apache and test
 
+* Links
 
+JSTL JavaDoc
+http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/
+
+XAMMP
+http://www.apachefriends.org/en/xampp.html
 
 
 
