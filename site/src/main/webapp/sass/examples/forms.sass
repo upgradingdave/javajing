@@ -1,0 +1,66 @@
+/* Blueprint Grid */
+$blueprint-grid-columns : 15
+$blueprint-grid-width   : 30px
+$blueprint-grid-margin  : 10px
+
+/* Forms */
+
+@import "compass/reset"
+@import "blueprint/grid"
+@import "upgradingdave/forms"
+@import "upgradingdave/buttons"
+@import "upgradingdave/notification"
+
++global-reset
+
+body
+  font-size: 90%
+  padding: 20px
+  font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif 
+  margin: auto  
+  /*+grid-background
+
+h1,h2,h3
+  color: #484848
+  margin: 20px 0px
+
+h1
+  font-size: 24px
+
+h2
+  font-size: 18px
+
+.one-col
+  /* The container mixin forces everything to be centered
+  +container 
+
+  #content 
+    +column(16, true)
+
+#loading
+  height: 45px
+  margin-bottom: 5px  
+
+#searchbox
+  padding: 5px  
+  background-color: #fff
+
+#refresh
+  img
+    vertical-align: middle
+  a
+    text-decoration: none
+    font-size: 120%
+    color: #0099FF
+  display: none
+  height: 45px  
+  margin-bottom: 5px  
+
+#message
+  display: none
+  border: 3px solid #B9090B
+  margin: 10px 0
+  padding: 4px
+
+
+

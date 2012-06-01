@@ -1,0 +1,95 @@
+---
+layout: post
+title: Ruby From Java
+tags: [maven, ruby, jruby, java]
+excerpt: Call Ruby code from Java
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Steps </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<ul>
+<li>
+Include the jruby-complete-&lt;version&gt;.jar dependency on the classpath
+for your project
+</li>
+<li>
+Use BSF, JSR223 or jruby core to "embed" ruby inside java (run ruby
+from java). See the Jruby wiki for more. 
+</li>
+<li>
+Try using jruby-complete-&lt;version&gt;.jar to run a ruby script
+</li>
+</ul>
+
+<p>java -jar jruby-complete-1.6.7.jar -S sass<sub>helper</sub>.rb
+</p><ul>
+<li>
+Package gem into a jar file
+</li>
+</ul>
+
+<p>mkdir sass-gems
+java -jar jruby-complete-1.6.7.jar -S gem install -i ./sass-gems sass &ndash;no-rdoc &ndash;no-ri
+jar cf sass-gems.jar -C sass-gems .
+</p><ul>
+<li>
+Verify jruby can see gems inside jar file
+</li>
+</ul>
+
+<p>jar -tf sass-gems.jar | head
+java -jar jruby-complete-1.6.7.jar -S sass<sub>helper</sub>.rb  # will still fail
+java -jar jruby-complete-1.6.7.jar -rsass-gems.jar -S sass<sub>helper</sub>.rb
+</p><ul>
+<li>
+Include jar as maven dependency
+</li>
+</ul>
+
+<p>mvn deploy:deploy-file -DgroupId=com.upgradingdave -DartifactId=sass-gem -Dversion=3.1.17 -Dpackaging=jar -Dfile=sass-gems.jar -Durl=<a href="http://dev.upgradingdave.com/artifactory/ext-release-local">http://dev.upgradingdave.com/artifactory/ext-release-local</a> -DrepositoryId=upgradingdave-release
+</p><ul>
+<li>
+Add com.upgradingdave:sass-gems:3.1.17 to pom and then test by
+calling sass<sub>help</sub>.rb from RubyExample.java main method
+</li>
+<li>
+For convenience, use gem maven plugin to automatically retrieve gems
+as maven artifacts from torquebox rubygems maven proxy repository
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Links </h2>
+<div class="outline-text-2" id="text-2">
+
+<p>Embedding ruby inside java: 
+<a href="https://github.com/jruby/jruby/wiki/RedBridge">https://github.com/jruby/jruby/wiki/RedBridge</a>
+</p>
+<p>
+Package gems into a jar: 
+<a href="http://blog.nicksieger.com/articles/2009/01/10/jruby-1-1-6-gems-in-a-jar">http://blog.nicksieger.com/articles/2009/01/10/jruby-1-1-6-gems-in-a-jar</a>
+</p>
+<p>
+Maven proxy that automatically converts ruby gems to maven dependencies:
+<a href="http://rubygems-proxy.torquebox.org/">http://rubygems-proxy.torquebox.org/</a>
+</p>
+<p>
+Gem Maven Plugin
+<a href="http://blog.mkristian.tk/2010/08/managing-jruby-projects-with-maven.html">http://blog.mkristian.tk/2010/08/managing-jruby-projects-with-maven.html</a>
+</p>
+<p>
+Ruby Version Manager (very convenient for installing and using jruby,
+along with other ruby implementations)
+<a href="https://rvm.io/">https://rvm.io/</a>
+</p>
+
+
+</div>
+</div>

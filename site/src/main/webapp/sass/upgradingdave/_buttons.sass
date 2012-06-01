@@ -1,0 +1,38 @@
+/* @import "upgradingdave/buttons 
+/* 
+/* Example html: 
+/* 
+
+/* Blueprint Buttons */
+$blueprint-button-border-color : #dedede
+$blueprint-button-background-color : #f5f5f5
+$blueprint-button-font-color : #565656
+$blueprint-button-hover-border-color : #c2e1ef
+$blueprint-button-hover-background-color : #dff4ff
+$blueprint-button-hover-font-color : #336699
+$blueprint-button-active-border-color : #6299c5
+$blueprint-button-active-background-color : #6299c5
+$blueprint-button-active-font-color : white
+$button-disabled-border-color : #eeeeee
+$button-disabled-background-color : #dddddd
+$button-disabled-font-color : #cccccc
+
+@import "blueprint/buttons"
+
+.button
+  +button-colors()
+  +button-active-colors()
+  +button-hover-colors()  
+  +button-button()
+
+.button-link
+  +button-colors()
+  +button-active-colors()
+  +button-hover-colors()  
+  +anchor-button()
+
+.disabled
+  +button-button()
+  +button-colors($button-disabled-font-color, $button-disabled-background-color, $button-disabled-border-color, $button-disabled-border-color)  
+  +button-hover-colors($button-disabled-font-color, $button-disabled-background-color, $button-disabled-border-color, $button-disabled-border-color)  
+  cursor: default

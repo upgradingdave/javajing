@@ -1,0 +1,39 @@
+#+BEGIN_HTML
+---
+---
+layout: post
+title: Artifactory
+tags: [maven, artifactory, dependency management, build tools]
+excerpt: How to set up your own private Maven Repository using Artifactory
+---
+#+END_HTML
+
+Artifactory is a Maven repository Manager that provides a ton of
+useful features out of the box. 
+
+* Steps
+
+** Download Artifactory
+
+#+SRC_BEGIN
+wget http://downloads.sourceforge.net/project/artifactory/artifactory/2.5.2/artifactory-2.5.2.zip
+unzip artifactory.zip && rm artifactory.zip
+#+SRC_END
+
+** Install locally
+** Start and verifiy installation
+** Install on remote server
+** Setup project to resolve dependencies from artifactory
+** Setup project to deploy artifacts to artifactory
+** Setup project to resolve plugin dependencies from artifactory
+** (optionally) setup project to use local version
+
+* Repository Manager vs "Rolling Your Own" Custom Maven Repo
+
+- Repo Managers act as Proxies to the Central Repo. 
+  If your repo manager is installed on a local network (or I even have artifactory installed locall)
+  then it can really speed up build times. 
+- GUI's provide easier ways to manage depenedencies
+- Automatic management of snapshot verses stable versions of artifacts
+- Greater control over exactly which dependencies are used in your project. 
+

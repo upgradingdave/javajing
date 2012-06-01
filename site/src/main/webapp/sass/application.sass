@@ -1,0 +1,32 @@
+/* Blueprint Grid */
+$blueprint-grid-columns : 24
+$blueprint-grid-width   : 30px
+$blueprint-grid-margin  : 10px
+
+/* Forms */
+
+@import "compass/reset"
+@import "compass/utilities/tables/alternating-rows-and-columns"
+@import "compass/layout/grid-background"
+@import "blueprint/grid"
+@import "compass/utilities/tables/alternating-rows-and-columns"
+@import "upgradingdave/cheatsheet"
++global-reset
+
+body
+  font-size: 60%
+  font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif 
+  /*+grid-background
+
+.two-col
+  /* The container mixin forces everything to be centered
+  /*+container 
+
+  #col1  
+    +column(12)
+  #col2
+    +column(12, true)
+
+.spaces
+  width: 10px
+

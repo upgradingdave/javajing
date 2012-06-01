@@ -1,0 +1,89 @@
+---
+layout: post
+title: Unit Testing with Spring
+tags: [spring, unit test, junit]
+excerpt: How to write a Junit test that uses Beans defined inside Spring Context
+---
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Steps </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<ul>
+<li>
+Create Simple Example Junit Test without spring
+</li>
+<li>
+Add spring dependencies
+
+</li>
+</ul>
+
+<p>Add Dependency on spring-beans and spring-context: 
+</p>
+<p>
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+&lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
+&lt;version&gt;3.1.1.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+&lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+&lt;version&gt;3.1.1.RELEASE&lt;/version&gt;
+&lt;/dependency&gt;
+</p>
+<p>
+Add Dependency on spring-test: 
+</p>
+<p>
+&lt;dependency&gt;
+&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+&lt;artifactId&gt;spring-test&lt;/artifactId&gt;
+&lt;version&gt;3.1.1.RELEASE&lt;/version&gt;
+&lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</p>
+<p>
+Optionally, configure so that slf4j is used instead of java commons logging:
+</p>
+<p>
+&lt;dependency&gt;
+&lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+&lt;artifactId&gt;jcl-over-slf4j&lt;/artifactId&gt;
+&lt;version&gt;1.6.1&lt;/version&gt;
+&lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+</p>
+<ul>
+<li>
+Add spring applicationContext.xml
+
+</li>
+<li>
+Update Junit test to run using the spring application context
+
+</li>
+</ul>
+
+<p>@RunWith(value = SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:META-INF/simplebean-context.xml"})
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Links </h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+Spring Testing Documentation
+<a href="http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/testing.html">http://static.springsource.org/spring/docs/3.1.x/spring-framework-reference/html/testing.html</a>
+</p>
+
+
+</div>
+</div>
