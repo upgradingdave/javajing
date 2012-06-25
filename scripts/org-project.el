@@ -16,7 +16,6 @@
          )
 
         ("org-static-javajing"
-
          :base-directory "~/projects/javajing/site/src/main/webapp/org"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
          :publishing-directory "~/projects/javajing/site/src/main/webapp/jekyll"
