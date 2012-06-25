@@ -1,3 +1,12 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Setting up a simple Maven Repository
+episode: 3
+summary: A private maven repository is almost a necessity when working with a team of java developers. There are a few professional fully featured maven repository solutions out there, but this episode will demonstrate that all you really need is a server, and scp access to set up a "home grown" repo for sharing your java projects with others.
+video: maven-repo.mp4
+---
+#+END_HTML
 * Steps for creating custom repo
 
 ** Setup remote server: 
@@ -26,7 +35,7 @@ mvn -DaltDeploymentRepository=homegrown-repo::default::scp://<domain>:<port>/<pa
 
 use `-X` to get full debug output
 
-* More info
+* Links and More info
 
 Overiew of Maven Repositories
 
@@ -47,8 +56,8 @@ Wagon Providers
 http://maven.apache.org/guides/mini/guide-wagon-providers.html
 http://maven.apache.org/guides/mini/guide-http-settings.html
 
-
-
-
+This screencast's title photo is courtesy of: 
+http://www.theserverside.com/news/1364121/Setting-Up-a-Maven-Repository
+(and this is also an excellent overview of setting up maven repositories)
 
 

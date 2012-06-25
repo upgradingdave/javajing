@@ -1,29 +1,44 @@
-* Steps
+#+BEGIN_HTML
+---
+layout: post
+title: Calling Ruby Gems from Java
+episode: 1
+summary: Do you have any favorite Ruby Gems? Ever wish you could use them in a java project? If so, here's an example of how to use the java embedded script engine to use use functionality from almost any (j)Ruby Gem.
+video: ruby-from-java.mp4
+---
+#+END_HTML
+* Steps to Run Ruby from Java
 
 - Include the jruby-complete-<version>.jar dependency on the classpath
-  for your project
+  for your project. This is really all that's needed to run jruby code
 - Use BSF, JSR223 or jruby core to "embed" ruby inside java (run ruby
   from java). See the Jruby wiki for more. 
-- Try using jruby-complete-<version>.jar to run a ruby script
-#+SRC_BEGIN
-java -jar jruby-complete-1.6.7.jar -S sass_helper.rb
-#+SRC_END
-- Package gem into a jar file
-#+SRC_BEGIN
-mkdir sass-gems
-java -jar jruby-complete-1.6.7.jar -S gem install -i ./sass-gems sass --no-rdoc --no-ri
-jar cf sass-gems.jar -C sass-gems .
-#+SRC_END
-- Verify jruby can see gems inside jar file
-#+SRC_BEGIN
-jar -tf sass-gems.jar | head
-java -jar jruby-complete-1.6.7.jar -S sass_helper.rb  # will still fail
-java -jar jruby-complete-1.6.7.jar -rsass-gems.jar -S sass_helper.rb
-#+SRC_END
-- Include jar as maven dependency
-#+SRC_BEGIN
-mvn deploy:deploy-file -DgroupId=com.upgradingdave -DartifactId=sass-gem -Dversion=3.1.17 -Dpackaging=jar -Dfile=sass-gems.jar -Durl=http://dev.upgradingdave.com/artifactory/ext-release-local -DrepositoryId=upgradingdave-release
-#+SRC_END
+- Try using jruby-complete-<version>.jar to run a simple ruby
+  script. This should fail because jruby-complete won't be able to
+  find the sass gem.
+  #+BEGIN_SRC sh
+  java -jar jruby-complete-1.6.7.jar -S sass_helper.rb
+  #+END_SRC
+- To use ruby gems from java, first package the gem into a jar file
+  #+BEGIN_SRC sh
+  mkdir sass-gems
+  java -jar jruby-complete-1.6.7.jar -S gem install -i ./sass-gems sass --no-rdoc --no-ri
+  jar cf sass-gems.jar -C sass-gems .
+  #+END_SRC
+- Verify that the jar contains the correct gem directory structure.
+  #+BEGIN_SRC sh
+  jar -tf sass-gems.jar | head
+  #+END_SRC
+- Now, the sass_helper.rb script should run successfully as long as it
+  it can find the jar containing the sass gem
+  #+BEGIN_SRC sh
+  java -jar jruby-complete-1.6.7.jar -S sass_helper.rb  # will still fail
+  java -jar jruby-complete-1.6.7.jar -rsass-gems.jar -S sass_helper.rb
+  #+END_SRC
+- Publish the custom created jar to a repo so that we can use it as a maven dependency
+  #+BEGIN_SRC sh
+  mvn deploy:deploy-file -DgroupId=com.upgradingdave -DartifactId=sass-gem -Dversion=3.1.17 -Dpackaging=jar -Dfile=sass-gems.jar -Durl=http://dev.upgradingdave.com/artifactory/ext-release-local -DrepositoryId=upgradingdave-release
+  #+END_SRC
 - Add com.upgradingdave:sass-gems:3.1.17 to pom and then test by
   calling sass_help.rb from RubyExample.java main method
 - For convenience, use gem maven plugin to automatically retrieve gems
