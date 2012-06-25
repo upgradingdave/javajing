@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Easy Logging with SLF4j</title>
+    <link rel="stylesheet" href="/stylesheets/javajing.css" type="text/css" />
+    <link rel="stylesheet" href="/video-js/video-js.css" type="text/css" />
+    <script type="text/javascript" src="/video-js/video.js"></script>
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-2648552-7']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</head>
+<body class="video">
+<div id="header" class="container">
+    <div id="header-top">
+        <ul id="header-nav">
+            <li><a id="episodes" href="/index.html">episodes</a></li>
+        </ul>
+        <div id="video-wrapper">
+            <video id="video-2" class="video-js vjs-default-skin" controls preload="auto" width="650" height="487"
+                   poster="/images/javajing/episode2-poster.png"
+                   data-setup='{"example_option":true}'>
+                <source src="https://s3.amazonaws.com/javajing/videos/slf4j.mp4" type='video/mp4' />
+            </video>
+        </div>
+    </div>
+</div>
+<div id="content-wrapper">
+    <div id="content">
+        <div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Steps to use Slf4j</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<ul>
+<li>Add slf4j-api jar as a dependency to your app
+
+
+
+<pre class="example">&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-api&lt;/artifactId&gt;
+  &lt;version&gt;1.6.1&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+
+</li>
+<li>Include Logger and LoggerFactory interfaces: 
+
+
+
+<pre class="example">import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+</pre>
+
+</li>
+<li>Create a Logger at the top of each class your write
+
+
+
+<pre class="example">public class MyClass {
+
+    Logger log = LoggerFactory.getLogger(HelloWorld.class);
+...
+</pre>
+
+</li>
+<li>That's it! Use the logger anywhere you need to.
+
+
+
+<pre class="example">public void anyFunction() {
+log.info("About to return Hello, World");
+}
+  public class MyClass {
+
+      Logger log = LoggerFactory.getLogger(HelloWorld.class);
+  ...
+</pre>
+
+</li>
+<li>At this point, you can compile run your code. Anyone who uses
+  your code as a dependency can use the log framework of their choice.
+</li>
+<li>To actually see log statements, you'll need to add a library (a slf4
+  binding) that actually implements the slf4j logging interface api. 
+</li>
+<li>Pick an implementation, in this demo, we'll use log4j. Add
+  corresponding slf4j "binding" dependency 
+
+
+
+<pre class="example">&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+  &lt;version&gt;1.6.1&lt;/version&gt;
+  &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+</pre>
+
+</li>
+<li>Since I chose to use Log4j, it's also necessary to add a
+  log4j.properties file to the classpath so that log4j knows where and
+  how to write logs
+</li>
+<li>Run the app again and now you should see log statements
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Links</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+Slf4j
+<a href="http://www.slf4j.org/">http://www.slf4j.org/</a>
+</p>
+<p>
+Log4j Framework
+<a href="http://logging.apache.org/log4j/1.2/">http://logging.apache.org/log4j/1.2/</a>
+</p>
+<p>
+Log4j has been around since 1998
+<a href="http://wiki.apache.org/logging-log4j/Log4jvsJDKLogging">http://wiki.apache.org/logging-log4j/Log4jvsJDKLogging</a>
+</p>
+
+</div>
+</div>
+
+    </div>
+</div>
+</body>
+</html>

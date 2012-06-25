@@ -1,0 +1,71 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Easy Logging with SLF4j
+episode: 2
+summary: Logging is an basic cross cutting concern in any application. But with so many choices of java logging frameworks, it's easy to become overwhelmed with which one to choose and how to use it most effectively. This episode will hopefully save you some time by demonstrating how to use the Simple Logging Facade 4 Java library to easily add logging to your java project.
+video: slf4j.mp4
+---
+#+END_HTML
+* Steps to use Slf4j
+
+- Add slf4j-api jar as a dependency to your app
+  #+BEGIN_SRC xml
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+  #+END_SRC
+- Include Logger and LoggerFactory interfaces: 
+  #+BEGIN_SRC java
+  import org.slf4j.Logger;
+  import org.slf4j.LoggerFactory;
+  #+END_SRC
+- Create a Logger at the top of each class your write
+  #+BEGIN_SRC java
+  public class MyClass {
+
+      Logger log = LoggerFactory.getLogger(HelloWorld.class);
+  ...
+  #+END_SRC
+- That's it! Use the logger anywhere you need to.
+  #+BEGIN_SRC java
+  public void anyFunction() {
+  log.info("About to return Hello, World");
+  }
+    public class MyClass {
+  
+        Logger log = LoggerFactory.getLogger(HelloWorld.class);
+    ...
+  #+END_SRC
+- At this point, you can compile run your code. Anyone who uses
+  your code as a dependency can use the log framework of their choice.
+- To actually see log statements, you'll need to add a library (a slf4
+  binding) that actually implements the slf4j logging interface api. 
+- Pick an implementation, in this demo, we'll use log4j. Add
+  corresponding slf4j "binding" dependency 
+  #+BEGIN_SRC xml
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.1</version>
+      <scope>runtime</scope>
+    </dependency>
+  #+END_SRC
+- Since I chose to use Log4j, it's also necessary to add a
+  log4j.properties file to the classpath so that log4j knows where and
+  how to write logs
+- Run the app again and now you should see log statements
+* Links
+
+Slf4j
+http://www.slf4j.org/
+
+Log4j Framework
+http://logging.apache.org/log4j/1.2/
+
+Log4j has been around since 1998
+http://wiki.apache.org/logging-log4j/Log4jvsJDKLogging
+
+

@@ -1,0 +1,20 @@
+---
+layout: front
+title: JavaJing
+---
+{% for post in site.posts %}
+    <div class="episode">
+        <div class="screenshot"><a href="{{ post.url }}"><img width="175px" src="/images/javajing/episode{{ post.episode }}-poster.png"></a></div>
+        <div class="teaser">
+            <a href="{{ post.url }}">
+                <div class="number">Episode {{ post.episode }}</div>
+                <div class="date">- {{ post.date | date:"%b %d, %Y" }}</div>
+                <div class="title">{{ post.title }}</div>
+                <div class="summary">{{ post.summary }}</div>
+            </a>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="episode"><hr/></div>
+{% endfor %}
+

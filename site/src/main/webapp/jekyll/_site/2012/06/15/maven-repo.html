@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setting up a simple Maven Repository</title>
+    <link rel="stylesheet" href="/stylesheets/javajing.css" type="text/css" />
+    <link rel="stylesheet" href="/video-js/video-js.css" type="text/css" />
+    <script type="text/javascript" src="/video-js/video.js"></script>
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-2648552-7']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+</head>
+<body class="video">
+<div id="header" class="container">
+    <div id="header-top">
+        <ul id="header-nav">
+            <li><a id="episodes" href="/index.html">episodes</a></li>
+        </ul>
+        <div id="video-wrapper">
+            <video id="video-3" class="video-js vjs-default-skin" controls preload="auto" width="650" height="487"
+                   poster="/images/javajing/episode3-poster.png"
+                   data-setup='{"example_option":true}'>
+                <source src="https://s3.amazonaws.com/javajing/videos/maven-repo.mp4" type='video/mp4' />
+            </video>
+        </div>
+    </div>
+</div>
+<div id="content-wrapper">
+    <div id="content">
+        <div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Steps for creating custom repo</h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1">Setup remote server:</h3>
+<div class="outline-text-3" id="text-1-1">
+
+
+<ul>
+<li>Create directory maven/repo on remote server
+</li>
+<li>Set up apache (or any web server) to access it
+</li>
+<li>Verify you can connect via ssh 
+</li>
+<li>Verify you can connect via http(s)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2">Setup local mvn client to deploy to custom repo:</h3>
+<div class="outline-text-3" id="text-1-2">
+
+
+<ul>
+<li>Add scp wagon extension to your pom 
+</li>
+<li>Add `server` entry to ~/.m2/settings.xml
+</li>
+<li>Deploy artifact:
+</li>
+</ul>
+
+
+
+
+<pre class="example">mvn -DaltDeploymentRepository=homegrown-repo::default::scp://&lt;domain&gt;:&lt;port&gt;/&lt;path-to-repo&gt; javadoc:jar source:jar deploy -e
+</pre>
+
+<ul>
+<li>(optionally) Add DistributionManagement definition to pom 
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3">Setup local mvn client to use custom repo:</h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+<ul>
+<li>Add repositories section to pom
+</li>
+<li>Add dependencies
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4">Troubleshooting</h3>
+<div class="outline-text-3" id="text-1-4">
+
+
+<p>
+use `-X` to get full debug output
+</p>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Links and More info</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<p>
+Overiew of Maven Repositories
+</p>
+<p>
+<a href="http://maven.apache.org/settings.html#Repositories">http://maven.apache.org/settings.html#Repositories</a>
+<a href="http://www.sonatype.com/books/nexus-book/reference/repoman.html">http://www.sonatype.com/books/nexus-book/reference/repoman.html</a>
+</p>
+<p>
+Repository Management
+</p>
+<p>
+<a href="http://maven.apache.org/repository-management.html">http://maven.apache.org/repository-management.html</a>
+</p>
+<p>
+Central Repository
+<a href="http://repo.maven.apache.org/">http://repo.maven.apache.org/</a>
+</p>
+<p>
+Search Central Repo
+<a href="http://search.maven.org/#browse">http://search.maven.org/#browse</a>
+</p>
+<p>
+Wagon Providers
+<a href="http://maven.apache.org/guides/mini/guide-wagon-providers.html">http://maven.apache.org/guides/mini/guide-wagon-providers.html</a>
+<a href="http://maven.apache.org/guides/mini/guide-http-settings.html">http://maven.apache.org/guides/mini/guide-http-settings.html</a>
+</p>
+<p>
+This screencast's title photo is courtesy of: 
+<a href="http://www.theserverside.com/news/1364121/Setting-Up-a-Maven-Repository">http://www.theserverside.com/news/1364121/Setting-Up-a-Maven-Repository</a>
+(and this is also an excellent overview of setting up maven repositories)
+</p>
+
+</div>
+</div>
+
+    </div>
+</div>
+</body>
+</html>

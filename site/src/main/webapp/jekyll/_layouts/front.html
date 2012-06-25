@@ -1,0 +1,35 @@
+{% include header.html %}
+<body class="front">
+
+<div id="header" class="container">
+    <div id="header-top">
+        <!--<ul id="header-nav">-->
+        <!--<li><a id="episodes" href="episodes">episodes</a></li>-->
+        <!--<li><a id="home" href="home">homes</a></li>-->
+        <!--</ul>-->
+    </div>
+    <div id="header-left">
+        <p>Latest Episode: {{ site.posts[0].title }} </p>
+        <a href="{{ site.posts[0].url }}"><img src="images/javajing/watch-now.png"/></a>
+    </div>
+    <div id="header-right">
+        <p>A new screen cast each week about java technologies useful for getting things done.</p>
+        <div id="social-buttons">
+            <ul>
+                <li><a href="https://twitter.com/javajing" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @javajing</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
+                <li><a href="https://facebook.com/javajing"><img src="images/javajing/find-on-facebook3.jpg"/></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="content-wrapper">
+
+    <div id="content">
+        <div id="episode-list">
+            {{ content }}
+        </div>
+    </div>
+</div>
+</body>
+{% include footer.html %}
