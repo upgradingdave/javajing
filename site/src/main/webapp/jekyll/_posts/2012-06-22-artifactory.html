@@ -1,0 +1,242 @@
+---
+layout: post
+title: Install and Configure a Private Artifactory
+episode: 4
+summary: Artifactory is a Maven Repository Manager that provides a ton of useful features out of the box. It acts as a proxy for other maven repos, provides ability to secure private artifacts, caches dependencies, and much more. In this episode, I show how easy it is to setup a private artifactory installation. 
+video: artifactory.mp4
+---
+
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Installing, Running and Using Artifactory</h2>
+<div class="outline-text-2" id="text-1">
+
+
+<ul>
+<li>Download and install Artifactory
+
+
+
+
+<pre class="example">wget http://downloads.sourceforge.net/project/artifactory/artifactory/2.5.2/artifactory-2.5.2.zip
+unzip artifactory.zip &amp;&amp; rm artifactory.zip
+</pre>
+
+
+<p>
+  Thats it. Really!
+</p>
+</li>
+<li>Start and verifiy installation
+
+
+
+
+<pre class="example">cd ~/artifactory/artifactory-2.5.2/bin
+./artifactory.sh
+</pre>
+
+
+<p>
+  Browse to <a href="http://localhost:8081/artifactory">http://localhost:8081/artifactory</a> and you should see the artifactory UI
+</p>
+</li>
+<li>Install on remote server
+
+<p>
+  Same as local install ;-)
+</p>
+</li>
+<li>Disable Anonymous Access
+
+<p>
+  I usually lock down team artifactory installs so that nobody else can use it. 
+</p>
+<p>
+  Admin -&gt; Security -&gt; General and uncheck Anonymous access
+  Admin -&gt; Security -&gt; Users and add users
+</p>
+</li>
+<li>Disable Central Maven Repositories
+
+
+
+
+<pre class="example">&lt;!-- Override (disable) central --&gt;
+&lt;repository&gt;
+  &lt;id&gt;central&lt;/id&gt;
+  &lt;url&gt;http://repo1.maven.org/maven2&lt;/url&gt;
+  &lt;snapshots&gt;
+    &lt;enabled&gt;false&lt;/enabled&gt;
+  &lt;/snapshots&gt;
+  &lt;releases&gt;
+    &lt;enabled&gt;false&lt;/enabled&gt;
+  &lt;/releases&gt;
+&lt;/repository&gt;
+</pre>
+
+
+</li>
+<li>Configure project to use custom Artifactory Installation
+
+<p>
+  Open browser to Artifactory and find the url to the virtual "repo"
+  that aggregates all other repositories managed by artifactory
+</p>
+
+
+
+<pre class="example">&lt;repository&gt;
+  &lt;id&gt;upgradingdave-ro&lt;/id&gt;
+  &lt;name&gt;Upgradingdave Artifactory&lt;/name&gt;
+  &lt;url&gt;http://localhost:8081/artifactory/repo&lt;/url&gt;
+&lt;/repository&gt;
+</pre>
+
+
+</li>
+<li>Specify credentials 
+
+<p>
+  Since we disabled anonymous access, add a snippet like the following
+  to your ~/.m2/settings.xml file so that Maven knows which
+  credentials to use to connect. The id below should match the id
+  defined in your project's pom.
+</p>
+
+
+
+<pre class="example">&lt;server&gt;  
+  &lt;id&gt;dev.upgradingdave.com&lt;/id&gt;
+  &lt;username&gt;dparoulek&lt;/username&gt;
+  &lt;password&gt;your password&lt;/password&gt;
+&lt;/server&gt;
+</pre>
+
+
+</li>
+<li>Setup project to deploy artifacts to artifactory
+
+<p>
+  Add this to ~/.m2/settings.xml: 
+</p>
+
+
+
+<pre class="example">&lt;server&gt;  
+  &lt;id&gt;upgradingdave-release&lt;/id&gt;
+  &lt;username&gt;dparoulek&lt;/username&gt;
+  &lt;password&gt;your password&lt;/password&gt;
+  &lt;filePermissions&gt;664&lt;/filePermissions&gt;
+  &lt;directoryPermissions&gt;775&lt;/directoryPermissions&gt;
+&lt;/server&gt;
+&lt;server&gt;  
+  &lt;id&gt;upgradingdave-snapshots&lt;/id&gt;
+  &lt;username&gt;dparoulek&lt;/username&gt;
+  &lt;password&gt;your password&lt;/password&gt;
+  &lt;filePermissions&gt;664&lt;/filePermissions&gt;
+  &lt;directoryPermissions&gt;775&lt;/directoryPermissions&gt;
+&lt;/server&gt;
+</pre>
+
+
+<p>
+  Add this to your project's pom: 
+</p>
+
+
+
+<pre class="example">&lt;distributionManagement&gt;
+  &lt;repository&gt;
+    &lt;id&gt;upgradingdave-release&lt;/id&gt;
+    &lt;name&gt;Upgradingdave Release Repository&lt;/name&gt;
+    &lt;url&gt;http://dev.upgradingdave.com/artifactory/libs-release-local&lt;/url&gt;
+  &lt;/repository&gt;
+  &lt;snapshotRepository&gt;
+    &lt;id&gt;upgradingdave-snapshots&lt;/id&gt;
+    &lt;name&gt;Upgradingdave Snapshot Repository&lt;/name&gt;
+    &lt;url&gt;http://dev.upgradingdave.com/artifactory/libs-snapshot-local&lt;/url&gt;
+  &lt;/snapshotRepository&gt;
+&lt;/distributionManagement&gt;
+</pre>
+
+
+<p>
+  Then you should be able to deploy using the `mvn deploy` command. 
+</p>
+<p>  
+  If the version of your project follows the SNAPSHOT naming
+  conventions, then deploy will upload into the libs-snapshot-local
+  artifactory repo, otherwise, it should updload to the
+  libs-release-local.
+</p>
+</li>
+<li>Setup project to resolve plugin dependencies from artifactory
+
+<p>
+  Maven Plugins are managed separately than artifacts. Add the
+  following snippet to your project's pom in order to manage maven
+  plugins via your personal artifactory installation:
+</p>
+
+
+
+<pre class="example">&lt;pluginRepositories&gt;
+  &lt;!-- Override (disable) central --&gt;
+  &lt;pluginRepository&gt;
+    &lt;id&gt;central&lt;/id&gt;
+    &lt;url&gt;http://repo1.maven.org/maven2&lt;/url&gt;
+    &lt;snapshots&gt;
+      &lt;enabled&gt;false&lt;/enabled&gt;
+    &lt;/snapshots&gt;
+    &lt;releases&gt;
+      &lt;enabled&gt;false&lt;/enabled&gt;
+    &lt;/releases&gt;
+  &lt;/pluginRepository&gt;
+  &lt;pluginRepository&gt;
+    &lt;id&gt;upgradingdave-ro&lt;/id&gt;
+    &lt;name&gt;Upgradingdave Read Only&lt;/name&gt;
+    &lt;url&gt;http://dev.upgradingdave.com/artifactory/repo&lt;/url&gt;
+  &lt;/pluginRepository&gt;
+&lt;/pluginRepositories&gt;
+</pre>
+
+
+</li>
+<li>(optional) Setup project to use local version
+
+<p>
+  Configure the local installation to use the remote installation by
+  logging into the Web UI for the local installation and creating
+  remote repositories that correspond to the virtual repositories that
+  exist on the remote installation.
+</p></li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Repository Manager vs "Home Grown" Custom Maven Repo</h2>
+<div class="outline-text-2" id="text-2">
+
+
+<ul>
+<li>Repo Managers act as Proxies to the Central Repo. In other words,
+  artifacts can be cached by the repository manager. If your repo manager
+  is installed on a local network (or I even have artifactory
+  installed local) then it can speed up build times.
+</li>
+<li>Web GUI can be convenient for managing depenedencies and troubleshooting.
+</li>
+<li>Automatic management of snapshot verses stable versions of artifacts.
+</li>
+<li>Greater control over exactly which dependencies are used in your project. 
+</li>
+</ul>
+
+
+</div>
+</div>

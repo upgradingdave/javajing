@@ -15,7 +15,7 @@ publishing the site from org-mode to the web.
   structure.
 
 - Next, use org-mode to convert show-notes.org files into html posts.
-  Eval site/org-project.el and then run `org-publish-project
+  Eval scripts/org-project.el and then run `org-publish-project
   javajing`.
 
 - Use Jekyll to publish the final site. 

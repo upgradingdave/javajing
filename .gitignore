@@ -2,3 +2,5 @@
 target/
 .idea/
 *.iml
+org/_posts
+jekyll/_site
