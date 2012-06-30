@@ -3,4 +3,6 @@ target/
 .idea/
 *.iml
 org/_posts
-jekyll/_site
+site/src/main/webapp/jekyll/_site
+site/src/main/webapp/jekyll/_posts
+site/src/main/webapp/org/_posts

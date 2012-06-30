@@ -2,18 +2,19 @@
 ---
 layout: post
 title: Unit Testing with Spring
-tags: [spring, unit test, junit]
-excerpt: How to write a Junit test that uses Beans defined inside Spring Context
+episode: 5
+summary: How to write a Junit test that uses Beans defined inside Spring Application Context
+video: unit-test-with-spring.mp4
 ---
 #+END_HTML
-* Steps
+* Notes on Unit Testing with Spring
 
 - Create Simple Example Junit Test without spring
 - Add spring dependencies
 
 Add Dependency on spring-beans and spring-context: 
 
-#+SRC_BEGIN
+#+BEGIN_SRC xml
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
@@ -24,38 +25,49 @@ Add Dependency on spring-beans and spring-context:
       <artifactId>spring-context</artifactId>
       <version>3.1.1.RELEASE</version>
     </dependency>
-#+SRC_END
+#+END_SRC
 
 Add Dependency on spring-test: 
 
-#+SRC_BEGIN
+#+BEGIN_SRC xml
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>3.1.1.RELEASE</version>
       <scope>test</scope>
     </dependency>
-#+SRC_END
+#+END_SRC
 
 Optionally, configure so that slf4j is used instead of java commons logging:
 
-#+SRC_BEGIN
+#+BEGIN_SRC xml
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>1.6.1</version>
       <scope>runtime</scope>
     </dependency>
-#+SRC_END
+#+END_SRC
 
-- Add spring applicationContext.xml
+- Add spring applicationContext and define the beans you want to test
+
+#+BEGIN_SRC xml
+  <bean id="simpleBeanDb" class="com.upgradingdave.example.SimpleBeanDb">
+    <constructor-arg name="username" value="dave"/>
+    <constructor-arg name="password" value="secret"/>
+  </bean>
+
+  <bean id="simpleBeanDaoImpl" class="com.upgradingdave.example.SimpleDaoImpl">
+    <constructor-arg ref="simpleBeanDb"/>
+  </bean>
+#+END_SRC
 
 - Update Junit test to run using the spring application context
 
-#+SRC_BEGIN
+#+BEGIN_SRC java
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:META-INF/simplebean-context.xml"})
-#+SRC_END
+#+END_SRC
 
 * Links
 
