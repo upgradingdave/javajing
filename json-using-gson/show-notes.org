@@ -1,0 +1,103 @@
+* Read json files to generate test data using gson
+
+- Include gson as a dependency
+
+  #+BEGIN_SRC xml
+  <dependency>
+     <groupId>com.google.code.gson</groupId>
+     <artifactId>gson</artifactId>
+     <version>2.2.1</version>
+  </dependency>
+  #+END_SRC 
+
+- Example: 
+
+  #+BEGIN_SRC java
+  
+  @Test
+      public void testGson(){
+  
+          Gson gson = new Gson();
+          //simple example
+          File usersJSON = new File("fixtures/users.json");
+          String example = "{ firstName : \"Bob\", lastName : \"Dylan\", email : \"bdylan@gmail.com\", password : [s,e,c,r,e,t] }";
+          User result = gson.fromJson(example, User.class);
+          assertEquals("Bob", result.getFirstName());
+  
+          //read json by streaming input stream from a file on the classpath and create objects
+          InputStream in = this.getClass().getClassLoader().getResourceAsStream("fixtures/users.json");
+          JsonReader reader = null;
+          List<User> users = null;
+          try {
+              reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+              users = new ArrayList<User>();
+              reader.beginArray();
+              while (reader.hasNext()) {
+                  User user = gson.fromJson(reader, User.class);
+                  users.add(user);
+              }
+              reader.endArray();
+          } catch (UnsupportedEncodingException e) {
+              e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+          } catch (IOException e) {
+              e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+          } finally {
+              if (reader != null) {
+                  try {
+                      reader.close();
+                  } catch (IOException e) {
+                      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                  }
+              }
+          }
+  
+          assertEquals(2, users.size());
+          assertEquals("Matthews", users.get(1).getLastName());
+      }
+  
+  #+END_SRC
+
+- Dealing with Dates
+
+  Use the builder to create gson object
+
+  #+BEGIN_SRC java
+    String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
+  #+END_SRC
+
+  Then, read dates using the format specified
+
+  #+BEGIN_SRC java
+    @Test
+    public void toJson(){
+
+        DateFormat df = new SimpleDateFormat(JsonFixture.DATE_FORMAT);
+        Date updated;
+        try {
+            updated = df.parse("2012-07-03 21:06:48");
+        } catch (ParseException e) {
+            throw new AssertionError("Unable to parse date");
+        }
+        Person person = new Person(updated, "Bill", "Cosby", "bcosby@gmail.com");
+        JsonFixture<Person> personJsonFixture = new JsonFixture<>(Person.class);
+        String json = personJsonFixture.toJson(person);
+
+        assertEquals("{\"firstName\":\"Bill\",\"lastName\":\"Cosby\",\"email\":\"bcosby@gmail.com\",\"lastUpdated\":\"2012-07-03 21:06:48\"}", json);
+    }
+  #+END_SRC
+
+- Be careful about type erasure in generic types
+
+  #+BEGIN_SRC java
+  Class clazz
+  ... later ...
+  T thing = gson.fromJson(reader, clazz);
+  #+END_SRC
+
+
+* Links
+  
+  Google Gson
+  http://code.google.com/p/google-gson/
+
