@@ -1,3 +1,13 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Use Apache to proxy Java Web Apps
+episode: 6
+summary: Testing your java web app over http://localhost:8080 is fine at first, but eventually, you'll want to set it up so that you can access it at http://yourdomain.com. In this episode, I demonstrate how to use Apache to host your java webapp by proxying requests from port 80 back to a java servlet container like jetty or tomcat using the proxy and rewrite modules.
+video: apache-proxy.mp4
+---
+#+END_HTML
+
 Java servlet containers such as weblogic, jetty, tomcat, etc run on
 various ports. For example, tomcat listens on port 8080 by default.
 It's often convenient to proxy servlets and java apps over
@@ -7,43 +17,43 @@ port 80. This is useful for several reasons:
 - It's also a good practice from security perspective. Rather than
   opening various ports, you can lock down everything and then allow
   access over port 80 and/or 443.
-- Saves time to your dev environment to use port 80 so you can ensure
+- Save development time by testing over port 80 so that you can ensure
   the app uses portable urls
 
 Here's a demo of how to use Apache mod_proxy to set this up inside
 your development environment. 
 
-* Steps
+* Steps to configure Apache to proxy requests to a Java Servlet Container
 
-** Verify apache proxy and rewrite modules are enabled
+- Verify apache proxy and rewrite modules are enabled
 
-Here's how you can check whether the modules are enabled: 
+  Here's how you can check whether the modules are enabled: 
 
-#+SRC_BEGIN
-# might need to set APACHE_RUN_USER environment variable using this:
-. /etc/apache2/envvars
+  #+BEGIN_SRC sh
+  # might need to set APACHE_RUN_USER environment variable using this:
+  . /etc/apache2/envvars
+  
+  apache2 -l # list of compiled in modules
+  apache2 -M # list of dynamically loaded modules
+  
+  apache2 -M | grep proxy
+  
+  apache2 -M | grep rewrite
+  #+END_SRC
 
-apache2 -l # list of compiled in modules
-apache2 -M # list of dynamically loaded modules
+  In Apache2, use the following commands to enable the modules
 
-apache2 -M | grep proxy
-
-apache2 -M | grep rewrite
-
-#+SRC_END
-
-In Apache2, use the following commands to enable the modules
-
-#+SRC_BEGIN
+   #+BEGIN_SRC sh
 a2enmod proxy
 a2enmod proxy_http
 a2enmod rewrite
-#+SRC_END
+   #+END_SRC
 
-** Configure new vhost
+- Configure new vhost
 
-Create app-name.conf file under /etc/apache2/sites-available
+  Create app-name.conf file under /etc/apache2/sites-available
 
+  #+BEGIN_SRC sh
 <VirtualHost *:80>
     ServerAdmin upgradingdave@gmail.com
     ServerName javajing.com
@@ -59,39 +69,46 @@ Create app-name.conf file under /etc/apache2/sites-available
     ProxyRequests On
     RewriteEngine On
 
-    RewriteRule ^/$ http://localhost:8080/simple-webapp [P]
+    RewriteRule ^/$ http://localhost:8080/simple-webapp/ [P]
     RewriteRule ^/(.+)$ http://localhost:8080/simple-webapp/$1 [P]
 
 </VirtualHost>
+  #+END_SRC
 
-** enable new vhost
+  Beware of forward slashes!
 
-#+SRC_BEGIN
-sudo a2ensite <app-name>.conf
-#+SRC_END
+- enable new vhost
 
-** check configs
+  #+BEGIN_SRC sh
+  sudo a2ensite <app-name>.conf
+  #+END_SRC
 
-#+SRC_BEGIN
-sudo apache2ctl configtest
-#+SRC_END
+- check configs
 
-** Set up subdomain
+  #+BEGIN_SRC sh
+  sudo apache2ctl configtest
+  #+END_SRC
 
-I like to add to local hosts file. 
+- Set up subdomain
 
-** restart apache and test
+  I like to add the domain to my local hosts file. This way you can
+  trick your browser to thinking the site is hosted locally.
+
+  On 'nix operating systems: Edit `/etc/hosts`. On windows, edit:
+  `C:\\WINDOWS\system32\drivers\etc\hosts`. Add an entry like: 
+
+  #+BEGIN_SRC sh
+  127.0.0.1    mydomain.com
+  #+END_SRC
+
+  Don't forget to remove the entry after you deploy to production ;-)
+
+- restart apache and test on http://mydomain.com
 
 * Links
 
-JSTL JavaDoc
-http://docs.oracle.com/javaee/5/jstl/1.1/docs/tlddocs/
+  XAMMP
+  http://www.apachefriends.org/en/xampp.html
 
-XAMMP
-http://www.apachefriends.org/en/xampp.html
-
-
-
-
-
-
+  Apache Rewrite Module:
+  http://httpd.apache.org/docs/current/mod/mod_rewrite.html
