@@ -1,0 +1,30 @@
+#+BEGIN_HTML
+---
+title: Apache Shiro
+---
+#+END_HTML
+
+* Concepts
+
+- subject :: most often meaning is another name for a user. But in
+             general, a subject is a security view of current
+             executing user. This could be a 3rd party service account
+             or cron job, etc. 
+- session :: subject's have sessions. Shiro will use HttpSession in
+             web contexts, but also provides implementation of session
+             in non-web environments. 
+- principals :: attributes identifying a subject (username, ssn, etc)
+- credentials :: secret data used to validate a subject's identity
+- Realms :: A external system that can authenticate a subject. For
+            example, if username/password is stored in ldap, you might
+            have a LDAP security realm which would might be
+            implemented as a DAO. 
+- SecurityManager :: Manages all subjects and coordinates all security components
+
+* Notes for simple users defined in text file
+
+- Add shiro.ini to classpath
+- Instantiate a SecurityManager
+
+
+
