@@ -21,6 +21,44 @@ title: Apache Shiro
             implemented as a DAO. 
 - SecurityManager :: Manages all subjects and coordinates all security components
 
+* Authorization
+
+- Permissions :: most atomic level of security. They answer questions
+                 like "Can you push a button", "Can you edit a
+                 username?", etc. No concept of "who", just "what"
+
+Examples: 
+
+- A PrinterPermission could grant "print" access to the
+  "laserjet3000n" printer
+- A GroupPermission could grant "read" access to the "Admin" Group
+
+So, permissions can be represented as strings like so: 
+
+`<domain>:<action>:<instance>`
+
+Examples: 
+
+- printer:print:laserjet3000n
+- group:read:admin
+
+That's just one example of how to structure permissions. There's no
+restriction on how to build up the taxonomy of permissions. For
+example, you could use simple strings such as `readAdminGroup`
+(without separating "levels" of permissions with colons). 
+
+So, there's a concept of "levels" of permssions. In the example
+above, "printer" is the domain, "print" is the action, and
+"laserjet300n" is the instance. 
+
+The WildCardPermission class uses this concept and implements the
+ability to use string such as: 
+
+- "printer:*:laserjet300n" :: Super access to laserjet300n
+- "*:read:*" :: Access to view anything in the system
+- "printer:read:12,13,67" :: Access to view printers with id's 12, 13,
+     and 67
+
 * Notes for simple users defined in text file
 
 - Add shiro.ini to classpath
