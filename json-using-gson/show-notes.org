@@ -1,4 +1,4 @@
-* Read json files to generate test data using gson
+* Simple Example
 
 - Include gson as a dependency
 
@@ -9,6 +9,12 @@
      <version>2.2.1</version>
   </dependency>
   #+END_SRC 
+
+- Find (or create) a simple bean or model
+- Use 
+
+* Read json files to generate test data using gson
+
 
 - Example: 
 
@@ -100,4 +106,10 @@
   
   Google Gson
   http://code.google.com/p/google-gson/
+
+  Json
+  http://www.json.org/
+
+  Type Erasure
+  http://docs.oracle.com/javase/tutorial/java/generics/erasure.html
 
