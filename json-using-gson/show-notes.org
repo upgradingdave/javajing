@@ -1,6 +1,16 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Easily convert Java Objects to/from json
+episode: 7
+summary: These days, json is ubiquitous. See how easy it is to use the Google Gson Library to convert java objects to json and back. Then, as a more practical use case, I show how I use Gson to read and use json files similar to the concept of Unit Test Fixtures in Rails. 
+video: json-using-gson.mp4
+---
+#+END_HTML
+
 * Simple Example
 
-- Include gson as a dependency
+  - Include gson as a dependency
 
   #+BEGIN_SRC xml
   <dependency>
@@ -10,97 +20,73 @@
   </dependency>
   #+END_SRC 
 
-- Find (or create) a simple bean or model
-- Use 
+  - Find (or create) a simple bean or model
+  - Instantiate a Gson object 
+  - Use the Gson object's toJson and fromJson methods. That's it!
 
 * Read json files to generate test data using gson
 
+  Ruby on Rails has a concept called "Fixtures". Basically, a fixture
+  is a text file containing a representation of test data (in rails,
+  they use yml). The test data is loaded into the database before each
+  unit test is run, and removed afterwords.
 
-- Example: 
+  Gson makes it easy to write a class (which I called JsonFixture)
+  that can slurp in a bunch of json from a text file to create a bunch
+  of Java Objects.
 
-  #+BEGIN_SRC java
+* Dealing with Dates
   
-  @Test
-      public void testGson(){
-  
-          Gson gson = new Gson();
-          //simple example
-          File usersJSON = new File("fixtures/users.json");
-          String example = "{ firstName : \"Bob\", lastName : \"Dylan\", email : \"bdylan@gmail.com\", password : [s,e,c,r,e,t] }";
-          User result = gson.fromJson(example, User.class);
-          assertEquals("Bob", result.getFirstName());
-  
-          //read json by streaming input stream from a file on the classpath and create objects
-          InputStream in = this.getClass().getClassLoader().getResourceAsStream("fixtures/users.json");
-          JsonReader reader = null;
-          List<User> users = null;
-          try {
-              reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-              users = new ArrayList<User>();
-              reader.beginArray();
-              while (reader.hasNext()) {
-                  User user = gson.fromJson(reader, User.class);
-                  users.add(user);
-              }
-              reader.endArray();
-          } catch (UnsupportedEncodingException e) {
-              e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-          } catch (IOException e) {
-              e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-          } finally {
-              if (reader != null) {
-                  try {
-                      reader.close();
-                  } catch (IOException e) {
-                      e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                  }
-              }
-          }
-  
-          assertEquals(2, users.size());
-          assertEquals("Matthews", users.get(1).getLastName());
-      }
-  
-  #+END_SRC
+  I didn't mention this in the episode, but if you need to deal with
+  dates, gson provides a nice mechanism for defining your preferred
+  date format. Here's a quick example:
 
-- Dealing with Dates
-
-  Use the builder to create gson object
+  Use a builder to create gson object rather than using the default
+  Gson constructor like so: 
 
   #+BEGIN_SRC java
     String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     Gson gson = new GsonBuilder().setDateFormat(DATE_FORMAT).create();
   #+END_SRC
 
-  Then, read dates using the format specified
+  Then, use the same date format inside the json and you should be set.
 
   #+BEGIN_SRC java
     @Test
-    public void toJson(){
+    public void date() throws ParseException {
 
-        DateFormat df = new SimpleDateFormat(JsonFixture.DATE_FORMAT);
-        Date updated;
-        try {
-            updated = df.parse("2012-07-03 21:06:48");
-        } catch (ParseException e) {
-            throw new AssertionError("Unable to parse date");
-        }
-        Person person = new Person(updated, "Bill", "Cosby", "bcosby@gmail.com");
-        JsonFixture<Person> personJsonFixture = new JsonFixture<>(Person.class);
-        String json = personJsonFixture.toJson(person);
+        String dateFormat = "yyyy-MM-dd HH:mm:ss";
 
-        assertEquals("{\"firstName\":\"Bill\",\"lastName\":\"Cosby\",\"email\":\"bcosby@gmail.com\",\"lastUpdated\":\"2012-07-03 21:06:48\"}", json);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(dateFormat);
+
+        Gson gson = gsonBuilder.create();
+
+        String jsonDate = "2012-07-04 10:04:01";
+
+        Date startDate = new SimpleDateFormat(dateFormat).parse(jsonDate);
+
+        //valid json values are surrounded in double quotes
+        String expected = "\""+jsonDate+"\"";
+
+        assertEquals(expected, gson.toJson(startDate, Date.class));
+
+        Date endDate = gson.fromJson(expected, Date.class);
+
+        assertEquals(startDate, endDate);
     }
   #+END_SRC
 
-- Be careful about type erasure in generic types
+* Generic Type
+
+  - Be careful about type erasure in generic types. If you need to use
+    Generics, just remember to pass in the Class type:
 
   #+BEGIN_SRC java
   Class clazz
   ... later ...
   T thing = gson.fromJson(reader, clazz);
   #+END_SRC
-
 
 * Links
   
@@ -113,3 +99,4 @@
   Type Erasure
   http://docs.oracle.com/javase/tutorial/java/generics/erasure.html
 
+  

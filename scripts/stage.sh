@@ -10,4 +10,5 @@ cp "maven-repos/show-notes.org" "$POSTSDIR/2012-06-15-maven-repo.org"
 cp "artifactory/show-notes.org" "$POSTSDIR/2012-06-22-artifactory.org"
 cp "unit-test-with-spring/show-notes.org" "$POSTSDIR/2012-06-29-unit-test-with-spring.org"
 cp "apache-proxy/show-notes.org" "$POSTSDIR/2012-07-06-apache-proxy.org"
+cp "json-using-gson/show-notes.org" "$POSTSDIR/2012-07-13-json-using-gson.org"
 
