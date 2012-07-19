@@ -1,0 +1,70 @@
+* Summary 
+
+  The Java Debug Wire Protocol (JDWP) is part of the Java Platform
+  Debugger Architechture (JPDA) and defines how a java debuger and a
+  jvm can communicate. You can use this to remotely debug java
+  applications.
+
+  By default, a jvm will not allow connections from debuggers. Jdwp
+  can be enabled (so jvm will allow debuggers to connect) by
+  specifying parameters when the jvm starts. 
+
+  If you google, you'll find a few variations of suggestions of the
+  params that should be used. 
+
+  The JVM Debug Interface (JVMDI) is a programming api interface that
+  specifies how debuggers should behave. Prior to J2SE 5.0, JVMDI was
+  used The `Xdebug` and `Xrunjdwp` were used to configure the JVMDI
+  inside a jvm. Since java versions are backwards compatible, it's
+  still possible to enable debugging inside jvm like so: 
+  
+  #+BEGIN_SRC sh
+  java -Xdebug -Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n <program>
+  #+END_SRC
+
+  The JVM Tooling Interface (JVMTI) replaces the JVMDI. So, currently,
+  the preferred way to set up jdwp is: 
+
+  #+BEGIN_SRC sh
+  java -agentlib:jdwp=transport=dt_socket,address=4000,server=y,suspend=n <program>
+  #+END_SRC
+
+  If you run `java -h`, there's a note about `agentlib:jdwp`. In fact, you
+  can run the following to see overview and available options: 
+
+  #+BEGIN_SRC sh
+  java -agentlib:jdwp=help
+  #+END_SRC
+  
+* Remote Debug a Web Application running in Jetty
+
+  In order to debug an instance of jetty started inside of maven, we
+  need to send the params to maven by first setting MAVEN_OPTS system
+  variable. Then, start jetty.
+
+  #+BEGIN_SRC sh
+  export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,address=4000,server=y,suspend=n"
+  mvn jetty:run
+  #+END_SRC
+
+  Then, setup a remote debugger in your favorite IDE (eclipse,
+  intellij, or even start jdb). 
+
+  Send a request to the webapp and witness full debugging bliss ;-)
+
+* Links
+
+  The Java Debug Wire Protocol
+  http://docs.oracle.com/javase/1.5.0/docs/guide/jpda/jdwp-spec.html
+
+  JVM Debug Interface (JVMDI) was deprecated as of J2SE 5.0
+  http://docs.oracle.com/javase/1.5.0/docs/guide/jpda/jvmdi-spec.html
+
+  JVM Tool Intefrace (JVMTI) 
+  http://java.sun.com/j2se/1.5.0/docs/guide/jvmti/jvmti.html/
+
+  Nice explanation of the various debug jvm options:
+  http://stackoverflow.com/questions/2240189/will-java-app-slow-down-by-presence-of-xdebug-or-only-when-stepping-through-cod
+
+  More information about jpda and jdwp jvm options: 
+  http://docs.oracle.com/javase/1.5.0/docs/guide/jpda/conninv.html
