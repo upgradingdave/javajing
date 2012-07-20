@@ -19,31 +19,39 @@
   still possible to enable debugging inside jvm like so: 
   
   #+BEGIN_SRC sh
-  java -Xdebug -Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n <program>
+  java -Xdebug -Xrunjdwp:transport=dt_socket,address=5005,server=y,suspend=n <program>
   #+END_SRC
 
   The JVM Tooling Interface (JVMTI) replaces the JVMDI. So, currently,
   the preferred way to set up jdwp is: 
 
   #+BEGIN_SRC sh
-  java -agentlib:jdwp=transport=dt_socket,address=4000,server=y,suspend=n <program>
+  java -agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n <program>
   #+END_SRC
 
-  If you run `java -h`, there's a note about `agentlib:jdwp`. In fact, you
-  can run the following to see overview and available options: 
+  For documentation about all options: 
 
   #+BEGIN_SRC sh
   java -agentlib:jdwp=help
   #+END_SRC
   
-* Remote Debug a Web Application running in Jetty
+* Remote Debug a Web Application running in Jetty Maven Plugin
 
-  In order to debug an instance of jetty started inside of maven, we
-  need to send the params to maven by first setting MAVEN_OPTS system
-  variable. Then, start jetty.
+  First, a simple example: 
 
   #+BEGIN_SRC sh
-  export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,address=4000,server=y,suspend=n"
+  java -classpath target/classes com.upgradingdave.debug.Main
+  java -agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=y -classpath target/classes com.upgradingdave.debug.Main
+  #+END_SRC sh
+
+  Now, try and debug a Application Filter. 
+
+  Jetty is started by maven. So, it's necessary to pass the relevant
+  options to the mvn program. `mvn` looks for a system variable named
+  MAVEN_OPTS that we can use like so: 
+
+  #+BEGIN_SRC sh
+  export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n"
   mvn jetty:run
   #+END_SRC
 
@@ -61,10 +69,13 @@
   http://docs.oracle.com/javase/1.5.0/docs/guide/jpda/jvmdi-spec.html
 
   JVM Tool Intefrace (JVMTI) 
-  http://java.sun.com/j2se/1.5.0/docs/guide/jvmti/jvmti.html/
+  http://docs.oracle.com/javase/1.5.0/docs/guide/jvmti/
 
   Nice explanation of the various debug jvm options:
   http://stackoverflow.com/questions/2240189/will-java-app-slow-down-by-presence-of-xdebug-or-only-when-stepping-through-cod
 
   More information about jpda and jdwp jvm options: 
   http://docs.oracle.com/javase/1.5.0/docs/guide/jpda/conninv.html
+
+  Maven Jetty Plugin
+  http://docs.codehaus.org/display/JETTY/Maven+Jetty+Plugin/
