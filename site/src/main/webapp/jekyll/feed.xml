@@ -1,0 +1,36 @@
+---
+layout: nil
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+   <channel>
+      <title>{{ site.name }}</title>
+      <link>{{ site.url }}/</link>
+      <description>{{ site.description }}</description>
+      <itunes:subtitle>{{ site.description }}</itunes:subtitle>
+      <itunes:author>upgradingdave@gmail.com</itunes:author>
+      <itunes:summary>{{ site.description }}</itunes:summary>
+      <itunes:owner>
+        <itunes:name>UpgradingDave</itunes:name>
+        <itunes:email>upgradingdave@gmail.com</itunes:email>
+      </itunes:owner>
+      <itunes:image href="{{ site.url }}/images/javajing/java-jing-poster.png" />
+      <itunes:category text="Software"/>
+      <itunes:category text="Java"/>
+      <itunes:category text="Programming"/>
+      {% for post in site.posts %}
+      <item>
+        <title>{{ post.title }}</title>
+        <itunes:author>{{ site.webmaster }}</itunes:author>
+        <itunes:subtitle>{{ post.summary }}</itunes:subtitle>
+        <itunes:summary>{{ post.summary }}</itunes:summary>
+        <itunes:image href="{{ site.url }}/images/javajing/episode{{ post.episode }}-poster.png" />
+        <enclosure url="https://s3.amazonaws.com/javajing/videos/{{ post.video }}" type="audio/mp4" />
+        <guid>{{ post.url }}</guid>
+        <pubDate>{{ post.date | date_to_xmlschema }}</pubDate>
+        <!-- <itunes:duration>7:04</itunes:duration> -->
+        <itunes:keywords>java, programming</itunes:keywords>
+      </item>
+      {% endfor %}
+   </channel>
+</rss>

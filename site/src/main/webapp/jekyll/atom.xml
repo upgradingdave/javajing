@@ -1,0 +1,28 @@
+---
+layout: nil
+---
+<?xml version="1.0"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+  <title>Java Jing</title>
+  <link href="{{ site.url }}/"/>
+  <link type="application/atom+xml" rel="self" href="{{ site.url }}/atom.xml"/>
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>{{ site.url }}/atom.xml</id>
+  <author>
+    <name>{{ site.author }}</name>
+    <email>{{ site.email }}</email>
+  </author>
+
+  {% for post in site.posts %}
+  <entry>
+    <id>{{ site.url }}{{ post.url }}</id>
+    <title>{{ post.title }}</title>
+    <link href="{{ post.url }}/"/>
+    <published>{{ post.date | date_to_xmlschema }}</published>
+    <updated>{{ post.date | date_to_xmlschema }}</updated>
+    <summary>{{ post.summary }}</summary>
+  </entry>
+  {% endfor %}
+ 
+</feed>
