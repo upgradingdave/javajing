@@ -1,3 +1,12 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Remote Debug Java Applications
+episode: 8
+summary: Debug an application regardless of whether it's running locally, or if it's deployed to a test or, even, production environment. Web applications can be especially tricky to debug. Life's too short to waste time guessing. This episode demonstrates how to be certain of what's going on by setting up a remote debugging session anywhere, anytime. 
+video: remote-debug-jetty.mp4
+---
+#+END_HTML
 * Summary 
 
   The Java Debug Wire Protocol (JDWP) is part of the Java Platform
