@@ -1,0 +1,121 @@
+* What is an Uber Jar?
+  
+  The `java` command is used to start a jvm and run a java program. In
+  order to run a java program, you need to specify the classpath. 
+  
+  The simple case where you have no outside dependencies: 
+  
+  #+BEGIN_SRC sh
+  java -classpath target/classes com.upgradingdave.Main
+  #+END_SRC
+  
+  As the java program depends on more and more libraries, things get
+  more complicated quickly. Even this simple example that only has 2
+  dependencies (slf4j and jsoup) the command for running main is rediculous!
+  
+  #+BEGIN_SRC sh
+  java -classpath target/classes:/home/dparoulek/.m2/repository/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar:/home/dparoulek/.m2/repository/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar:/home/dparoulek/.m2/repository/log4j/log4j/1.2.16/log4j-1.2.16.jar:/home/dparoulek/.m2/repository/org/jsoup/jsoup/1.6.3/jsoup-1.6.3.jar com.upgradingdave.Main
+  #+END_SRC
+  
+* Maven Exec Plugin
+
+  The Maven exec plugin can help when developing your program. 
+
+  #+BEGIN_SRC xml
+
+  <properties>
+    <args>list</args>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <configuration>
+          <mainClass>com.upgradingdave.Main</mainClass>
+          <arguments>
+            <argument>${args}</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  #+END_SRC  
+
+  Then, run the program like so: 
+
+  #+BEGIN_SRC xml
+  mvn -q exec:java
+  #+END_SRC 
+
+  Since we configured maven to use a property named "args", we can
+  pass args on command line like this: 
+
+  #+BEGIN_SRC xml
+  mvn -q exec:java -Dargs=last
+  #+END_SRC 
+
+  Ahh, that's better, eh?!
+
+* Maven Shade Plugin to create Uber Jar
+
+  Running from mvn is fine for development, but I'd be willing to bet
+  a week of changing diapers that no one on the Business team uses
+  maven ;-)
+
+  So, here's how to use the shade plugin to package up your app so
+  that (almost) anyone can run it:
+
+  #+BEGIN_SRC
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.7.1</version>
+        <configuration>
+          <createSourcesJar>true</createSourcesJar>
+          <finalName>javajing</finalName>
+          <transformers>
+            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+              <mainClass>com.upgradingdave.Main</mainClass>
+            </transformer>
+          </transformers>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+  #+END_SRC
+
+  Note that a execution was added so the uber jar is created during
+  the package phase. 
+
+  The shade plugin is also configured to produce an executable uber
+  jar by specifying the Main class inside the META-INF. The uber jar
+  is named javajing.jar with source code included. Cool!
+
+  Then, hand the jar to anyone to run like so: 
+
+  #+BEGIN_SRC
+  ./javajing.jar
+  #+END_SRC
+
+* Links
+
+  Jsoup: Very Cool Html Parser!
+  http://jsoup.org/
+
+  Maven exec Plugin
+  http://mojo.codehaus.org/exec-maven-plugin/
+
+  Maven Shade Plugin
+  http://maven.apache.org/plugins/maven-shade-plugin/
+
+  Maven Assembly Plugin (another option for building uber wars): 
+  http://maven.apache.org/plugins/maven-assembly-plugin/
