@@ -7,6 +7,15 @@ summary: Logging is an basic cross cutting concern in any application. But with 
 video: slf4j.mp4
 ---
 #+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/slf4j
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/06/08/slf4j.html
+
 * Steps to use Slf4j
 
 - Add slf4j-api jar as a dependency to your app

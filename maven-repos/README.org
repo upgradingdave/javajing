@@ -7,6 +7,15 @@ summary: A private maven repository is almost a necessity when working with a te
 video: maven-repo.mp4
 ---
 #+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/maven-repos
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/06/15/maven-repo.html
+
 * Steps for creating custom repo
 
 ** Setup remote server: 

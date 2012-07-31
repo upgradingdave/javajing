@@ -7,6 +7,15 @@ summary: Running a java program from the command line can be tedious. Make it ea
 video: uber-jar.mp4
 ---
 #+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/uber-jars
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/07/30/maven-exec-and-uber-jars.html
+
 * Running a Java program can be a pain
   
   The `java` command is used to start a jvm and run a java program. In

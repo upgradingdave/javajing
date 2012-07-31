@@ -8,6 +8,14 @@ video: json-using-gson.mp4
 ---
 #+END_HTML
 
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/json-using-gson
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/07/13/json-using-gson.html
+
 * Simple Example
 
   - Include gson as a dependency

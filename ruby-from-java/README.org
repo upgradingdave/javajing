@@ -7,6 +7,15 @@ summary: Do you have any favorite Ruby Gems? Ever wish you could use them in a j
 video: ruby-from-java.mp4
 ---
 #+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/ruby-from-java
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/06/01/ruby-from-java.html
+
 * Steps to Run Ruby from Java
 
 - Include the jruby-complete-<version>.jar dependency on the classpath

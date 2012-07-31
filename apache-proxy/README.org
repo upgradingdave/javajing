@@ -8,6 +8,14 @@ video: apache-proxy.mp4
 ---
 #+END_HTML
 
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/apache-proxy
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/07/06/apache-proxy.html
+
 Java servlet containers such as weblogic, jetty, tomcat, etc run on
 various ports. For example, tomcat listens on port 8080 by default.
 It's often convenient to proxy servlets and java apps over

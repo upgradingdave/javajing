@@ -7,6 +7,15 @@ summary: How to write a Junit test that uses Beans defined inside Spring Applica
 video: unit-test-with-spring.mp4
 ---
 #+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/unit-test-with-spring
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/06/29/unit-test-with-spring.html
+
 * Notes on Unit Testing with Spring
 
 - Create Simple Example Junit Test without spring

@@ -7,6 +7,15 @@ summary: Debug an application regardless of whether it's running locally, or if 
 video: remote-debug-jetty.mp4
 ---
 #+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/remote-debug-jetty
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/2012/07/20/remote-debug-jetty.html
+
 * Summary 
 
   The Java Debug Wire Protocol (JDWP) is part of the Java Platform
