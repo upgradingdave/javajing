@@ -1,4 +1,13 @@
-* What is an Uber Jar?
+#+BEGIN_HTML
+---
+layout: post
+title: Easily Run Java Programs
+episode: 9
+summary: Running a java program from the command line can be tedious. Make it easier for other developers to run your code using the Maven Exec Plugin. Better yet, use the Maven Shade Plugin to build an Uber Jar that anyone can use.
+video: uber-jar.mp4
+---
+#+END_HTML
+* Running a Java program can be a pain
   
   The `java` command is used to start a jvm and run a java program. In
   order to run a java program, you need to specify the classpath. 
@@ -19,7 +28,15 @@
   
 * Maven Exec Plugin
 
-  The Maven exec plugin can help when developing your program. 
+  The Maven exec plugin can help when developing your program. You can
+  define arguments and configure exactly how you want your program to
+  run. 
+
+  I find this useful when working with other developers. Once you
+  set it up, other developers need only to remember `mvn exec:java`.
+  
+  You can also set up a few different maven profiles and configure
+  exec-maven-plugin slightly differently for each. 
 
   #+BEGIN_SRC xml
 
@@ -57,18 +74,18 @@
   mvn -q exec:java -Dargs=last
   #+END_SRC 
 
-  Ahh, that's better, eh?!
+  Ahh, that's a little better, eh?!
 
 * Maven Shade Plugin to create Uber Jar
 
   Running from mvn is fine for development, but I'd be willing to bet
-  a week of changing diapers that no one on the Business team uses
+  a week of changing diapers that no one on the business team uses
   maven ;-)
 
   So, here's how to use the shade plugin to package up your app so
   that (almost) anyone can run it:
 
-  #+BEGIN_SRC
+  #+BEGIN_SRC xml
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -93,7 +110,7 @@
       </plugin>
   #+END_SRC
 
-  Note that a execution was added so the uber jar is created during
+  Note that an execution section was added so the uber jar is created during
   the package phase. 
 
   The shade plugin is also configured to produce an executable uber
@@ -102,8 +119,8 @@
 
   Then, hand the jar to anyone to run like so: 
 
-  #+BEGIN_SRC
-  ./javajing.jar
+  #+BEGIN_SRC sh
+  java -jar javajing.jar
   #+END_SRC
 
 * Links

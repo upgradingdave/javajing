@@ -12,4 +12,5 @@ cp "unit-test-with-spring/show-notes.org" "$POSTSDIR/2012-06-29-unit-test-with-s
 cp "apache-proxy/show-notes.org" "$POSTSDIR/2012-07-06-apache-proxy.org"
 cp "json-using-gson/show-notes.org" "$POSTSDIR/2012-07-13-json-using-gson.org"
 cp "remote-debug-jetty/show-notes.org" "$POSTSDIR/2012-07-20-remote-debug-jetty.org"
+cp "uber-jars/show-notes.org" "$POSTSDIR/2012-07-30-maven-exec-and-uber-jars.org"
 
