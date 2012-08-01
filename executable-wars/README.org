@@ -1,0 +1,97 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Create Standalone Java Web Apps
+episode: 10
+summary: Typically it's neccessary to deploy a war file into a servlet container (such as Tomcat, Jetty, Glassfish, etc) in order to run a web application. But it can sometimes be convenient to simplify the process by creating a war file that can run on it's own. This episode demonstrates how to use Jetty and a few maven plugins to package your project into an executable war. You might then deploy standalone wars as daemons or services.  
+video: executable-wars.mp4
+---
+#+END_HTML
+* Links
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/executable-wars
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/tbd
+
+* Create a war that can run standalone
+
+** Step 1 - Embed a Servlet Container
+
+   In this example, I'm using Jetty, but I think a similar strategy
+   could be used to embed tomcat, or some other servlet container. 
+
+   First, include necessary jetty dependencies and then create a Main
+   method that can start jetty.
+
+   The tricky part is that jetty has to know which war to start. But
+   in this case, jetty is inside the war that it needs to start!
+   
+   So, we need to determine the path of the war file that the main
+   method is included inside. Then, we can use the path to start a
+   jetty server to start and run the war that it's containe within. 
+
+   The following snippet will return a file path url to the containing
+   war file. 
+
+   #+BEGIN_SRC java
+   MyClass.class.getProtectionDomain().getCodeSource().getLocation();
+   #+END_SRC
+
+
+** Step 2 - Move relevant class files to root of the war
+
+   War files contain all the code under WEB-INF/lib. But, when running
+   the war as an executable jar, the jar command expects to find the
+   classes on the top level root of the war. So, it's necessary to
+   move the Main method (and anything the main method calls) to the
+   top of the war file. In this example, I use the antrun maven plugin
+   to do so. 
+
+
+** Step 3 - Bundle as an executable war
+
+   This is essentially the same as creating an uber jar as explained
+   in Episode 9. 
+
+   We need to configure the MANIFEST.mf file to specify the class that
+   contains the main method that should run when we run the war.
+
+   And we also need to include all 3rd party dependency jars inside
+   the war. 
+
+   In this example I use the maven shade plugin just like in Eposide 9
+   to create an uber war.
+
+
+** Step 4 - Run it!
+
+   #+BEGIN_SRC sh
+   java -jar mywebapp.war
+   #+END_SRC
+
+
+* Links
+
+  Backbone.js - Incredible little javascript library!
+  http://backbonejs.org/
+
+  Great comparison of javascript libraries
+  http://addyosmani.github.com/todomvc/
+  
+  Maven Archetype for Executable War: 
+  http://code.google.com/p/executable-war-archetype/
+
+  Embed Jetty
+  http://docs.codehaus.org/display/JETTY/Embedding+Jetty
+
+  Maven shade Plugin
+  http://maven.apache.org/plugins/maven-shade-plugin/
+
+  Maven Ant Run Plugin
+  http://maven.apache.org/plugins/maven-antrun-plugin/
+
+  Executable Wars
+  http://eclipsesource.com/blogs/2009/10/02/executable-wars-with-jetty/
