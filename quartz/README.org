@@ -1,0 +1,21 @@
+* Notes
+
+- Scheduler :: The engine that dispatches and manages jobs
+- Job :: interface that you implement to do some work
+- JobDetail :: Metadata about jobs as they go thru the Scheduler
+- Trigger :: Essentially it's the schedule that defines when a given
+             job will run. 
+
+
+* Builder dsl
+
+You can use the builder dsl (new as of v2.0+) from the JobBuilder
+class to build up triggers and jobs.
+
+* Dependency
+
+<dependency>
+<groupId>org.quartz-scheduler</groupId>
+<artifactId>quartz</artifactId>
+<version>2.1.5</version>
+</dependency>
