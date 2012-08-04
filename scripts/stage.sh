@@ -13,4 +13,5 @@ cp "apache-proxy/README.org" "$POSTSDIR/2012-07-06-apache-proxy.org"
 cp "json-using-gson/README.org" "$POSTSDIR/2012-07-13-json-using-gson.org"
 cp "remote-debug-jetty/README.org" "$POSTSDIR/2012-07-20-remote-debug-jetty.org"
 cp "uber-jars/README.org" "$POSTSDIR/2012-07-30-maven-exec-and-uber-jars.org"
+cp "executable-wars/README.org" "$POSTSDIR/2012-08-03-executable-standalone-web-apps.org"
 

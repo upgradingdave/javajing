@@ -7,14 +7,14 @@ summary: Typically it's neccessary to deploy a war file into a servlet container
 video: executable-wars.mp4
 ---
 #+END_HTML
-* Links
+
 Find a copy of the companion source code for this episode here: 
 
 https://github.com/upgradingdave/javajing/tree/master/executable-wars
 
 In case you're viewing this in github, please find the Episode here: 
 
-http://javajing.com/tbd
+http://javajing.com/2012/08/03/executable-standalone-web-apps.html
 
 * Create a war that can run standalone
 
@@ -50,7 +50,6 @@ http://javajing.com/tbd
    top of the war file. In this example, I use the antrun maven plugin
    to do so. 
 
-
 ** Step 3 - Bundle as an executable war
 
    This is essentially the same as creating an uber jar as explained
@@ -64,7 +63,6 @@ http://javajing.com/tbd
 
    In this example I use the maven shade plugin just like in Eposide 9
    to create an uber war.
-
 
 ** Step 4 - Run it!
 
