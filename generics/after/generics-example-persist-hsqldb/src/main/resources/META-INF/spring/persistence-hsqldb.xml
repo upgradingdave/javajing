@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="${JDBC_DRIVER_CLASS_NAME}"/>
+    <property name="url" value="${JDBC_URL}"/>
+    <property name="username" value="${JDBC_USER}"/>
+    <property name="password" value="${JDBC_PASSWORD}"/>
+  </bean>
+  <bean id="episodeDao" class="example.generics.persist.hsqldb.EpisodeDaoImpl">
+    <constructor-arg ref="dataSource" type="javax.sql.DataSource"/>
+  </bean>
+
+</beans>
