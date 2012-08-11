@@ -1,9 +1,9 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: Use Generics to remove Boilerplate
-episode: ??
-summary: Generics Rock. In this episode I want to share how I used generics to boil down a bunch of repetitive, boilerplate unit test code to be much less verbose and easier to use. Instead of dreading writing the unit tests, now I actually look forward to it!
+title: Use Generics to Reduce Boilerplate
+episode: 11
+summary: Generics Rock. In this episode I want to share how I used generics to boil down a bunch of repetitive, boilerplate unit test code to be much less verbose and easier to use. Instead of dreading writing the unit tests to test CRUD, now I actually look forward to it!
 video: generics.mp4
 ---
 #+END_HTML
@@ -14,7 +14,7 @@ https://github.com/upgradingdave/javajing/tree/master/generics
 
 In case you're viewing this in github, please find the Episode here: 
 
-http://javajing.com/??
+http://javajing.com/2012/08/10/use-generics-to-reduce-boilerplate.html
 
 * Generifying a Unit Test Class
 
@@ -34,22 +34,35 @@ http://javajing.com/??
 
 ** Thinking in Generics
 
-   Think of variables as a way to parametize a method. Rather than
+   Think of variables as a way to parametrize a method. Rather than
    write a method over and over for each value, you use variable and
    can call that method passing different variables. 
 
-   Generics provides a way to "parametize" a class. Rather than having
+   Generics provides a way to "parametrize" a class. Rather than having
    to write a class over and over, you use generics so that you can
    reuse the class over and over for different types of Objects. 
 
 ** Refactor to Generics
 
-   - First, realize what should be parametized. In this case, the
+   - First, realize what should be parametrized. In this case, the
      models will be different types and also they might have different
      types of ids (maybe some will be strings, others will be
      Integers). 
 
    - Abstract the types into a generic Model class, and ModelDao class
 
-   - Then, we can write ModelDaoTest using generics
+   - Then, we can write ModelDaoTest using generics. 
 
+   - To write test cases for other Bean types, simply extend
+     ModelDaoTest, much less boilerplate.
+
+   - See the source code before the refactor here: 
+   https://github.com/upgradingdave/javajing/tree/master/generics/before
+
+   - And the code after the refactor here: 
+   https://github.com/upgradingdave/javajing/tree/master/generics/after
+
+* Links
+
+Picture of Generic Cup<T>
+http://research.microsoft.com/en-us/um/people/akenn/generics/index.html

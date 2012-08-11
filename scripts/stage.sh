@@ -3,6 +3,7 @@
 WEBAPPDIR="site/src/main/webapp"
 POSTSDIR="$WEBAPPDIR/org/_posts"
 
+mkdir -p "$POSTSDIR"
 rm -rf "$POSTS_DIR/*"
 cp "ruby-from-java/README.org" "$POSTSDIR/2012-06-01-ruby-from-java.org"
 cp "slf4j/README.org" "$POSTSDIR/2012-06-08-slf4j.org"
@@ -14,4 +15,5 @@ cp "json-using-gson/README.org" "$POSTSDIR/2012-07-13-json-using-gson.org"
 cp "remote-debug-jetty/README.org" "$POSTSDIR/2012-07-20-remote-debug-jetty.org"
 cp "uber-jars/README.org" "$POSTSDIR/2012-07-30-maven-exec-and-uber-jars.org"
 cp "executable-wars/README.org" "$POSTSDIR/2012-08-03-executable-standalone-web-apps.org"
+cp "generics/README.org" "$POSTSDIR/2012-08-10-use-generics-to-reduce-boilerplate.org"
 
