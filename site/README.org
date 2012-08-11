@@ -20,8 +20,9 @@ publishing the site from org-mode to the web.
 
 - Use Jekyll to publish the final site. 
   #+BEGIN_SRC sh
-  cd site/src/main/webapp/jekyll 
-  jekyll
+  rvm use 1.9.2
+  rvm use gemset jekyll
+  ./script/publish.sh
   #+END_SRC
 
 - Run deploy.sh to push static html site generated from jekyll to
