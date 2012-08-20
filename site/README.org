@@ -18,6 +18,13 @@ publishing the site from org-mode to the web.
   Eval scripts/org-project.el and then run `org-publish-project
   javajing`.
 
+- Remember to generate thumbnail images for episode poster
+  #+begin_src sh
+  cd videos/<episode-dir>
+  ../../script/resize-images.sh episodeXX-poster.png
+  mv *.png ../../site/src/main/webapp/jekyll/images/javajing
+  #+end_src
+
 - Use Jekyll to publish the final site. 
   #+BEGIN_SRC sh
   rvm use 1.9.2

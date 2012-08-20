@@ -1,10 +1,10 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: Schedule Programs with Quartz
-episode: ??
-summary: It's often useful repeatedly run the same program over and over. Quartz provides a powerful engine that's simple to use for scheduling programs anyway you can dream up. Use Quarts to write programs to periodically generate reports, send out email notifications, or, as demonstrated in this episode, check to make sure all the links on your site work. 
-video: uber-jar.mp4
+title: Schedule Jobs with Quartz
+episode: 12
+summary: It's often useful to repeatedly run the same program on a schedule. Quartz provides a powerful engine that's simple to use for scheduling programs anyway you can dream up. Use Quarts to write programs to periodically generate reports, send out email notifications, or, as demonstrated in this episode, check to make sure all the links on your site work. 
+video: quartz.mp4
 ---
 #+END_HTML
 
@@ -18,7 +18,7 @@ video: uber-jar.mp4
 
    In case you're viewing this in github, please find the Episode here: 
 
-   http://javajing.com/2012/08/17/schedule-programs-with-quartz.html
+   http://javajing.com/2012/08/20/schedule-programs-with-quartz.html
 
 ** Quartz Terminology
 
@@ -53,19 +53,29 @@ video: uber-jar.mp4
 
 *** Steps to use quartz to schedule a job
 
-   - Get a hold of a scheduler
-     #+begin_src java
-     Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-     #+end_src
-   - 
-
-// and start it off
-            scheduler.start();
-
-            scheduler.shutdown();
+    - Implement a Quartz Job
+    - Create a JobDetail and associate your Job Class. You can pass a
+      JobMetaData to communicate with your job
+    - Create a Trigger. The trigger defines the schedule which tells
+      the scheduler when to run your job
+    - Get a hold of a quartz scheduler
+      #+begin_src java
+      Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+      //start the scheduler
+      scheduler.start();
+      //when your finished, stop the scheduler
+      scheduler.shutdown();
+      #+end_src
+    - Schedule your job with the trigger. 
+      #+begin_src java
+      scheduler.scheduleJob(job, trigger);
+      #+end_src
+    - Done!
 
 ** Links
 
   - Quarts :: http://quartz-scheduler.org/
   - Jsoup :: Parse html without tearing your hair out. http://jsoup.org/
-  - Apache HttpClient :: Make Http requests from java. http://hc.apache.org/httpcomponents-client-ga/quickstart.html
+  - Apache HttpClient :: Make Http requests from java.
+       http://hc.apache.org/httpcomponents-client-ga/quickstart.html
+  - Builder Pattern :: http://en.wikipedia.org/wiki/Builder_pattern
