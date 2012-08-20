@@ -1,21 +1,71 @@
-* Notes
+#+BEGIN_HTML
+---
+layout: post
+title: Schedule Programs with Quartz
+episode: ??
+summary: It's often useful repeatedly run the same program over and over. Quartz provides a powerful engine that's simple to use for scheduling programs anyway you can dream up. Use Quarts to write programs to periodically generate reports, send out email notifications, or, as demonstrated in this episode, check to make sure all the links on your site work. 
+video: uber-jar.mp4
+---
+#+END_HTML
 
-- Scheduler :: The engine that dispatches and manages jobs
-- Job :: interface that you implement to do some work
-- JobDetail :: Metadata about jobs as they go thru the Scheduler
-- Trigger :: Essentially it's the schedule that defines when a given
-             job will run. 
+* Schedule Programs with Quartz
 
+** Source Code
 
-* Builder dsl
+   Find a copy of the companion source code for this episode here: 
 
-You can use the builder dsl (new as of v2.0+) from the JobBuilder
-class to build up triggers and jobs.
+   https://github.com/upgradingdave/javajing/tree/master/quartz
 
-* Dependency
+   In case you're viewing this in github, please find the Episode here: 
 
+   http://javajing.com/2012/08/17/schedule-programs-with-quartz.html
+
+** Quartz Terminology
+
+  Please see the Quartz Documentation for more, but for quick overview: 
+
+  - Scheduler :: The engine that dispatches and manages jobs
+  - Job :: interface that you implement to do some work
+  - JobDetail :: Metadata about jobs as they go thru the Scheduler
+  - Trigger :: Essentially it's the schedule that defines when a given
+               job will run. 
+  - Builder DSL :: You can use the builder dsl (new as of v2.0+)
+                   from the JobBuilder class to build up triggers and jobs.
+** Quartz Maven Dependency
+
+#+begin_src xml
 <dependency>
-<groupId>org.quartz-scheduler</groupId>
-<artifactId>quartz</artifactId>
-<version>2.1.5</version>
+  <groupId>org.quartz-scheduler</groupId>
+  <artifactId>quartz</artifactId>
+  <version>2.1.6</version>
 </dependency>
+#+end_src
+
+** Use Case: Link Checker
+  
+  As a working example that uses Quartz, here's a program that will
+  periodically check to make sure links to the javajing site are all
+  valid.
+
+  Please find the source code here: 
+
+  https://github.com/upgradingdave/javajing/tree/master/quartz/link-checker
+
+*** Steps to use quartz to schedule a job
+
+   - Get a hold of a scheduler
+     #+begin_src java
+     Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
+     #+end_src
+   - 
+
+// and start it off
+            scheduler.start();
+
+            scheduler.shutdown();
+
+** Links
+
+  - Quarts :: http://quartz-scheduler.org/
+  - Jsoup :: Parse html without tearing your hair out. http://jsoup.org/
+  - Apache HttpClient :: Make Http requests from java. http://hc.apache.org/httpcomponents-client-ga/quickstart.html

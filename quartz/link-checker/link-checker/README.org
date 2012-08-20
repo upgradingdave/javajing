@@ -1,0 +1,41 @@
+* JavaJing Link Checker
+
+  This is a real world example of how quartz can be used to schedule
+  and run java programs. 
+
+  The Quartz scheduler starts a JavaJingChecker periodically. The
+  JavaJingChecker uses a JavaJingScraper to connect to the http site,
+  find links to all the pages and then checks to make sure we can
+  connect to each page. 
+
+** Usage
+
+*** Database
+   
+    This uses an embedded h2sqldb to store results of testing whether
+    pages are accessible. To create the database, cd into link-checker
+    and then run: 
+
+    #+begin_src java
+    mvn -Pcreatedb compile
+    #+end_src
+
+*** Compile/Build
+    
+    #+begin_src sh
+    mvn clean install 
+    #+end_src
+
+*** Deploy
+    
+    Bundle as an executable jar using:
+
+    #+begin_src sh
+    cd link-checker
+    mvn -Pjar install
+    #+end_src
+
+*** Run
+    
+    java -jar target/linkchecker.jar
+
