@@ -1,0 +1,51 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Emacs Minor Mode for Finding Maven Dependencies
+episode: 12.5
+summary: I noticed that I was repeating the same task over and over. I'd browse to search.maven.org, search for artifact and then copy the dependency xml into my pom.xml. Thanks to the encouragement and great guidance on how to build minor mode on http://emacsrocks.com, I was able to quickly add the ability to quickly search and add dependencies right from emacs!
+video: emacs-maven-mode.mp4
+---
+#+END_HTML
+
+* Emacs Maven Minor Mode
+
+  Quickly and easily find dependencies on http://search.maven.org and
+  add them to your pom ... and never have to leave Emacs!
+
+** Source Code
+
+   Find the source code here:
+
+   https://github.com/upgradingdave/maven-mode
+
+   In case you're viewing this in github, please find a short screencast overview here: 
+
+   http://javajing.com/2012/08/25/emacs-maven-mode.html
+
+** Usage
+
+   I think this will be a work in progress for a while, but at the
+   time I recorded this screencast, there are two commands so far: 
+
+   `M-x c m ds` does a search for dependencies. Enter a search term,
+   and then choose from list of avialable artifact's, then choose
+   which version, and the dependency xml snippet is inserted into
+   current buffer.
+
+   `M-x c m dx` inserts depdencency xml snippet. If you already know
+   which dependency you want to add, simply open pom.xml, then run
+   this command and enter the `groupId:artifactId:version` For
+   example, type `junit:junit:4.10` to insert the following xml
+   snippet: 
+
+#+begin_src xml
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.10</version>
+</dependency>
+#+end_src
+
+
+   

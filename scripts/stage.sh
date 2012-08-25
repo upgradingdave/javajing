@@ -17,4 +17,5 @@ cp "uber-jars/README.org" "$POSTSDIR/2012-07-30-maven-exec-and-uber-jars.org"
 cp "executable-wars/README.org" "$POSTSDIR/2012-08-03-executable-standalone-web-apps.org"
 cp "generics/README.org" "$POSTSDIR/2012-08-10-use-generics-to-reduce-boilerplate.org"
 cp "quartz/README.org" "$POSTSDIR/2012-08-20-schedule-jobs-using-quartz.org"
+cp "emacs-maven-mode/README.org" "$POSTSDIR/2012-08-25-emacs-maven-mode.org"
 
