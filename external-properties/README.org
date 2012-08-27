@@ -10,6 +10,14 @@ video: external-properties-with-spring.mp4
 
 * Managing External Properties with Spring
 
+  Find a copy of the companion source code for this episode here: 
+
+  https://github.com/upgradingdave/javajing/tree/master/external-properties
+
+  In case you're viewing this in github, please find the Episode here: 
+
+  http://javajing.com/2012/08/27/manage-properties-with-spring.html
+
 ** PropertySourcesPlaceholderConfigurer
 
    Note: as of 3.1.0-RELEASE, the PropertySourcesPlaceholderConfigurer
