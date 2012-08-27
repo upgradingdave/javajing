@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="propertyConfig" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+    <property name="locations">
+      <list>
+        <value>classpath:${env}.conf</value>
+        <value>file:../prod.conf</value>
+      </list>
+    </property>
+    <!--If false (default) then config file ("resource") must exist or exception is thrown.
+Set to true if the config file is optional-->
+    <property name="ignoreResourceNotFound" value="true"/>
+    <!--If false (default) then if placeholder fails to resolve throw exception-->
+    <property name="ignoreUnresolvablePlaceholders" value="true"/>
+  </bean>
+
+  <bean id="configExample" class="com.upgradingdave.props.ConfigExample">
+    <constructor-arg name="whereAmI" value="${whereAmI}"/>
+    <constructor-arg name="whoAmi" value="${whoAmI}"/>
+  </bean>
+
+</beans>

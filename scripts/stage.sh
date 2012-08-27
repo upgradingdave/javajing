@@ -18,4 +18,6 @@ cp "executable-wars/README.org" "$POSTSDIR/2012-08-03-executable-standalone-web-
 cp "generics/README.org" "$POSTSDIR/2012-08-10-use-generics-to-reduce-boilerplate.org"
 cp "quartz/README.org" "$POSTSDIR/2012-08-20-schedule-jobs-using-quartz.org"
 cp "emacs-maven-mode/README.org" "$POSTSDIR/2012-08-25-emacs-maven-mode.org"
+cp "external-properties/README.org" "$POSTSDIR/2012-08-27-manage-properties-with-spring.org"
+
 

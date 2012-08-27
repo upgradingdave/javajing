@@ -1,0 +1,110 @@
+#+BEGIN_HTML
+---
+layout: post
+title: External Config Files using Spring
+episode: 13
+summary: When a config or properties file is included inside a war or jar, it can be a pain to change a value. You have to update the value, redeploy the project and if customers are involved jump through more hoops. This episode demonstrates how the spring property configurer can be used to manage multiple config files, externalize those config files, and choose config files based on environment variables. 
+video: external-properties-with-spring.mp4
+---
+#+END_HTML
+
+* Managing External Properties with Spring
+
+** PropertySourcesPlaceholderConfigurer
+
+   Note: as of 3.1.0-RELEASE, the PropertySourcesPlaceholderConfigurer
+   is used in favor of the PropertyPlaceholderConfigurer.
+
+   Use PropertySourcesPlaceholderConfigurer to replace placeholders such
+   as `${username}` with values from properties file
+
+#+begin_src xml
+<bean id="propertyConfig" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+  <property name="locations">
+    <list>
+      <value>classpath:dev.conf</value>
+    </list>
+  </property>
+</bean>
+#+end_src   
+
+   If using maven, then you can have two copies of same properties
+   file with different values. 
+
+** Multiple configuration locations
+
+   The last resource in the list takes precedence.
+
+#+begin_src xml
+<bean id="propertyConfig" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+  <property name="locations">
+    <list>
+      <value>classpath:dev.conf</value>
+      <value>classpath:test.conf</value>
+    </list>
+  </property>
+</bean>
+#+end_src
+
+** Default values and Optional Config files
+
+   ignoreResourceNotFound
+   put conf file into war/jar with defaults
+
+#+begin_src xml
+<bean id="propertyConfig" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+  <property name="locations">
+    <list>
+      <value>classpath:dev.conf</value>
+      <value>classpath:test.conf</value>
+      <value>classpath:prod.conf</value>
+    </list>
+  </property>
+  <!--If false (default) then config file ("resource") must exist or exception is thrown.
+      Set to true if the config file is optional-->
+  <property name="ignoreResourceNotFound" value="true"/>
+  <!--If false (default) then if placeholder fails to resolve throw exception-->
+  <property name="ignoreUnresolvablePlaceholders" value="true"/>
+</bean>
+#+end_src
+
+** Placeholders in file name and Relative Paths
+#+begin_src xml
+<bean id="propertyConfig" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+  <property name="locations">
+    <list>
+      <value>classpath:${ENV}.conf</value>
+      <value>file:${ENV}.conf</value>
+      <value>file:../app.conf</value>
+    </list>
+  </property>
+  <!--If false (default) then config file ("resource") must exist or exception is thrown.
+      Set to true if the config file is optional-->
+  <property name="ignoreResourceNotFound" value="true"/>
+  <!--If false (default) then if placeholder fails to resolve throw exception-->
+  <property name="ignoreUnresolvablePlaceholders" value="true"/>
+</bean>
+#+end_src
+   
+** Convenient syntax for Property Placeholders
+   
+#+BEGIN_SRC xml
+<context:property-placeholder location="classpath:my.properties"/>
+#+END_SRC
+
+** Links
+
+   Smartly Load properties files
+   http://www.javaworld.com/javaqa/2003-08/01-qa-0808-property.html
+
+   Great blog post tips for using spring properties: 
+   http://www.summa-tech.com/blog/2009/04/20/6-tips-for-managing-property-files-with-spring/
+
+   Commons Configuration
+   http://commons.apache.org/configuration/
+
+   More information on Spring property management
+   http://blog.springsource.org/2011/02/15/spring-3-1-m1-unified-property-management/
+
+   Properties with Spring
+   http://www.baeldung.com/2012/02/06/properties-with-spring/
