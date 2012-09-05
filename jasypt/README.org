@@ -3,7 +3,7 @@
 layout: post
 title: Encrypt values in properties files with Jasypt
 episode: 14
-summary: Do you have a jdbc password in your properties file? Well, you probably shouldn't, especially if you check that file into source control?! You might want to encrypt that password using jasypt. It's easy to do and might help you sleep better knowing that your db is safe in case a properties file ever ended up in the wrong hands.
+summary: Do you have a jdbc password in your properties file? If so (and especially if you check that file into source control) you might want to try to encrypt that password using jasypt. It's easy to do and might help you sleep better knowing that your db is safe in case a properties file ever ended up in the wrong hands.
 video: jasypt.mp4
 ---
 #+END_HTML
@@ -16,7 +16,7 @@ https://github.com/upgradingdave/javajing/tree/master/jasypt
 
 In case you're viewing this in github, please find the Episode here:
 
-http://javajing.com/2012/08/31/encrypt_property_values_with_jasypt.html
+http://javajing.com/2012/09/04/encrypt-property-values-with-jasypt.html
 
 ** Easy encryption and decryption
 
