@@ -1,0 +1,100 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Encrypt values in properties files with Jasypt
+episode: 14
+summary: Do you have a jdbc password in your properties file? Well, you probably shouldn't, especially if you check that file into source control?! You might want to encrypt that password using jasypt. It's easy to do and might help you sleep better knowing that your db is safe in case a properties file ever ended up in the wrong hands.
+video: jasypt.mp4
+---
+#+END_HTML
+
+* Encrypt Properties Values with Jasypt
+
+Find a copy of the companion source code for this episode here:
+
+https://github.com/upgradingdave/javajing/tree/master/jasypt
+
+In case you're viewing this in github, please find the Episode here:
+
+http://javajing.com/2012/08/31/encrypt_property_values_with_jasypt.html
+
+** Easy encryption and decryption
+
+   Easily encrypt a string like "super secret message" to an encrypted value of
+   "7AQPM9dU/6mGDG4gZKhbJ1VzNRqKmOLd2MBCedeyH0k="
+
+   Then decrypted it during runtime like so:
+
+#+begin_src java
+BasicTextEncryptor encryptor = new BasicTextEncryptor();
+encryptor.setPassword("secret");
+
+String message = "super duper secret message";
+
+String encrypted = encryptor.encrypt(message);
+
+assertEquals(message, encryptor.decrypt(encrypted));
+#+end_src
+
+** Properties Files
+
+   Add an encrypted value to your properties file such as:
+
+#+begin_src sh
+encrypted=ENC(7AQPM9dU/6mGDG4gZKhbJ1VzNRqKmOLd2MBCedeyH0k=)
+#+end_src
+
+   Then, automatically retrieve the decrypted value like so:
+
+#+begin_src java
+BasicTextEncryptor encryptor = new BasicTextEncryptor();
+encryptor.setPassword("secret");
+
+Properties props = new EncryptableProperties(encryptor);
+URL url = JasyptTest.class.getClassLoader().getResource("secret.conf");
+
+props.load(new FileInputStream(url.getFile()));
+
+String message = props.getProperty("encrypted");
+
+assertEquals("super secret message", message);
+#+end_src
+
+** Keep your passwords secret!
+
+   It's probably not a good idea to hard code the password used to
+   decrypt values anywhere inside your program. So, how do you tell
+   jasypt the password to use? Jasypt provides *Config classes that
+   can specify the password in a number of ways.
+
+   For example, use an EnvironmentPBEConfig to specify the password to
+   use inside of an environment variable. Once you're program is
+   running, you could even Unset the environment variable so there's
+   no trace at all of the decryption password.
+
+#+begin_src java
+EnvironmentPBEConfig config = new EnvironmentPBEConfig();
+config.setAlgorithm("PBEWithMD5AndDES");
+config.setPasswordEnvName("MY_APP_PASSWORD");
+
+StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+encryptor.setConfig(config);
+
+Properties props = new EncryptableProperties(encryptor);
+URL url = JasyptTest.class.getClassLoader().getResource("secret.conf");
+
+props.load(new FileInputStream(url.getFile()));
+String message;
+
+try {
+    message = props.getProperty("encrypted");
+} catch (NullPointerException e) {
+    throw new AssertionError("Set MY_APP_PASSWORD and try again");
+}
+
+assertEquals("super secret message", message);
+#+end_src
+
+** Links
+
+- Jasypt :: http://www.jasypt.org/

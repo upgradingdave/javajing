@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="propertyConfig" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+    <constructor-arg type="org.jasypt.util.text.TextEncryptor" ref="ecryptor"/>
+    <property name="locations">
+      <list>
+        <value>classpath:secret.conf</value>
+      </list>
+    </property>
+    <property name="ignoreResourceNotFound" value="true"/>
+    <property name="ignoreUnresolvablePlaceholders" value="true"/>
+  </bean>
+
+  <import resource="module-context.xml"/>
+
+</beans>
