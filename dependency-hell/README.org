@@ -1,0 +1,67 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Encrypt values in properties files with Jasypt
+episode: 14
+summary: Do you have a jdbc password in your properties file? If so (and especially if you check that file into source control) you might want to try to encrypt that password using jasypt. It's easy to do and might help you sleep better knowing that your db is safe in case a properties file ever ended up in the wrong hands.
+video: jasypt.mp4
+---
+#+END_HTML
+
+* Jackson Json Processing
+
+Find a copy of the companion source code for this episode here:
+
+https://github.com/upgradingdave/javajing/tree/master/jackson
+
+In case you're viewing this in github, please find the Episode here:
+
+http://javajing.com/2012/09/xx/json-with-jackson.html
+
+** Troubleshooting tips
+
+   - Be suspicious about possible Dependency Conflicts issues when
+     using old version of libraries, or when using new bleeding
+     leading edge libraries
+
+   - Use `mvn dependency:tree` to see recursive list of all
+     dependencies as well as dependencies' dependencies and so on
+
+   - Try excluding suspicious dependencies using the maven "exclusion"
+     feature. 
+
+** Maven Enforcer Plugin
+
+   Once you've pinpointed the problem dependency, use the Maven
+   Enforcer Plugin to make sure it doesn't happen again!
+
+#+begin_src xml
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+          <execution>
+            <id>enforce-banned-dependencies</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <!-- Doesn't exclude on its own, but does check that it is excluded -->
+                <bannedDependencies>
+                  <excludes>
+                    <exclude>xerces:xerces:1.4.4</exclude>
+                  </excludes>
+                </bannedDependencies>
+              </rules>
+              <fail>true</fail>
+            </configuration>
+          </execution>
+        </excecutions>
+      </plugin>
+#+end_src   
+
+** Links
+
+   - Jackson Tutorial :: http://wiki.fasterxml.com/JacksonInFiveMinutes

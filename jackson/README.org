@@ -1,0 +1,34 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Java Objects to json using Jackson
+episode: ?
+summary: 
+video: jackson.mp4
+---
+#+END_HTML
+
+* Jackson
+
+  Find a copy of the companion source code for this episode here:
+
+  https://github.com/upgradingdave/javajing/tree/master/jackson
+   
+  In case you're viewing this in github, please find the Episode here:
+
+  http://javajing.com/2012/09/??/json-with-jackson.html
+
+
+** Serialization
+
+   By default, Jackson looks for public getter methods and fields in
+   order to convert Object into json. See documentation in the
+   `SerializtionFeature` class for more info. 
+
+   Control serialization behavior by configuring a mapper using
+   `MapperFeature`, `SerializtionFeature`, and `Feature` classes
+
+   Use the `ObjectMapper::setVisibility` method to change behavior so
+   that jackson will serialize protected and private fields and
+   getters as well. 
+
