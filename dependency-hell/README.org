@@ -1,22 +1,22 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: Encrypt values in properties files with Jasypt
-episode: 14
-summary: Do you have a jdbc password in your properties file? If so (and especially if you check that file into source control) you might want to try to encrypt that password using jasypt. It's easy to do and might help you sleep better knowing that your db is safe in case a properties file ever ended up in the wrong hands.
-video: jasypt.mp4
+title: Dependency "H-E-Double Toothpicks"
+episode: 15
+summary: Dependency version conflicts can get real ugly. Maven dependency:tree and enforcer:enforce to the rescue!
+video: dependency-hell.mp4
 ---
 #+END_HTML
 
-* Jackson Json Processing
+* Dependency "H - E - Double Toothpicks"
 
-Find a copy of the companion source code for this episode here:
+  Find a copy of the companion source code for this episode here:
 
-https://github.com/upgradingdave/javajing/tree/master/jackson
+  https://github.com/upgradingdave/javajing/tree/master/dependency-hell
 
-In case you're viewing this in github, please find the Episode here:
+  In case you're viewing this in github, please find the Episode here:
 
-http://javajing.com/2012/09/xx/json-with-jackson.html
+  http://javajing.com/2012/09/17/dependency-hell.html
 
 ** Troubleshooting tips
 
@@ -33,7 +33,7 @@ http://javajing.com/2012/09/xx/json-with-jackson.html
 ** Maven Enforcer Plugin
 
    Once you've pinpointed the problem dependency, use the Maven
-   Enforcer Plugin to make sure it doesn't happen again!
+   Enforcer Plugin to make sure it never sneaks back into your projects!
 
 #+begin_src xml
       <plugin>
@@ -64,4 +64,12 @@ http://javajing.com/2012/09/xx/json-with-jackson.html
 
 ** Links
 
-   - Jackson Tutorial :: http://wiki.fasterxml.com/JacksonInFiveMinutes
+   - Cool image of all linux dependencies used as title screen ::
+        http://disfunksioneel.blogspot.com/2011/04/linux-software-dependencies.html
+
+   - Maven dependency plugin ::
+        http://maven.apache.org/plugins/maven-dependency-plugin/
+
+   - Maven enforcer plugin ::
+        http://maven.apache.org/plugins/maven-enforcer-plugin/
+
