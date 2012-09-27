@@ -1,9 +1,9 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: Java Objects to json using Jackson
-episode: ?
-summary: 
+title: Java Objects to/from Json using Jackson
+episode: 16
+summary: Jackson is a json library that is blazing fast and super flexible. This episode shows a simple example of converting back and forth between java objects and json using Jackson. 
 video: jackson.mp4
 ---
 #+END_HTML
@@ -19,16 +19,29 @@ video: jackson.mp4
   http://javajing.com/2012/09/??/json-with-jackson.html
 
 
-** Serialization
+** Notes
 
    By default, Jackson looks for public getter methods and fields in
    order to convert Object into json. See documentation in the
    `SerializtionFeature` class for more info. 
 
    Control serialization behavior by configuring a mapper using
-   `MapperFeature`, `SerializtionFeature`, and `Feature` classes
+   `MapperFeature`, `SerializationFeature`, and `Feature` classes
 
    Use the `ObjectMapper::setVisibility` method to change behavior so
-   that jackson will serialize protected and private fields and
-   getters as well. 
+   that jackson will serialize fields and getters with private and
+   protected visibility as well. 
+
+   For third party classes or classes you can't change, it's possible
+   to use Jackson Annotation Mixins for controlling behavior of
+   serialization to and from json. 
+
+** Links
+
+   - Performance Comparison of Java Json libraries ::
+        http://www.cowtowncoder.com/blog/archives/2009/12/entry_345.html
+     
+   - Jackson Wiki :: http://wiki.fasterxml.com/JacksonHome
+
+                     
 
