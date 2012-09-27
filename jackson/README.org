@@ -16,7 +16,7 @@ video: jackson.mp4
    
   In case you're viewing this in github, please find the Episode here:
 
-  http://javajing.com/2012/09/??/json-with-jackson.html
+  http://javajing.com/2012/09/27/json-with-jackson.html
 
 
 ** Notes

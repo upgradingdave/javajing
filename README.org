@@ -12,7 +12,7 @@
   use to export the video: 
 
   MP4 with H.264 encoding
-  Frame Rate: 30
+  Frame Rate: 15
   Data Rate: 1024 Kbps
 
   Known issues: Currently, the videos don't play on Android. 
