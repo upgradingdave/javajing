@@ -1,0 +1,82 @@
+#+BEGIN_HTML
+---
+layout: post
+title: JAXP DOM API
+episode: ?
+summary: Java and XML go together like peanut butter and jelly. But what's up with all the confusing achronyms?! This is the first of a series of episodes to explore each of the xml related achronyms. We'll start here with Jaxp and Dom.
+video: jaxp-dom.mp4
+---
+#+END_HTML
+
+* JAXP Document Object Model (DOM)
+
+  Find a copy of the companion source code for this episode here:
+
+  https://github.com/upgradingdave/javajing/tree/master/jaxp-dom
+
+  In case you're viewing this in github, please find the Episode here:
+
+  http://javajing.com/2012/10/?/?.html
+
+** What exactly is JAXP?
+
+   The goal of JAXP is to provide a common/consistent Java API for
+   processing XML (and related xml formats such as xslt, and dtds). 
+
+   For example, do want to find a value inside of an html tag on
+   some webpage? or parse out a list of items from inside an xml
+   document? or display an xml document as a nicely formatted web
+   page? or determine whether a tag is valid inside a xml file given a
+   dtd? ...then jaxp can help. 
+
+   There are actually a few different api's defined by JAXP that you
+   can use for processing XML.
+
+   - Document Object Model (DOM) :: Load the entire xml structure into
+        memory and then use methods to extract what you need. 
+
+   - Simple API for Xml (SAX) :: Read a xml document character by
+        character. As each character is parsed, your program can
+        respond to events. This is a "push event" streaming api. I'll
+        cover this a future episode. 
+
+   - Streaming API for XML (StAX) :: Read a xml document character by
+        character inside of a loop (iteratively). As each character is
+        parsed, your program can do whatever it needs to do. This is a
+        "pull event" streamin api. It's similar to SAX, only instead
+        of the parser "pushing" events to your program, your program
+        loops and responds to parse events that it's interested in.
+        I'll cover this in a future episode. 
+
+   - JDOM, DOM4J, and other xml libraries :: There are a number of
+        other libraries built on top of or related to the JAXP Api's.
+        These libraries attempt to make it easier to process xml. 
+
+** Document Object Model (DOM)
+
+   I like to think of the DOM as a picture of a tree of xml, similar
+   to how html and xml is displayed inside Firefox firebug or chrome
+   inspection tool. 
+
+   The text get's parsed and loaded into memory as a Document. Then
+   you're program can simply call methods on the Document object to
+   find root xml node, find child nodes, search for certain types of
+   nodes, attributes etc. 
+
+   DOM is probably the easiest JAXP api to understand. But it's also
+   the slowest and takes up the most memory. 
+
+   For example, if the pogram needs to proccess very large xml from
+   say a xml web service or xml database, dom might not be able to
+   load the entire xml structure into memory. 
+
+** Links
+
+   - Java Trail for JAXP Tutorial :: http://docs.oracle.com/javase/tutorial/jaxp/index.html
+   - JAXP Wikipedia ::
+                       http://en.wikipedia.org/wiki/Java_API_for_XML_Processing
+   - JSR 206 (JAXP) :: http://www.jcp.org/en/jsr/detail?id=206
+
+                       
+
+
