@@ -22,4 +22,5 @@ cp "external-properties/README.org" "$POSTSDIR/2012-08-27-manage-properties-with
 cp "jasypt/README.org" "$POSTSDIR/2012-09-04-encrypt-property-values-with-jasypt.org"
 cp "dependency-hell/README.org" "$POSTSDIR/2012-09-17-dependency-hell.org"
 cp "jackson/README.org" "$POSTSDIR/2012-09-27-java-to-json-using-jackson.org"
+cp "jaxp-dom/README.org" "$POSTSDIR/2012-10-18-jaxp-document-object-model-api.org"
 

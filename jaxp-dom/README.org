@@ -2,7 +2,7 @@
 ---
 layout: post
 title: JAXP DOM API
-episode: ?
+episode: 17
 summary: Java and XML go together like peanut butter and jelly. But what's up with all the confusing achronyms?! This is the first of a series of episodes to explore each of the xml related achronyms. We'll start here with Jaxp and Dom.
 video: jaxp-dom.mp4
 ---
@@ -16,7 +16,7 @@ video: jaxp-dom.mp4
 
   In case you're viewing this in github, please find the Episode here:
 
-  http://javajing.com/2012/10/?/?.html
+  http://javajing.com/2012/10/18/jaxp-document-object-model-api.html
 
 ** What exactly is JAXP?
 
@@ -73,8 +73,7 @@ video: jaxp-dom.mp4
 ** Links
 
    - Java Trail for JAXP Tutorial :: http://docs.oracle.com/javase/tutorial/jaxp/index.html
-   - JAXP Wikipedia ::
-                       http://en.wikipedia.org/wiki/Java_API_for_XML_Processing
+   - JAXP Wikipedia :: http://en.wikipedia.org/wiki/Java_API_for_XML_Processing
    - JSR 206 (JAXP) :: http://www.jcp.org/en/jsr/detail?id=206
 
                        
