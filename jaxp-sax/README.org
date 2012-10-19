@@ -1,0 +1,95 @@
+#+BEGIN_HTML
+---
+layout: post
+title: JAXP Simple API for Java (SAX)
+episode: ?
+summary: JAXP, DOM, SAX, STAX. Dear lord, why so many achronyms when all I want to do is find a tag in some xml?!!! In this episode, we'll take a look at how to do just that using SAX which is one of the api's provided by the Java API for Xml Processing (JAXP). 
+video: jaxp-sax.mp4
+---
+#+END_HTML
+
+* JAXP Simple API for XML (SAX)
+
+  Find a copy of the companion source code for this episode here:
+
+  https://github.com/upgradingdave/javajing/tree/master/jaxp-sax
+
+  In case you're viewing this in github, please find the Episode here:
+
+  http://javajing.com/2012/10/?/?.html
+
+** What exactly is JAXP?
+
+   The goal of JAXP is to provide a common/consistent Java API for
+   processing XML (and related xml formats such as xslt, and dtds). 
+
+   For example, do want to find a value inside of an html tag on
+   some webpage? or parse out a list of items from inside an xml
+   document? or display an xml document as a nicely formatted web
+   page? or determine whether a tag is valid inside a xml file given a
+   dtd? ...then jaxp can help. 
+
+   There are actually a few different api's defined by JAXP that you
+   can use for processing XML.
+
+   - Document Object Model (DOM) :: Load the entire xml structure into
+        memory and then use methods to extract what you need. 
+
+   - Simple API for Xml (SAX) :: Read a xml document character by
+        character. As each character is parsed, your program can
+        respond to events. This is a "push event" streaming api. I'll
+        cover this a future episode. 
+
+   - Streaming API for XML (StAX) :: Read a xml document character by
+        character inside of a loop (iteratively). As each character is
+        parsed, your program can do whatever it needs to do. This is a
+        "pull event" streamin api. It's similar to SAX, only instead
+        of the parser "pushing" events to your program, your program
+        loops and responds to parse events that it's interested in.
+        I'll cover this in a future episode. 
+
+   - JDOM, DOM4J, and other xml libraries :: There are a number of
+        other libraries built on top of or related to the JAXP Api's.
+        These libraries attempt to make it easier to process xml. 
+
+** Simple API for Xml
+
+   Let's say you are stranded on a desert island with only the java.io
+   and java.lang packages. A native hands you a text file full of xml
+   and asks you to find the value for the tag with the name "title".
+   How would you go about that?
+
+   One strategy is to start reading in the file character by charcter.
+   While reading each character, you can then recognize that certain
+   characters have special meanings. For example, when you come to a
+   '<', then you know the next time you encounter a '>', that is a
+   start tag. When you come to a '<' followed by a '/' then you know
+   that the next time you encounter a '>' that is an end tag. 
+
+   This is conceptually how SAX works. It handles parsing a stream of
+   characters and each time it recognizes an event such as "we just
+   saw a start tag" or "we just saw an end tag", it signals that
+   event. 
+
+   Your program can then register itself to receive the events from
+   the SAX parser. And this way, your program can do things with the
+   xml. 
+
+   For me, at least, the SAX api feels a bit more "uncomfortable" than
+   the DOM api. But, the SAX api is capable to parsing very large
+   amounts of xml because it doesn't have to hold an entire
+   representation of the xml in memory like the DOM does. 
+
+   Also, SAX is a faster than DOM since it doesn't have to parse the
+   entire document before doing useful work as well as other reasons. 
+   
+** Links
+
+   - Java Trail for JAXP Tutorial :: http://docs.oracle.com/javase/tutorial/jaxp/index.html
+   - JAXP Wikipedia ::
+                       http://en.wikipedia.org/wiki/Java_API_for_XML_Processing
+   - JSR 206 (JAXP) :: http://www.jcp.org/en/jsr/detail?id=206
+
+                       
+
+

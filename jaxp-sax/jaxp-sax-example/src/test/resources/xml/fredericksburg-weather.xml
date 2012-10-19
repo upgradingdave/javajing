@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng"
+       yahoo:count="1" yahoo:created="2012-10-09T20:31:05Z" yahoo:lang="en-US">
+  <diagnostics>
+    <publiclyCallable>true</publiclyCallable>
+    <url execution-start-time="1" execution-stop-time="5" execution-time="4"><![CDATA[http://weather.yahooapis.com/forecastrss?w=12766911]]></url>
+    <user-time>6</user-time>
+    <service-time>4</service-time>
+    <build-version>30549</build-version>
+  </diagnostics>
+  <results>
+    <channel>
+      <title>Yahoo! Weather - Fredericksburg, VA</title>
+      <link>http://us.rd.yahoo.com/dailynews/rss/weather/Fredericksburg__VA/*http://weather.yahoo.com/forecast/USVA0719_f.html</link>
+      <description>Yahoo! Weather for Fredericksburg, VA</description>
+      <language>en-us</language>
+      <lastBuildDate>Tue, 09 Oct 2012 3:54 pm EDT</lastBuildDate>
+      <ttl>60</ttl>
+      <yweather:location
+              xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+              city="Fredericksburg" country="United States" region="VA"/>
+      <yweather:units
+              xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+              distance="mi" pressure="in" speed="mph" temperature="F"/>
+      <yweather:wind
+              xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+              chill="62" direction="50" speed="3"/>
+      <yweather:atmosphere
+              xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+              humidity="70" pressure="30.09" rising="0" visibility="10"/>
+      <yweather:astronomy
+              xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+              sunrise="7:12 am" sunset="6:38 pm"/>
+      <image>
+        <title>Yahoo! Weather</title>
+        <width>142</width>
+        <height>18</height>
+        <link>http://weather.yahoo.com</link>
+        <url>http://l.yimg.com/a/i/brand/purplelogo//uh/us/news-wea.gif</url>
+      </image>
+      <item>
+        <title>Conditions for Fredericksburg, VA at 3:54 pm EDT</title>
+        <geo:lat xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">38.27</geo:lat>
+        <geo:long xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#">-77.6</geo:long>
+        <link>http://us.rd.yahoo.com/dailynews/rss/weather/Fredericksburg__VA/*http://weather.yahoo.com/forecast/USVA0719_f.html</link>
+        <pubDate>Tue, 09 Oct 2012 3:54 pm EDT</pubDate>
+        <yweather:condition
+                xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+                code="26" date="Tue, 09 Oct 2012 3:54 pm EDT"
+                temp="62" text="Cloudy"/>
+        <description><![CDATA[
+<img src="http://l.yimg.com/a/i/us/we/52/26.gif"/><br />
+<b>Current Conditions:</b><br />
+Cloudy, 62 F<BR />
+<BR /><b>Forecast:</b><BR />
+Tue - Partly Cloudy. High: 59 Low: 47<br />
+Wed - Partly Cloudy. High: 72 Low: 41<br />
+<br />
+<a href="http://us.rd.yahoo.com/dailynews/rss/weather/Fredericksburg__VA/*http://weather.yahoo.com/forecast/USVA0719_f.html">Full Forecast at Yahoo! Weather</a><BR/><BR/>
+(provided by <a href="http://www.weather.com" >The Weather Channel</a>)<br/>
+]]></description>
+        <yweather:forecast
+                xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+                code="29" date="9 Oct 2012" day="Tue" high="59"
+                low="47" text="Partly Cloudy"/>
+        <yweather:forecast
+                xmlns:yweather="http://xml.weather.yahoo.com/ns/rss/1.0"
+                code="30" date="10 Oct 2012" day="Wed" high="72"
+                low="41" text="Partly Cloudy"/>
+        <guid isPermaLink="false">USVA0719_2012_10_10_7_00_EDT</guid>
+      </item>
+    </channel>
+  </results>
+</query>
