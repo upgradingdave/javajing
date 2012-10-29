@@ -3,7 +3,7 @@
 layout: post
 title: JAXP DOM API
 episode: 17
-summary: Java and XML go together like peanut butter and jelly. But what's up with all the confusing achronyms?! This is the first of a series of episodes to explore each of the xml related achronyms. We'll start here with Jaxp and Dom.
+summary: Java and XML go together like peanut butter and jelly. But what's up with all the confusing acronyms?! This is the first of a series of episodes to explore each of the xml related acronyms. We'll start here with Jaxp and Dom.
 video: jaxp-dom.mp4
 ---
 #+END_HTML

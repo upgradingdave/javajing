@@ -23,4 +23,5 @@ cp "jasypt/README.org" "$POSTSDIR/2012-09-04-encrypt-property-values-with-jasypt
 cp "dependency-hell/README.org" "$POSTSDIR/2012-09-17-dependency-hell.org"
 cp "jackson/README.org" "$POSTSDIR/2012-09-27-java-to-json-using-jackson.org"
 cp "jaxp-dom/README.org" "$POSTSDIR/2012-10-18-jaxp-document-object-model-api.org"
+cp "jaxp-sax/README.org" "$POSTSDIR/2012-10-29-jaxp-simple-api-for-xml-sax.org"
 

@@ -2,8 +2,8 @@
 ---
 layout: post
 title: JAXP Simple API for Java (SAX)
-episode: ?
-summary: JAXP, DOM, SAX, STAX. Dear lord, why so many achronyms when all I want to do is find a tag in some xml?!!! In this episode, we'll take a look at how to do just that using SAX which is one of the api's provided by the Java API for Xml Processing (JAXP). 
+episode: 18
+summary: JAXP, DOM, SAX, STAX. Dear lord, why so many acronyms when all I want to do is find a tag in some xml?!!! In this episode, we'll take a look at how to do just that using SAX which is one of the api's provided by the Java API for Xml Processing (JAXP). 
 video: jaxp-sax.mp4
 ---
 #+END_HTML
@@ -16,7 +16,7 @@ video: jaxp-sax.mp4
 
   In case you're viewing this in github, please find the Episode here:
 
-  http://javajing.com/2012/10/?/?.html
+  http://javajing.com/2012/10/29/jaxp-simple-api-for-xml-sax.html
 
 ** What exactly is JAXP?
 
