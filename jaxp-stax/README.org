@@ -1,0 +1,101 @@
+#+BEGIN_HTML
+---
+layout: post
+title: JAXP Streaming API for Java (StAX)
+episode: 19
+summary: The Java Api for Xml Processing (JAXP) defines 3 ways to interact with xml. I covered SAX and DOM in previous episodes. In this episode, I'll cover the 3rd JAXP Api called StAX. If you've watched the episodes on SAX and DOM, then hang in there, and after this episode, I hope you're much more comfortable with all the java xml acronyms. 
+video: jaxp-stax.mp4
+---
+#+END_HTML
+
+* JAXP Simple API for XML (SAX)
+
+  Find a copy of the companion source code for this episode here:
+
+  https://github.com/upgradingdave/javajing/tree/master/jaxp-stax
+
+  In case you're viewing this in github, please find the Episode here:
+
+  http://javajing.com/2012/10/29/jaxp-streaming-api-for-xml-stax.html
+
+** What exactly is JAXP?
+
+   The goal of JAXP is to provide a common/consistent Java API for
+   processing XML (and related xml formats such as xslt, and dtds). 
+
+   For example, do want to find a value inside of an html tag on
+   some webpage? or parse out a list of items from inside an xml
+   document? or display an xml document as a nicely formatted web
+   page? or determine whether a tag is valid inside a xml file given a
+   dtd? ...then jaxp can help. 
+
+   There are actually a few different api's defined by JAXP that you
+   can use for processing XML.
+
+   - Document Object Model (DOM) :: Load the entire xml structure into
+        memory and then use methods to extract what you need. 
+
+   - Simple API for Xml (SAX) :: Read a xml document character by
+        character. As each character is parsed, your program can
+        respond to events. This is a "push event" streaming api. I'll
+        cover this a future episode. 
+
+   - Streaming API for XML (StAX) :: Read a xml document character by
+        character inside of a loop (iteratively). As each character is
+        parsed, your program can do whatever it needs to do. This is a
+        "pull event" streamin api. It's similar to SAX, only instead
+        of the parser "pushing" events to your program, your program
+        loops and responds to parse events that it's interested in.
+        I'll cover this in a future episode. 
+
+   - JDOM, DOM4J, and other xml libraries :: There are a number of
+        other libraries built on top of or related to the JAXP Api's.
+        These libraries attempt to make it easier to process xml. 
+
+** Streaming API for XML
+
+   Let's say you are stranded on a desert island with only the java.io
+   and java.lang packages. A native hands you a text file full of xml
+   and asks you to find the value for the tag with the name "title".
+   How would you go about that?
+
+   One strategy is to start reading in the file character by character.
+   While reading each character, you can then recognize that certain
+   characters have special meanings. For example, when you come to a
+   '<', then you know the next time you encounter a '>', that is a
+   start tag. When you come to a '<' followed by a '/' then you know
+   that the next time you encounter a '>' that is an end tag. 
+
+   This is conceptually how STAX (and SAX) works. It handles parsing a
+   stream of characters and recognizes events such as "we just saw a
+   start tag" or "we just saw an end tag". 
+
+   The SAX api (see episode 18), will notify your program by signaling
+   an event. Therefore your program must register a event handler in
+   order to make use of SAX. Therefore SAX can be thought of as
+   "pushing" event so your program. 
+
+   To use The StAX api, you're program monitors the StAX parser's
+   progress inside of a loop. Each time thru the loop, it asks the
+   StAX parser for the next event. For example the program might
+   continuously ask StAX: "Is this a start tag event?" until StAX
+   finds the tag name that your program is interested in finding.
+
+   You can think of this as your program "pulling" only relevant
+   events from from StAX (as opposed to SAX pushing events).
+
+** Links
+
+   - Java Trail for JAXP Tutorial ::
+        http://docs.oracle.com/javase/tutorial/jaxp/index.html
+   - Java Trail for StAX Tutorial ::
+        http://docs.oracle.com/javase/tutorial/jaxp/stax/using.html
+   - JAXP Wikipedia ::
+                       http://en.wikipedia.org/wiki/Java_API_for_XML_Processing
+   - JSR 206 (JAXP) :: http://www.jcp.org/en/jsr/detail?id=206
+
+
+
+                       
+
+
