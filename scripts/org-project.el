@@ -23,3 +23,5 @@
          :publishing-function org-publish-attachment)
         
         ("javajing" :components ("org-javajing" "org-static-javajing"))))
+
+(org-publish-project "javajing")
