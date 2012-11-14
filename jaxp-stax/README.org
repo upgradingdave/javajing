@@ -3,7 +3,7 @@
 layout: post
 title: JAXP Streaming API for Java (StAX)
 episode: 19
-summary: The Java Api for Xml Processing (JAXP) defines 3 ways to interact with xml. I covered SAX and DOM in previous episodes. In this episode, I'll cover the 3rd JAXP Api called StAX. If you've watched the episodes on SAX and DOM, then hang in there, and after this episode, I hope you're much more comfortable with all the java xml acronyms. 
+summary: The Java Api for Xml Processing (JAXP) defines 3 ways to interact with xml. I covered SAX and DOM in previous episodes. In this episode, I'll cover the 3rd JAXP API called StAX. If you've watched the episodes on SAX and DOM, then hang in there, and after this episode, I hope you're much more comfortable with all the java/xml related acronyms. 
 video: jaxp-stax.mp4
 ---
 #+END_HTML
@@ -16,7 +16,7 @@ video: jaxp-stax.mp4
 
   In case you're viewing this in github, please find the Episode here:
 
-  http://javajing.com/2012/10/29/jaxp-streaming-api-for-xml-stax.html
+  http://javajing.com/2012/11/13/jaxp-streaming-api-for-xml-stax.html
 
 ** What exactly is JAXP?
 

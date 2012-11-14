@@ -24,4 +24,5 @@ cp "dependency-hell/README.org" "$POSTSDIR/2012-09-17-dependency-hell.org"
 cp "jackson/README.org" "$POSTSDIR/2012-09-27-java-to-json-using-jackson.org"
 cp "jaxp-dom/README.org" "$POSTSDIR/2012-10-18-jaxp-document-object-model-api.org"
 cp "jaxp-sax/README.org" "$POSTSDIR/2012-10-29-jaxp-simple-api-for-xml-sax.org"
+cp "jaxp-stax/README.org" "$POSTSDIR/2012-11-13-jaxp-streaming-api-for-xml-stax.org"
 
