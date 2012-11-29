@@ -1,0 +1,88 @@
+#+BEGIN_HTML
+---
+layout: post
+title: OAuth Using Scribe Library
+episode: ?
+summary: Want to allow folks to authenticate to your app with their facebook or Twitter account? OAuth is the answer. In this episode, we'll take a look at using the Scribe java library to authenticate against facebook using OAuth 2.0. 
+video: scribe-oauth.mp4
+---
+#+END_HTML
+
+* Scribe
+
+  Find a copy of the companion source code for this episode here:
+
+  https://github.com/upgradingdave/javajing/tree/master/scribe-oauth
+
+  In case you're viewing this in github, please find the Episode here:
+
+  http://javajing.com/2012/?/?/?.html
+
+** What exactly is Oauth?
+
+   In my mind, It's easiest to describe OAuth with an example: 
+
+   You have an app. When a user logs into your app, you'd like to show
+   them a list of upcoming events in their area they might be
+   interested in. For this you need to know 2 things: 1) their
+   location, and 2) what kinds of events they might like to go to.
+   These days, everyone has a facebook app. And Facebook probably
+   already has this information about this user.
+
+   So, how does your app connect to facebook on this user's behalf to
+   determine the user's hometown and favorite sports? The answer, of
+   course is OAuth!
+
+   OAuth is a protocol that allows your app to authenticate the user
+   against a third party service (like facebook, or twitter, or
+   linkedin, or foursquare, or any of the hundreds of other services
+   out there). 
+
+   Here's a 30 second over simplified summary of how OAuth works:
+
+   1) You ask the third party (facebook, twitter, linkedin, etc) for a
+      application account. They give you a application key and a
+      application secret. 
+
+   2) When a user sign's into your app, your app redirects that
+      user to the third party service's login page. 
+
+   3) The user sign's into facebook, twitter, linkedin (or wherever).
+
+   4) The third party then sends a request to your application with a
+      authorization code. 
+
+   5) Now, your app has a valid auth code which means the user has
+      successfully authenticated via the third party's login page.
+      Your app never needs to see the user's password for that third
+      party service. 
+
+   6) Next, your app can commnicate directly with the third party
+      service to trade the code for a oauth token. This step is
+      performed directly between your app and the third party and
+      therefore ensures that the user can't interfere in anyway that
+      might affect security. 
+
+   7) Now that your app has a valid token for the user, your app can
+      make calls to the third party service on the user's behalf. For
+      example, you can ask facebook for the user's location and
+      favorite activities using calls to facebook's api.
+
+   8) How cool is that?!
+
+** Dependency
+
+#+begin_src xml
+<dependency>
+  <groupId>org.scribe</groupId>
+  <artifactId>scribe</artifactId>
+  <version>1.3.2</version>
+</dependency>
+#+end_src
+
+** Links
+
+   - Getting Started with Scribe ::
+        https://github.com/fernandezpablo85/scribe-java/wiki/getting-started
+   - Oauth.net ::  http://oauth.net/
+   - Differences between OAuth version 1 and 2 :: http://stackoverflow.com/questions/4113934/how-is-oauth-2-different-from-oauth-1
