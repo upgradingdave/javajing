@@ -1,0 +1,162 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Use Maven Overlays to manage javascript libraries
+episode: 17
+summary: Java and XML go together like peanut butter and jelly. But what's up with all the confusing acronyms?! This is the first of a series of episodes to explore each of the xml related acronyms. We'll start here with Jaxp and Dom.
+video: jaxp-dom.mp4
+---
+#+END_HTML
+
+* Use Maven Overlays to manage javascript, css, and images
+
+  Find a copy of the companion source code for this episode here:
+
+  https://github.com/upgradingdave/javajing/tree/master/maven-overlays
+
+  In case you're viewing this in github, please find the Episode here:
+
+  http://javajing.com/2012/?/?/?.html
+
+** Option #1 - war overlays
+
+   - Download your favorite javascript library. For this example,
+     we'll use twitter's bootstrap framework. 
+
+   - Create a new maven war project. Extract the javascript library
+     into the `src/main/webapp` directory wherever you prefer. For
+     example, I extracted bootstrap to
+     `src/main/webapp/static/bootstrap`.
+
+   - Deploy the war artifact containing the javascript library into a
+     maven repository. A simple `mvn install` will install it into
+     your local `~/.m2/repostiory`. 
+
+     If you're interested in sharing the overlays with your team, see
+     episode 3 and 4 for overview of what a shared/team maven
+     repository is and how to deploy files to it.
+
+     For example, I deployed my bootstrap war project to my
+     Artifactory repo.
+
+   - Now, add the dependency to your webapp project like so: 
+
+#+begin_src xml
+<dependency>
+   <groupId>com.twitter</groupId>
+   <artifactId>bootstrap</artifactId>
+   <version>2.2.1</version>
+   <type>war</type>
+   <scope>runtime</scope>
+</dependency>
+#+end_src     
+     
+   - Finally, configure the maven-war-plugin to use the overlay.
+
+#+begin_src xml
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <overlays>
+            <overlay>
+              <groupId>com.twitter</groupId>
+              <artifactId>bootstrap</artifactId>
+              <type>war</type>
+              <targetPath>static</targetPath>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+#+end_src
+
+   - Now we can reference the boostrap javascript and css files inside
+     jsp files! Woohoo!
+
+
+** Option #2 - Use zip artifacts
+
+   As an alternative to deploying javascript libs into wars,
+   maven-war-plugin also supports zip files.
+
+   The only downside to this technique is that I couldn't get
+   `mvn jetty:run` to work. But, if you're not using that, then this
+   might be a tad bit more convenient. 
+   
+   - Download your favorite javascript library. For this example,
+     we'll use twitter's bootstrap framework. 
+   
+   - Deploy the zip file containing the javascript library into a
+     maven repository. You can "install" zip files similar to the way
+     jars are submitted to your local (or team) maven repository (when
+     you use `mvn install`). See episode 3 and 4 for overview of what a
+     maven repository is and how to deploy files to it. 
+
+     For example, I deployed bootstrap.zip to my Artifactory repo. 
+
+   - Now, add the dependency to your webapp project like so: 
+
+#+begin_src xml
+<dependency>
+   <groupId>com.twitter</groupId>
+   <artifactId>bootstrap</artifactId>
+   <version>2.2.1</version>
+   <type>zip</type>
+   <scope>runtime</scope>
+</dependency>
+#+end_src     
+     
+   - Finally, configure the maven-war-plugin to unpack the zip. For
+     example, let's unpack bootstrap.zip into static/bootstrap. 
+
+#+begin_src xml
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <overlays>
+            <overlay>
+              <groupId>com.twitter</groupId>
+              <artifactId>bootstrap</artifactId>
+              <type>zip</type>
+              <targetPath>static</targetPath>
+              <includes>
+                <include>bootstrap/**</include>
+              </includes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+#+end_src
+
+   - Now we can reference the boostrap javascript and css files inside
+     jsp files! Woohoo!
+
+** Use with jetty:run plugin goal
+
+   By default, the `jetty:run` goal looks for resources under
+   src/main/webapp. To configure it to be aware of overlays (that
+   aren't yet in the src/main/webapp directory), add the
+   `<unpackOverlays>true<unpackOverlays>` like so:
+
+#+begin_src xml 
+     <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <stopKey>stop</stopKey>
+          <stopPort>8079</stopPort>
+          <webAppConfig>
+            <unpackOverlays>true</unpackOverlays>
+          </webAppConfig>
+        </configuration>
+      </plugin>
+#+end_src
+
+
+** Links
+
+   - Maven War Plugin Overlays :: http://maven.apache.org/plugins/maven-war-plugin/overlays
+   - I totally stole this idea from here ::
+        http://kill3.wordpress.com/2008/06/10/managing-javascript-libraries-as-maven-war-overlays/
+   - Twitter bootstrap :: http://twitter.github.com/bootstrap/
+     
+
