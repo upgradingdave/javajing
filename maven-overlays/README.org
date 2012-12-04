@@ -2,9 +2,9 @@
 ---
 layout: post
 title: Use Maven Overlays to manage javascript libraries
-episode: 17
-summary: Java and XML go together like peanut butter and jelly. But what's up with all the confusing acronyms?! This is the first of a series of episodes to explore each of the xml related acronyms. We'll start here with Jaxp and Dom.
-video: jaxp-dom.mp4
+episode: 20
+summary: When using js libs inside java webapps, it's redundant to commit the same js lib over and over to version control and it's difficult to keep all your webapps up to date with the latest versions of js libs. Watch this episode to see how to use Maven Overlays to solve this problem. 
+video: maven-overlays.mp4
 ---
 #+END_HTML
 
@@ -16,7 +16,7 @@ video: jaxp-dom.mp4
 
   In case you're viewing this in github, please find the Episode here:
 
-  http://javajing.com/2012/?/?/?.html
+  http://javajing.com/2012/12/03/maven-overlays.html
 
 ** Option #1 - war overlays
 
@@ -79,7 +79,7 @@ video: jaxp-dom.mp4
    maven-war-plugin also supports zip files.
 
    The only downside to this technique is that I couldn't get
-   `mvn jetty:run` to work. But, if you're not using that, then this
+   `mvn jetty:run` to work. But, if you're not using jetty:run, then this
    might be a tad bit more convenient. 
    
    - Download your favorite javascript library. For this example,
@@ -130,32 +130,10 @@ video: jaxp-dom.mp4
    - Now we can reference the boostrap javascript and css files inside
      jsp files! Woohoo!
 
-** Use with jetty:run plugin goal
-
-   By default, the `jetty:run` goal looks for resources under
-   src/main/webapp. To configure it to be aware of overlays (that
-   aren't yet in the src/main/webapp directory), add the
-   `<unpackOverlays>true<unpackOverlays>` like so:
-
-#+begin_src xml 
-     <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <configuration>
-          <stopKey>stop</stopKey>
-          <stopPort>8079</stopPort>
-          <webAppConfig>
-            <unpackOverlays>true</unpackOverlays>
-          </webAppConfig>
-        </configuration>
-      </plugin>
-#+end_src
-
-
 ** Links
 
    - Maven War Plugin Overlays :: http://maven.apache.org/plugins/maven-war-plugin/overlays
-   - I totally stole this idea from here ::
+   - I owe all the credit for the idea of using overlays to this post::
         http://kill3.wordpress.com/2008/06/10/managing-javascript-libraries-as-maven-war-overlays/
    - Twitter bootstrap :: http://twitter.github.com/bootstrap/
      
