@@ -26,4 +26,5 @@ cp "jaxp-dom/README.org" "$POSTSDIR/2012-10-18-jaxp-document-object-model-api.or
 cp "jaxp-sax/README.org" "$POSTSDIR/2012-10-29-jaxp-simple-api-for-xml-sax.org"
 cp "jaxp-stax/README.org" "$POSTSDIR/2012-11-13-jaxp-streaming-api-for-xml-stax.org"
 cp "maven-overlays/README.org" "$POSTSDIR/2012-12-03-maven-overlays.org"
+cp "scribe-oauth/README.org" "$POSTSDIR/2012-12-12-scribe-facebook-oauth.org"
 

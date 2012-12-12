@@ -1,9 +1,9 @@
 #+BEGIN_HTML
 ---
 layout: post
-title: OAuth Using Scribe Library
-episode: ?
-summary: Want to allow folks to authenticate to your app with their facebook or Twitter account? OAuth is the answer. In this episode, we'll take a look at using the Scribe java library to authenticate against facebook using OAuth 2.0. 
+title: Facebook Authentication, Oauth, and Scribe
+episode: 21
+summary: I think it's pretty cool how OAuth works to authenticate users. In this episode, we'll take a look at using the Scribe java library to authenticate a user against facebook using OAuth 2.0. 
 video: scribe-oauth.mp4
 ---
 #+END_HTML
@@ -16,18 +16,18 @@ video: scribe-oauth.mp4
 
   In case you're viewing this in github, please find the Episode here:
 
-  http://javajing.com/2012/?/?/?.html
+  http://javajing.com/2012/12/12/scribe-facebook-oauth.html
 
 ** What exactly is Oauth?
 
    In my mind, It's easiest to describe OAuth with an example: 
 
    You have an app. When a user logs into your app, you'd like to show
-   them a list of upcoming events in their area they might be
+   them a list of upcoming sporting events in their area they might be
    interested in. For this you need to know 2 things: 1) their
-   location, and 2) what kinds of events they might like to go to.
-   These days, everyone has a facebook app. And Facebook probably
-   already has this information about this user.
+   location, and 2) what kinds of sporting events they might like to
+   attend. These days, everyone has a facebook app. And Facebook
+   probably already has this information about this user.
 
    So, how does your app connect to facebook on this user's behalf to
    determine the user's hometown and favorite sports? The answer, of
@@ -82,6 +82,7 @@ video: scribe-oauth.mp4
 
 ** Links
 
+   - Facebook Developers :: http://developers.facebook.com
    - Getting Started with Scribe ::
         https://github.com/fernandezpablo85/scribe-java/wiki/getting-started
    - Oauth.net ::  http://oauth.net/
