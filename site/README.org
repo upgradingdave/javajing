@@ -28,7 +28,7 @@ publishing the site from org-mode to the web.
 - Use Jekyll to publish the final site. 
   #+BEGIN_SRC sh
 rvm use ruby-1.9.2-p180
-rvm use gemset jekyll
+rvm gemset use jekyll
 ./script/publish.sh
   #+END_SRC
 
