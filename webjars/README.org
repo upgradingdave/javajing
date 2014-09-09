@@ -1,0 +1,54 @@
+#+BEGIN_HTML
+---
+layout: post
+title: Webjars
+episode: 10
+summary: Javascript libraries inside jar files? Brilliant!
+video: webjars.mp4
+---
+#+END_HTML
+
+Find a copy of the companion source code for this episode here: 
+
+https://github.com/upgradingdave/javajing/tree/master/webjars
+
+In case you're viewing this in github, please find the Episode here: 
+
+http://javajing.com/screencast/webjars
+
+* Why use webjars??
+
+  - Eliminate the need for using javascript dependency management and
+    build tool solutions such as bower, grunt and/or npm. A lot of
+    times at work it's impossible or a lot of work to install new
+    build tools. Plus if we can use jvm, then even better, right?!
+
+  - Eliminate javascript from your version control system. Before
+    discovering webjars, my github projects would often show that they
+    contained 75% or more of javascript?! This is because I would copy
+    and paste versions of javsacript libraries inside a js directory.
+
+  - Consistent version control. I think this is getting better as
+    javascript becomes more prominent, but there's still a lot of
+    inconsistency in the versioning conventions of javascript
+    libraries out there in the wild. Webjars can help ensure that you
+    are using the correct version. And it becomes easier to upgrade
+    as well. 
+
+* Basic Webjar usage
+
+
+
+* "Got ya's"
+
+
+  
+* How to create a webjar?
+
+
+
+* Links
+
+  - Webjars home page :: http://www.webjars.org/
+  - Twitter Bootstrap :: http://getbootstrap.com/
+  - jQuery File Upload :: http://blueimp.github.io/jQuery-File-Upload/
