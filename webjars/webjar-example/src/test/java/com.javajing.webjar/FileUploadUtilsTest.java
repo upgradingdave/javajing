@@ -49,15 +49,15 @@ public class FileUploadUtilsTest {
   @Test
   public void testJsonFile() {
     assertEquals(
-            "{\"name\":\"testFile1.txt\", \"size\":0, \"url\":\"/files/testFile1.txt\", \"deleteUrl\":\"/files/testFile1.txt\", \"deleteType\":\"DELETE\"}",
+            "{\"name\":\"testFile1.txt\", \"size\":0, \"url\":\"/fileUpload?fileName=testFile1.txt\", \"deleteUrl\":\"/fileUpload?fileName=testFile1.txt\", \"deleteType\":\"DELETE\"}",
             fileUploadUtils.jsonFile(testFile1));
   }
 
   @Test
   public void testJsonFileList() {
     assertEquals(
-            "{\"files\":[{\"name\":\"testFile1.txt\", \"size\":0, \"url\":\"/files/testFile1.txt\", \"deleteUrl\":\"/files/testFile1.txt\", \"deleteType\":\"DELETE\"},{\"name\":\"testFile2.txt\", \"size\":0, \"url\":\"/files/testFile2.txt\", \"deleteUrl\":\"/files/testFile2.txt\", \"deleteType\":\"DELETE\"}]}",
-            fileUploadUtils.jsonFileList(new File(FileUploadServlet.DEFAULT_UPLOADS_DIR)));
+            "{\"files\":[{\"name\":\"testFile1.txt\", \"size\":0, \"url\":\"/fileUpload?fileName=testFile1.txt\", \"deleteUrl\":\"/fileUpload?fileName=testFile1.txt\", \"deleteType\":\"DELETE\"},{\"name\":\"testFile2.txt\", \"size\":0, \"url\":\"/fileUpload?fileName=testFile2.txt\", \"deleteUrl\":\"/fileUpload?fileName=testFile2.txt\", \"deleteType\":\"DELETE\"}]}",
+            fileUploadUtils.jsonFileList(fileUploadUtils.filesInsideDirectory(new File(FileUploadServlet.DEFAULT_UPLOADS_DIR))));
   }
 
 }

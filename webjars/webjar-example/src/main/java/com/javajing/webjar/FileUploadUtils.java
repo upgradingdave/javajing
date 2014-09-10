@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class FileUploadUtils {
 
@@ -38,25 +40,37 @@ public class FileUploadUtils {
     StringBuilder sb = new StringBuilder("{");
     sb.append(String.format("\"name\":\"%s\"", file.getName()));
     sb.append(String.format(", \"size\":%d",FileUtils.sizeOf(file)));
-    sb.append(String.format(", \"url\":\"/files/%s\"", file.getName()));
-    //sb.append(String.format(", \"thumbnailUrl\":\"/files/%s\"", file.getName()));
-    sb.append(String.format(", \"deleteUrl\":\"/files/%s\"", file.getName()));
+    sb.append(String.format(", \"url\":\"/fileUpload?fileName=%s\"", file.getName()));
+    //sb.append(String.format(", \"thumbnailUrl\":\"/fileUpload?fileName=%s\"", file.getName()));
+    sb.append(String.format(", \"deleteUrl\":\"/fileUpload?fileName=%s\"", file.getName()));
     sb.append(", \"deleteType\":\"DELETE\"");
     sb.append("}");
     return sb.toString();
   }
 
   /**
-   * Generate json string representation of files inside the uploads directory
+   * Generate list of files
    */
-  protected String jsonFileList(File uploadsDirectory) {
-    StringBuilder sb = new StringBuilder();
-    sb.append("{\"files\":[");
+  protected List<File> filesInsideDirectory(File uploadsDirectory) {
+    List<File> fileList = new ArrayList<File>();
     Iterator<File> files = FileUtils.iterateFiles(uploadsDirectory, TrueFileFilter.INSTANCE, FalseFileFilter.INSTANCE);
     while(files.hasNext()) {
-      File f = files.next();
+      File file = files.next();
+      fileList.add(file);
+    }
+    return fileList;
+  }
+
+  /**
+   * Generate json string representation of files inside the uploads directory
+   */
+  protected String jsonFileList(List<File> files) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("{\"files\":[");
+    for(int i=0;i<files.size();i++) {
+      File f = files.get(i);
       sb.append(jsonFile(f));
-      if(files.hasNext()) {
+      if(i<files.size()-1) {
         sb.append(",");
       }
     }

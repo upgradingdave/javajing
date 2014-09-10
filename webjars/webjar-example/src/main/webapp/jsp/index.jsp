@@ -35,11 +35,11 @@
   <div class="row fileupload-buttonbar">
     <div class="col-lg-7">
       <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-                    <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
-                    <input type="file" name="files[]" multiple>
-                </span>
+      <span class="btn btn-success fileinput-button">
+        <i class="glyphicon glyphicon-plus"></i>
+        <span>Add files...</span>
+        <input type="file" name="files[]" multiple>
+      </span>
       <button type="submit" class="btn btn-primary start">
         <i class="glyphicon glyphicon-upload"></i>
         <span>Start upload</span>
@@ -48,11 +48,11 @@
         <i class="glyphicon glyphicon-ban-circle"></i>
         <span>Cancel upload</span>
       </button>
-      <button type="button" class="btn btn-danger delete">
+      <%--<button type="button" class="btn btn-danger delete">
         <i class="glyphicon glyphicon-trash"></i>
         <span>Delete</span>
-      </button>
-      <input type="checkbox" class="toggle">
+      </button>--%>
+      <%--<input type="checkbox" class="toggle">--%>
       <!-- The global file processing state -->
       <span class="fileupload-process"></span>
     </div>
@@ -133,7 +133,7 @@
       <i class="glyphicon glyphicon-trash"></i>
       <span>Delete</span>
       </button>
-      <input type="checkbox" name="delete" value="1" class="toggle">
+      <%--<input type="checkbox" name="delete" value="1" class="toggle">--%>
       {% } else { %}
       <button class="btn btn-warning cancel">
         <i class="glyphicon glyphicon-ban-circle"></i>
