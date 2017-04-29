@@ -12,7 +12,7 @@
 /* jshint nomen:false */
 /* global define, window, document */
 
-(function (factory) {
+((factory => {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -28,7 +28,7 @@
             window.loadImage
         );
     }
-}(function ($, loadImage) {
+})(($, loadImage) => {
     'use strict';
 
     // Prepend to the default processQueue:
@@ -66,13 +66,13 @@
             // as video element if the browser supports playing it.
             // Accepts the options fileTypes (regular expression)
             // and maxFileSize (integer) to limit the files to load:
-            loadVideo: function (data, options) {
+            loadVideo(data, options) {
                 if (options.disabled) {
                     return data;
                 }
-                var file = data.files[data.index],
-                    url,
-                    video;
+                var file = data.files[data.index];
+                var url;
+                var video;
                 if (this._videoElement.canPlayType &&
                         this._videoElement.canPlayType(file.type) &&
                         ($.type(options.maxFileSize) !== 'number' ||
@@ -92,7 +92,7 @@
             },
 
             // Sets the video element as a property of the file object:
-            setVideo: function (data, options) {
+            setVideo(data, options) {
                 if (data.video && !options.disabled) {
                     data.files[data.index][options.name || 'preview'] = data.video;
                 }

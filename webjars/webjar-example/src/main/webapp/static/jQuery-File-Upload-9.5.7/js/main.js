@@ -11,7 +11,7 @@
 
 /* global $, window */
 
-$(function () {
+$(() => {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
@@ -48,7 +48,7 @@ $(function () {
             $.ajax({
                 url: '//jquery-file-upload.appspot.com/',
                 type: 'HEAD'
-            }).fail(function () {
+            }).fail(() => {
                 $('<div class="alert alert-danger"/>')
                     .text('Upload server currently unavailable - ' +
                             new Date())
@@ -68,7 +68,7 @@ $(function () {
             $(this).removeClass('fileupload-processing');
         }).done(function (result) {
             $(this).fileupload('option', 'done')
-                .call(this, $.Event('done'), {result: result});
+                .call(this, $.Event('done'), {result});
         });
     }
 

@@ -11,15 +11,15 @@
 
 /* global $, QUnit, window, document, expect, module, test, asyncTest, start, ok, strictEqual, notStrictEqual */
 
-$(function () {
+$(() => {
     // jshint nomen:false
     'use strict';
 
-    QUnit.done = function () {
+    QUnit.done = () => {
         // Delete all uploaded files:
         var url = $('#fileupload').prop('action');
-        $.getJSON(url, function (result) {
-            $.each(result.files, function (index, file) {
+        $.getJSON(url, result => {
+            $.each(result.files, (index, file) => {
                 $.ajax({
                     url: url + '?file=' + encodeURIComponent(file.name),
                     type: 'DELETE'
@@ -29,34 +29,35 @@ $(function () {
     };
 
     var lifecycle = {
-            setup: function () {
+            setup() {
                 // Set the .fileupload method to the basic widget method:
                 $.widget('blueimp.fileupload', window.testBasicWidget, {});
             },
-            teardown: function () {
-                // Remove all remaining event listeners:
-                $(document).unbind();
-            }
-        },
-        lifecycleUI = {
-            setup: function () {
-                // Set the .fileupload method to the UI widget method:
-                $.widget('blueimp.fileupload', window.testUIWidget, {});
-            },
-            teardown: function () {
+            teardown() {
                 // Remove all remaining event listeners:
                 $(document).unbind();
             }
         };
 
+    var lifecycleUI = {
+        setup() {
+            // Set the .fileupload method to the UI widget method:
+            $.widget('blueimp.fileupload', window.testUIWidget, {});
+        },
+        teardown() {
+            // Remove all remaining event listeners:
+            $(document).unbind();
+        }
+    };
+
     module('Initialization', lifecycle);
 
-    test('Widget initialization', function () {
+    test('Widget initialization', () => {
         var fu = $('#fileupload').fileupload();
         ok(fu.data('blueimp-fileupload') || fu.data('fileupload'));
     });
 
-    test('Data attribute options', function () {
+    test('Data attribute options', () => {
         $('#fileupload').attr('data-url', 'http://example.org');
         $('#fileupload').fileupload();
         strictEqual(
@@ -65,7 +66,7 @@ $(function () {
         );
     });
 
-    test('File input initialization', function () {
+    test('File input initialization', () => {
         var fu = $('#fileupload').fileupload();
         ok(
             fu.fileupload('option', 'fileInput').length,
@@ -77,47 +78,50 @@ $(function () {
         );
     });
 
-    test('Drop zone initialization', function () {
+    test('Drop zone initialization', () => {
         ok($('#fileupload').fileupload()
             .fileupload('option', 'dropZone').length);
     });
 
-    test('Paste zone initialization', function () {
+    test('Paste zone initialization', () => {
         ok($('#fileupload').fileupload()
             .fileupload('option', 'pasteZone').length);
     });
 
-    test('Event listeners initialization', function () {
+    test('Event listeners initialization', () => {
         expect(
             $.support.xhrFormDataFileUpload ? 4 : 1
         );
+
         var eo = {
                 originalEvent: {
                     dataTransfer: {files: [{}], types: ['Files']},
                     clipboardData: {items: [{}]}
                 }
+            };
+
+        var fu = $('#fileupload').fileupload({
+            dragover() {
+                ok(true, 'Triggers dragover callback');
+                return false;
             },
-            fu = $('#fileupload').fileupload({
-                dragover: function () {
-                    ok(true, 'Triggers dragover callback');
-                    return false;
-                },
-                drop: function () {
-                    ok(true, 'Triggers drop callback');
-                    return false;
-                },
-                paste: function () {
-                    ok(true, 'Triggers paste callback');
-                    return false;
-                },
-                change: function () {
-                    ok(true, 'Triggers change callback');
-                    return false;
-                }
-            }),
-            fileInput = fu.fileupload('option', 'fileInput'),
-            dropZone = fu.fileupload('option', 'dropZone'),
-            pasteZone = fu.fileupload('option', 'pasteZone');
+            drop() {
+                ok(true, 'Triggers drop callback');
+                return false;
+            },
+            paste() {
+                ok(true, 'Triggers paste callback');
+                return false;
+            },
+            change() {
+                ok(true, 'Triggers change callback');
+                return false;
+            }
+        });
+
+        var fileInput = fu.fileupload('option', 'fileInput');
+        var dropZone = fu.fileupload('option', 'dropZone');
+        var pasteZone = fu.fileupload('option', 'pasteZone');
         fileInput.trigger($.Event('change', eo));
         dropZone.trigger($.Event('dragover', eo));
         dropZone.trigger($.Event('drop', eo));
@@ -126,36 +130,39 @@ $(function () {
 
     module('API', lifecycle);
 
-    test('destroy', function () {
+    test('destroy', () => {
         expect(4);
+
         var eo = {
                 originalEvent: {
                     dataTransfer: {files: [{}], types: ['Files']},
                     clipboardData: {items: [{}]}
                 }
+            };
+
+        var options = {
+            dragover() {
+                ok(true, 'Triggers dragover callback');
+                return false;
             },
-            options = {
-                dragover: function () {
-                    ok(true, 'Triggers dragover callback');
-                    return false;
-                },
-                drop: function () {
-                    ok(true, 'Triggers drop callback');
-                    return false;
-                },
-                paste: function () {
-                    ok(true, 'Triggers paste callback');
-                    return false;
-                },
-                change: function () {
-                    ok(true, 'Triggers change callback');
-                    return false;
-                }
+            drop() {
+                ok(true, 'Triggers drop callback');
+                return false;
             },
-            fu = $('#fileupload').fileupload(options),
-            fileInput = fu.fileupload('option', 'fileInput'),
-            dropZone = fu.fileupload('option', 'dropZone'),
-            pasteZone = fu.fileupload('option', 'pasteZone');
+            paste() {
+                ok(true, 'Triggers paste callback');
+                return false;
+            },
+            change() {
+                ok(true, 'Triggers change callback');
+                return false;
+            }
+        };
+
+        var fu = $('#fileupload').fileupload(options);
+        var fileInput = fu.fileupload('option', 'fileInput');
+        var dropZone = fu.fileupload('option', 'dropZone');
+        var pasteZone = fu.fileupload('option', 'pasteZone');
         dropZone.bind('dragover', options.dragover);
         dropZone.bind('drop', options.drop);
         pasteZone.bind('paste', options.paste);
@@ -167,37 +174,40 @@ $(function () {
         pasteZone.trigger($.Event('paste', eo));
     });
 
-    test('disable/enable', function () {
+    test('disable/enable', () => {
         expect(
             $.support.xhrFormDataFileUpload ? 4 : 1
         );
+
         var eo = {
                 originalEvent: {
                     dataTransfer: {files: [{}], types: ['Files']},
                     clipboardData: {items: [{}]}
                 }
+            };
+
+        var fu = $('#fileupload').fileupload({
+            dragover() {
+                ok(true, 'Triggers dragover callback');
+                return false;
             },
-            fu = $('#fileupload').fileupload({
-                dragover: function () {
-                    ok(true, 'Triggers dragover callback');
-                    return false;
-                },
-                drop: function () {
-                    ok(true, 'Triggers drop callback');
-                    return false;
-                },
-                paste: function () {
-                    ok(true, 'Triggers paste callback');
-                    return false;
-                },
-                change: function () {
-                    ok(true, 'Triggers change callback');
-                    return false;
-                }
-            }),
-            fileInput = fu.fileupload('option', 'fileInput'),
-            dropZone = fu.fileupload('option', 'dropZone'),
-            pasteZone = fu.fileupload('option', 'pasteZone');
+            drop() {
+                ok(true, 'Triggers drop callback');
+                return false;
+            },
+            paste() {
+                ok(true, 'Triggers paste callback');
+                return false;
+            },
+            change() {
+                ok(true, 'Triggers change callback');
+                return false;
+            }
+        });
+
+        var fileInput = fu.fileupload('option', 'fileInput');
+        var dropZone = fu.fileupload('option', 'dropZone');
+        var pasteZone = fu.fileupload('option', 'pasteZone');
         fu.fileupload('disable');
         fileInput.trigger($.Event('change', eo));
         dropZone.trigger($.Event('dragover', eo));
@@ -210,37 +220,40 @@ $(function () {
         pasteZone.trigger($.Event('paste', eo));
     });
 
-    test('option', function () {
+    test('option', () => {
         expect(
             $.support.xhrFormDataFileUpload ? 10 : 7
         );
+
         var eo = {
                 originalEvent: {
                     dataTransfer: {files: [{}], types: ['Files']},
                     clipboardData: {items: [{}]}
                 }
+            };
+
+        var fu = $('#fileupload').fileupload({
+            dragover() {
+                ok(true, 'Triggers dragover callback');
+                return false;
             },
-            fu = $('#fileupload').fileupload({
-                dragover: function () {
-                    ok(true, 'Triggers dragover callback');
-                    return false;
-                },
-                drop: function () {
-                    ok(true, 'Triggers drop callback');
-                    return false;
-                },
-                paste: function () {
-                    ok(true, 'Triggers paste callback');
-                    return false;
-                },
-                change: function () {
-                    ok(true, 'Triggers change callback');
-                    return false;
-                }
-            }),
-            fileInput = fu.fileupload('option', 'fileInput'),
-            dropZone = fu.fileupload('option', 'dropZone'),
-            pasteZone = fu.fileupload('option', 'pasteZone');
+            drop() {
+                ok(true, 'Triggers drop callback');
+                return false;
+            },
+            paste() {
+                ok(true, 'Triggers paste callback');
+                return false;
+            },
+            change() {
+                ok(true, 'Triggers change callback');
+                return false;
+            }
+        });
+
+        var fileInput = fu.fileupload('option', 'fileInput');
+        var dropZone = fu.fileupload('option', 'dropZone');
+        var pasteZone = fu.fileupload('option', 'pasteZone');
         fu.fileupload('option', 'fileInput', null);
         fu.fileupload('option', 'dropZone', null);
         fu.fileupload('option', 'pasteZone', null);
@@ -293,11 +306,11 @@ $(function () {
         pasteZone.trigger($.Event('paste', eo));
     });
 
-    asyncTest('add', function () {
+    asyncTest('add', () => {
         expect(2);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            add: function (e, data) {
+            add(e, data) {
                 strictEqual(
                     data.files[0].name,
                     param.files[0].name,
@@ -307,8 +320,8 @@ $(function () {
         }).fileupload('add', param).fileupload(
             'option',
             'add',
-            function (e, data) {
-                data.submit().complete(function () {
+            (e, data) => {
+                data.submit().complete(() => {
                     ok(true, 'data.submit() Returns a jqXHR object');
                     start();
                 });
@@ -316,20 +329,20 @@ $(function () {
         ).fileupload('add', param);
     });
 
-    asyncTest('send', function () {
+    asyncTest('send', () => {
         expect(3);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            send: function (e, data) {
+            send(e, data) {
                 strictEqual(
                     data.files[0].name,
                     'test',
                     'Triggers send callback'
                 );
             }
-        }).fileupload('send', param).fail(function () {
+        }).fileupload('send', param).fail(() => {
             ok(true, 'Allows to abort the request');
-        }).complete(function () {
+        }).complete(() => {
             ok(true, 'Returns a jqXHR object');
             start();
         }).abort();
@@ -337,22 +350,22 @@ $(function () {
 
     module('Callbacks', lifecycle);
 
-    asyncTest('add', function () {
+    asyncTest('add', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            add: function () {
+            add() {
                 ok(true, 'Triggers add callback');
                 start();
             }
         }).fileupload('add', param);
     });
 
-    asyncTest('submit', function () {
+    asyncTest('submit', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            submit: function () {
+            submit() {
                 ok(true, 'Triggers submit callback');
                 start();
                 return false;
@@ -360,11 +373,11 @@ $(function () {
         }).fileupload('add', param);
     });
 
-    asyncTest('send', function () {
+    asyncTest('send', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            send: function () {
+            send() {
                 ok(true, 'Triggers send callback');
                 start();
                 return false;
@@ -372,52 +385,52 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    asyncTest('done', function () {
+    asyncTest('done', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            done: function () {
+            done() {
                 ok(true, 'Triggers done callback');
                 start();
             }
         }).fileupload('send', param);
     });
 
-    asyncTest('fail', function () {
+    asyncTest('fail', () => {
         expect(1);
-        var param = {files: [{name: 'test'}]},
-            fu = $('#fileupload').fileupload({
-                url: '404',
-                fail: function () {
-                    ok(true, 'Triggers fail callback');
-                    start();
-                }
-            });
+        var param = {files: [{name: 'test'}]};
+
+        var fu = $('#fileupload').fileupload({
+            url: '404',
+            fail() {
+                ok(true, 'Triggers fail callback');
+                start();
+            }
+        });
+
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         fu.fileupload('send', param);
     });
 
-    asyncTest('always', function () {
+    asyncTest('always', () => {
         expect(2);
-        var param = {files: [{name: 'test'}]},
-            counter = 0,
-            fu = $('#fileupload').fileupload({
-                always: function () {
-                    ok(true, 'Triggers always callback');
-                    if (counter === 1) {
-                        start();
-                    } else {
-                        counter += 1;
-                    }
+        var param = {files: [{name: 'test'}]};
+        var counter = 0;
+
+        var fu = $('#fileupload').fileupload({
+            always() {
+                ok(true, 'Triggers always callback');
+                if (counter === 1) {
+                    start();
+                } else {
+                    counter += 1;
                 }
-            });
+            }
+        });
+
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         fu.fileupload('add', param).fileupload(
             'option',
             'url',
@@ -425,13 +438,13 @@ $(function () {
         ).fileupload('add', param);
     });
 
-    asyncTest('progress', function () {
+    asyncTest('progress', () => {
         expect(1);
-        var param = {files: [{name: 'test'}]},
-            counter = 0;
+        var param = {files: [{name: 'test'}]};
+        var counter = 0;
         $('#fileupload').fileupload({
             forceIframeTransport: true,
-            progress: function () {
+            progress() {
                 ok(true, 'Triggers progress callback');
                 if (counter === 0) {
                     start();
@@ -442,13 +455,13 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    asyncTest('progressall', function () {
+    asyncTest('progressall', () => {
         expect(1);
-        var param = {files: [{name: 'test'}]},
-            counter = 0;
+        var param = {files: [{name: 'test'}]};
+        var counter = 0;
         $('#fileupload').fileupload({
             forceIframeTransport: true,
-            progressall: function () {
+            progressall() {
                 ok(true, 'Triggers progressall callback');
                 if (counter === 0) {
                     start();
@@ -459,46 +472,46 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    asyncTest('start', function () {
+    asyncTest('start', () => {
         expect(1);
-        var param = {files: [{name: '1'}, {name: '2'}]},
-            active = 0;
+        var param = {files: [{name: '1'}, {name: '2'}]};
+        var active = 0;
         $('#fileupload').fileupload({
-            send: function () {
+            send() {
                 active += 1;
             },
-            start: function () {
+            start() {
                 ok(!active, 'Triggers start callback before uploads');
                 start();
             }
         }).fileupload('send', param);
     });
 
-    asyncTest('stop', function () {
+    asyncTest('stop', () => {
         expect(1);
-        var param = {files: [{name: '1'}, {name: '2'}]},
-            active = 0;
+        var param = {files: [{name: '1'}, {name: '2'}]};
+        var active = 0;
         $('#fileupload').fileupload({
-            send: function () {
+            send() {
                 active += 1;
             },
-            always: function () {
+            always() {
                 active -= 1;
             },
-            stop: function () {
+            stop() {
                 ok(!active, 'Triggers stop callback after uploads');
                 start();
             }
         }).fileupload('send', param);
     });
 
-    test('change', function () {
-        var fu = $('#fileupload').fileupload(),
-            fuo = fu.data('blueimp-fileupload') || fu.data('fileupload'),
-            fileInput = fu.fileupload('option', 'fileInput');
+    test('change', () => {
+        var fu = $('#fileupload').fileupload();
+        var fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
+        var fileInput = fu.fileupload('option', 'fileInput');
         expect(2);
         fu.fileupload({
-            change: function (e, data) {
+            change(e, data) {
                 ok(true, 'Triggers change callback');
                 strictEqual(
                     data.files.length,
@@ -514,12 +527,12 @@ $(function () {
         });
     });
 
-    test('paste', function () {
-        var fu = $('#fileupload').fileupload(),
-            fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
+    test('paste', () => {
+        var fu = $('#fileupload').fileupload();
+        var fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
         expect(1);
         fu.fileupload({
-            paste: function () {
+            paste() {
                 ok(true, 'Triggers paste callback');
             },
             add: $.noop
@@ -534,12 +547,12 @@ $(function () {
         });
     });
 
-    test('drop', function () {
-        var fu = $('#fileupload').fileupload(),
-            fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
+    test('drop', () => {
+        var fu = $('#fileupload').fileupload();
+        var fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
         expect(1);
         fu.fileupload({
-            drop: function () {
+            drop() {
                 ok(true, 'Triggers drop callback');
             },
             add: $.noop
@@ -554,12 +567,12 @@ $(function () {
         });
     });
 
-    test('dragover', function () {
-        var fu = $('#fileupload').fileupload(),
-            fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
+    test('dragover', () => {
+        var fu = $('#fileupload').fileupload();
+        var fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
         expect(1);
         fu.fileupload({
-            dragover: function () {
+            dragover() {
                 ok(true, 'Triggers dragover callback');
             },
             add: $.noop
@@ -573,12 +586,12 @@ $(function () {
 
     module('Options', lifecycle);
 
-    test('paramName', function () {
+    test('paramName', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
             paramName: null,
-            send: function (e, data) {
+            send(e, data) {
                 strictEqual(
                     data.paramName[0],
                     data.fileInput.prop('name'),
@@ -589,12 +602,12 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    test('url', function () {
+    test('url', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
             url: null,
-            send: function (e, data) {
+            send(e, data) {
                 strictEqual(
                     data.url,
                     $(data.fileInput.prop('form')).prop('action'),
@@ -605,12 +618,12 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    test('type', function () {
+    test('type', () => {
         expect(2);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
             type: null,
-            send: function (e, data) {
+            send(e, data) {
                 strictEqual(
                     data.type,
                     'POST',
@@ -621,7 +634,7 @@ $(function () {
         }).fileupload('send', param);
         $('#fileupload').fileupload({
             type: 'PUT',
-            send: function (e, data) {
+            send(e, data) {
                 strictEqual(
                     data.type,
                     'PUT',
@@ -632,15 +645,15 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    test('replaceFileInput', function () {
-        var fu = $('#fileupload').fileupload(),
-            fuo = fu.data('blueimp-fileupload') || fu.data('fileupload'),
-            fileInput = fu.fileupload('option', 'fileInput'),
-            fileInputElement = fileInput[0];
+    test('replaceFileInput', () => {
+        var fu = $('#fileupload').fileupload();
+        var fuo = fu.data('blueimp-fileupload') || fu.data('fileupload');
+        var fileInput = fu.fileupload('option', 'fileInput');
+        var fileInputElement = fileInput[0];
         expect(2);
         fu.fileupload({
             replaceFileInput: false,
-            change: function () {
+            change() {
                 strictEqual(
                     fu.fileupload('option', 'fileInput')[0],
                     fileInputElement,
@@ -655,7 +668,7 @@ $(function () {
         });
         fu.fileupload({
             replaceFileInput: true,
-            change: function () {
+            change() {
                 notStrictEqual(
                     fu.fileupload('option', 'fileInput')[0],
                     fileInputElement,
@@ -670,12 +683,12 @@ $(function () {
         });
     });
 
-    asyncTest('forceIframeTransport', function () {
+    asyncTest('forceIframeTransport', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
             forceIframeTransport: true,
-            done: function (e, data) {
+            done(e, data) {
                 strictEqual(
                     data.dataType.substr(0, 6),
                     'iframe',
@@ -686,18 +699,16 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    test('singleFileUploads', function () {
+    test('singleFileUploads', () => {
         expect(3);
-        var fu = $('#fileupload').fileupload(),
-            param = {files: [{name: '1'}, {name: '2'}]},
-            index = 1;
+        var fu = $('#fileupload').fileupload();
+        var param = {files: [{name: '1'}, {name: '2'}]};
+        var index = 1;
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         $('#fileupload').fileupload({
             singleFileUploads: true,
-            add: function () {
+            add() {
                 ok(true, 'Triggers callback number ' + index.toString());
                 index += 1;
             }
@@ -708,68 +719,70 @@ $(function () {
         ).fileupload('add', param);
     });
 
-    test('limitMultiFileUploads', function () {
+    test('limitMultiFileUploads', () => {
         expect(3);
-        var fu = $('#fileupload').fileupload(),
-            param = {files: [
-                {name: '1'},
-                {name: '2'},
-                {name: '3'},
-                {name: '4'},
-                {name: '5'}
-            ]},
-            index = 1;
+        var fu = $('#fileupload').fileupload();
+
+        var param = {files: [
+            {name: '1'},
+            {name: '2'},
+            {name: '3'},
+            {name: '4'},
+            {name: '5'}
+        ]};
+
+        var index = 1;
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         $('#fileupload').fileupload({
             singleFileUploads: false,
             limitMultiFileUploads: 2,
-            add: function () {
+            add() {
                 ok(true, 'Triggers callback number ' + index.toString());
                 index += 1;
             }
         }).fileupload('add', param);
     });
 
-    test('limitMultiFileUploadSize', function () {
+    test('limitMultiFileUploadSize', () => {
         expect(7);
-        var fu = $('#fileupload').fileupload(),
-            param = {files: [
-                {name: '1-1', size: 100000},
-                {name: '1-2', size: 40000},
-                {name: '2-1', size: 100000},
-                {name: '3-1', size: 50000},
-                {name: '3-2', size: 40000},
-                {name: '4-1', size: 45000} // New request due to limitMultiFileUploads
-            ]},
-            param2 = {files: [
-                {name: '5-1'},
-                {name: '5-2'},
-                {name: '6-1'},
-                {name: '6-2'},
-                {name: '7-1'}
-            ]},
-            index = 1;
+        var fu = $('#fileupload').fileupload();
+
+        var param = {files: [
+            {name: '1-1', size: 100000},
+            {name: '1-2', size: 40000},
+            {name: '2-1', size: 100000},
+            {name: '3-1', size: 50000},
+            {name: '3-2', size: 40000},
+            {name: '4-1', size: 45000} // New request due to limitMultiFileUploads
+        ]};
+
+        var param2 = {files: [
+            {name: '5-1'},
+            {name: '5-2'},
+            {name: '6-1'},
+            {name: '6-2'},
+            {name: '7-1'}
+        ]};
+
+        var index = 1;
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         $('#fileupload').fileupload({
             singleFileUploads: false,
             limitMultiFileUploads: 2,
             limitMultiFileUploadSize: 150000,
             limitMultiFileUploadSizeOverhead: 5000,
-            add: function () {
+            add() {
                 ok(true, 'Triggers callback number ' + index.toString());
                 index += 1;
             }
         }).fileupload('add', param).fileupload('add', param2);
     });
 
-    asyncTest('sequentialUploads', function () {
+    asyncTest('sequentialUploads', () => {
         expect(6);
+
         var param = {files: [
                 {name: '1'},
                 {name: '2'},
@@ -777,43 +790,45 @@ $(function () {
                 {name: '4'},
                 {name: '5'},
                 {name: '6'}
-            ]},
-            addIndex = 0,
-            sendIndex = 0,
-            loadIndex = 0,
-            fu = $('#fileupload').fileupload({
-                sequentialUploads: true,
-                add: function (e, data) {
-                    addIndex += 1;
-                    if (addIndex === 4) {
-                        data.submit().abort();
-                    } else {
-                        data.submit();
-                    }
-                },
-                send: function () {
-                    sendIndex += 1;
-                },
-                done: function () {
-                    loadIndex += 1;
-                    strictEqual(sendIndex, loadIndex, 'upload in order');
-                },
-                fail: function (e, data) {
-                    strictEqual(data.errorThrown, 'abort', 'upload aborted');
-                },
-                stop: function () {
-                    start();
+            ]};
+
+        var addIndex = 0;
+        var sendIndex = 0;
+        var loadIndex = 0;
+
+        var fu = $('#fileupload').fileupload({
+            sequentialUploads: true,
+            add(e, data) {
+                addIndex += 1;
+                if (addIndex === 4) {
+                    data.submit().abort();
+                } else {
+                    data.submit();
                 }
-            });
+            },
+            send() {
+                sendIndex += 1;
+            },
+            done() {
+                loadIndex += 1;
+                strictEqual(sendIndex, loadIndex, 'upload in order');
+            },
+            fail(e, data) {
+                strictEqual(data.errorThrown, 'abort', 'upload aborted');
+            },
+            stop() {
+                start();
+            }
+        });
+
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         fu.fileupload('add', param);
     });
 
-    asyncTest('limitConcurrentUploads', function () {
+    asyncTest('limitConcurrentUploads', () => {
         expect(12);
+
         var param = {files: [
                 {name: '1'},
                 {name: '2'},
@@ -827,72 +842,76 @@ $(function () {
                 {name: '10'},
                 {name: '11'},
                 {name: '12'}
-            ]},
-            addIndex = 0,
-            sendIndex = 0,
-            loadIndex = 0,
-            fu = $('#fileupload').fileupload({
-                limitConcurrentUploads: 3,
-                add: function (e, data) {
-                    addIndex += 1;
-                    if (addIndex === 4) {
-                        data.submit().abort();
-                    } else {
-                        data.submit();
-                    }
-                },
-                send: function () {
-                    sendIndex += 1;
-                },
-                done: function () {
-                    loadIndex += 1;
-                    ok(sendIndex - loadIndex < 3);
-                },
-                fail: function (e, data) {
-                    strictEqual(data.errorThrown, 'abort', 'upload aborted');
-                },
-                stop: function () {
-                    start();
+            ]};
+
+        var addIndex = 0;
+        var sendIndex = 0;
+        var loadIndex = 0;
+
+        var fu = $('#fileupload').fileupload({
+            limitConcurrentUploads: 3,
+            add(e, data) {
+                addIndex += 1;
+                if (addIndex === 4) {
+                    data.submit().abort();
+                } else {
+                    data.submit();
                 }
-            });
+            },
+            send() {
+                sendIndex += 1;
+            },
+            done() {
+                loadIndex += 1;
+                ok(sendIndex - loadIndex < 3);
+            },
+            fail(e, data) {
+                strictEqual(data.errorThrown, 'abort', 'upload aborted');
+            },
+            stop() {
+                start();
+            }
+        });
+
         (fu.data('blueimp-fileupload') || fu.data('fileupload'))
-            ._isXHRUpload = function () {
-                return true;
-            };
+            ._isXHRUpload = () => true;
         fu.fileupload('add', param);
     });
 
     if ($.support.xhrFileUpload) {
-        asyncTest('multipart', function () {
+        asyncTest('multipart', () => {
             expect(2);
+
             var param = {files: [{
                     name: 'test.png',
                     size: 123,
                     type: 'image/png'
-                }]},
-                fu = $('#fileupload').fileupload({
-                    multipart: false,
-                    always: function (e, data) {
-                        strictEqual(
-                            data.contentType,
-                            param.files[0].type,
-                            'non-multipart upload sets file type as contentType'
-                        );
-                        strictEqual(
-                            data.headers['Content-Disposition'],
-                            'attachment; filename="' + param.files[0].name + '"',
-                            'non-multipart upload sets Content-Disposition header'
-                        );
-                        start();
-                    }
-                });
+                }]};
+
+            var fu = $('#fileupload').fileupload({
+                multipart: false,
+                always(e, data) {
+                    strictEqual(
+                        data.contentType,
+                        param.files[0].type,
+                        'non-multipart upload sets file type as contentType'
+                    );
+                    strictEqual(
+                        data.headers['Content-Disposition'],
+                        'attachment; filename="' + param.files[0].name + '"',
+                        'non-multipart upload sets Content-Disposition header'
+                    );
+                    start();
+                }
+            });
+
             fu.fileupload('send', param);
         });
     }
 
     module('UI Initialization', lifecycleUI);
 
-    test('Widget initialization', function () {
+    test('Widget initialization', () => {
         var fu = $('#fileupload').fileupload();
         ok(fu.data('blueimp-fileupload') || fu.data('fileupload'));
         ok(
@@ -905,25 +924,25 @@ $(function () {
         );
     });
 
-    test('Buttonbar event listeners', function () {
-        var buttonbar = $('#fileupload .fileupload-buttonbar'),
-            files = [{name: 'test'}];
+    test('Buttonbar event listeners', () => {
+        var buttonbar = $('#fileupload .fileupload-buttonbar');
+        var files = [{name: 'test'}];
         expect(4);
         $('#fileupload').fileupload({
-            send: function () {
+            send() {
                 ok(true, 'Started file upload via global start button');
             },
-            fail: function (e, data) {
+            fail(e, data) {
                 ok(true, 'Canceled file upload via global cancel button');
                 data.context.remove();
             },
-            destroy: function () {
+            destroy() {
                 ok(true, 'Delete action called via global delete button');
             }
         });
-        $('#fileupload').fileupload('add', {files: files});
+        $('#fileupload').fileupload('add', {files});
         buttonbar.find('.cancel').click();
-        $('#fileupload').fileupload('add', {files: files});
+        $('#fileupload').fileupload('add', {files});
         buttonbar.find('.start').click();
         buttonbar.find('.cancel').click();
         files[0].deleteUrl = 'http://example.org/banana.jpg';
@@ -937,25 +956,25 @@ $(function () {
 
     module('UI API', lifecycleUI);
 
-    test('destroy', function () {
-        var buttonbar = $('#fileupload .fileupload-buttonbar'),
-            files = [{name: 'test'}];
+    test('destroy', () => {
+        var buttonbar = $('#fileupload .fileupload-buttonbar');
+        var files = [{name: 'test'}];
         expect(1);
         $('#fileupload').fileupload({
-            send: function () {
+            send() {
                 ok(true, 'This test should not run');
                 return false;
             }
         })
-            .fileupload('add', {files: files})
+            .fileupload('add', {files})
             .fileupload('destroy');
-        buttonbar.find('.start').click(function () {
+        buttonbar.find('.start').click(() => {
             ok(true, 'Clicked global start button');
             return false;
         }).click();
     });
 
-    test('disable/enable', function () {
+    test('disable/enable', () => {
         var buttonbar = $('#fileupload .fileupload-buttonbar');
         $('#fileupload').fileupload();
         $('#fileupload').fileupload('disable');
@@ -974,10 +993,10 @@ $(function () {
 
     module('UI Callbacks', lifecycleUI);
 
-    test('destroy', function () {
+    test('destroy', () => {
         expect(3);
         $('#fileupload').fileupload({
-            destroy: function (e, data) {
+            destroy(e, data) {
                 ok(true, 'Triggers destroy callback');
                 strictEqual(
                     data.url,
@@ -1004,11 +1023,11 @@ $(function () {
         $('#fileupload .fileupload-buttonbar .delete').click();
     });
 
-    asyncTest('added', function () {
+    asyncTest('added', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            added: function (e, data) {
+            added(e, data) {
                 start();
                 strictEqual(
                     data.files[0].name,
@@ -1016,32 +1035,32 @@ $(function () {
                     'Triggers added callback'
                 );
             },
-            send: function () {
+            send() {
                 return false;
             }
         }).fileupload('add', param);
     });
 
-    asyncTest('started', function () {
+    asyncTest('started', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            started: function () {
+            started() {
                 start();
                 ok('Triggers started callback');
                 return false;
             },
-            sent: function () {
+            sent() {
                 return false;
             }
         }).fileupload('send', param);
     });
 
-    asyncTest('sent', function () {
+    asyncTest('sent', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            sent: function (e, data) {
+            sent(e, data) {
                 start();
                 strictEqual(
                     data.files[0].name,
@@ -1053,11 +1072,11 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    asyncTest('completed', function () {
+    asyncTest('completed', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            completed: function () {
+            completed() {
                 start();
                 ok('Triggers completed callback');
                 return false;
@@ -1065,11 +1084,11 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    asyncTest('failed', function () {
+    asyncTest('failed', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            failed: function () {
+            failed() {
                 start();
                 ok('Triggers failed callback');
                 return false;
@@ -1077,11 +1096,11 @@ $(function () {
         }).fileupload('send', param).abort();
     });
 
-    asyncTest('stopped', function () {
+    asyncTest('stopped', () => {
         expect(1);
         var param = {files: [{name: 'test'}]};
         $('#fileupload').fileupload({
-            stopped: function () {
+            stopped() {
                 start();
                 ok('Triggers stopped callback');
                 return false;
@@ -1089,11 +1108,11 @@ $(function () {
         }).fileupload('send', param);
     });
 
-    asyncTest('destroyed', function () {
+    asyncTest('destroyed', () => {
         expect(1);
         $('#fileupload').fileupload({
             dataType: 'html',
-            destroyed: function () {
+            destroyed() {
                 start();
                 ok(true, 'Triggers destroyed callback');
             }
@@ -1113,12 +1132,12 @@ $(function () {
 
     module('UI Options', lifecycleUI);
 
-    test('autoUpload', function () {
+    test('autoUpload', () => {
         expect(1);
         $('#fileupload')
             .fileupload({
                 autoUpload: true,
-                send: function () {
+                send() {
                     ok(true, 'Started file upload automatically');
                     return false;
                 }
@@ -1128,16 +1147,16 @@ $(function () {
             .fileupload('add', {files: [{name: 'test'}]});
     });
 
-    test('maxNumberOfFiles', function () {
+    test('maxNumberOfFiles', () => {
         expect(3);
-        var addIndex = 0,
-            sendIndex = 0;
+        var addIndex = 0;
+        var sendIndex = 0;
         $('#fileupload')
             .fileupload({
                 autoUpload: true,
                 maxNumberOfFiles: 3,
                 singleFileUploads: false,
-                send: function () {
+                send() {
                     strictEqual(
                         sendIndex += 1,
                         addIndex
@@ -1154,15 +1173,15 @@ $(function () {
             .fileupload('add', {files: [{name: 'test'}]});
     });
 
-    test('maxFileSize', function () {
+    test('maxFileSize', () => {
         expect(2);
-        var addIndex = 0,
-            sendIndex = 0;
+        var addIndex = 0;
+        var sendIndex = 0;
         $('#fileupload')
             .fileupload({
                 autoUpload: true,
                 maxFileSize: 1000,
-                send: function () {
+                send() {
                     strictEqual(
                         sendIndex += 1,
                         addIndex
@@ -1182,7 +1201,7 @@ $(function () {
                 size: 1001
             }]})
             .fileupload({
-                send: function (e, data) {
+                send(e, data) {
                     ok(
                         !$.blueimp.fileupload.prototype.options
                             .send.call(this, e, data)
@@ -1192,15 +1211,15 @@ $(function () {
             });
     });
 
-    test('minFileSize', function () {
+    test('minFileSize', () => {
         expect(2);
-        var addIndex = 0,
-            sendIndex = 0;
+        var addIndex = 0;
+        var sendIndex = 0;
         $('#fileupload')
             .fileupload({
                 autoUpload: true,
                 minFileSize: 1000,
-                send: function () {
+                send() {
                     strictEqual(
                         sendIndex += 1,
                         addIndex
@@ -1220,7 +1239,7 @@ $(function () {
                 size: 999
             }]})
             .fileupload({
-                send: function (e, data) {
+                send(e, data) {
                     ok(
                         !$.blueimp.fileupload.prototype.options
                             .send.call(this, e, data)
@@ -1230,16 +1249,16 @@ $(function () {
             });
     });
 
-    test('acceptFileTypes', function () {
+    test('acceptFileTypes', () => {
         expect(2);
-        var addIndex = 0,
-            sendIndex = 0;
+        var addIndex = 0;
+        var sendIndex = 0;
         $('#fileupload')
             .fileupload({
                 autoUpload: true,
                 acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
                 disableImageMetaDataLoad: true,
-                send: function () {
+                send() {
                     strictEqual(
                         sendIndex += 1,
                         addIndex
@@ -1259,7 +1278,7 @@ $(function () {
                 type: 'text/plain'
             }]})
             .fileupload({
-                send: function (e, data) {
+                send(e, data) {
                     ok(
                         !$.blueimp.fileupload.prototype.options
                             .send.call(this, e, data)
@@ -1269,7 +1288,7 @@ $(function () {
             });
     });
 
-    test('acceptFileTypes as HTML5 data attribute', function () {
+    test('acceptFileTypes as HTML5 data attribute', () => {
         expect(2);
         var regExp = /(\.|\/)(gif|jpe?g|png)$/i;
         $('#fileupload')
@@ -1284,5 +1303,4 @@ $(function () {
             regExp.toString()
         );
     });
-
 });

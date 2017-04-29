@@ -11,7 +11,7 @@
 
 /*global module */
 
-module.exports = function (grunt) {
+module.exports = grunt => {
     'use strict';
 
     grunt.initConfig({

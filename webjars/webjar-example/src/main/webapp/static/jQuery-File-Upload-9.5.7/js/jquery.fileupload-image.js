@@ -12,7 +12,7 @@
 /* jshint nomen:false */
 /* global define, window, Blob */
 
-(function (factory) {
+((factory => {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -32,7 +32,7 @@
             window.loadImage
         );
     }
-}(function ($, loadImage) {
+})(($, loadImage) => {
     'use strict';
 
     // Prepend to the default processQueue:
@@ -145,20 +145,20 @@
             // as img element, if the browser supports the File API.
             // Accepts the options fileTypes (regular expression)
             // and maxFileSize (integer) to limit the files to load:
-            loadImage: function (data, options) {
+            loadImage(data, options) {
                 if (options.disabled) {
                     return data;
                 }
-                var that = this,
-                    file = data.files[data.index],
-                    dfd = $.Deferred();
+                var that = this;
+                var file = data.files[data.index];
+                var dfd = $.Deferred();
                 if (($.type(options.maxFileSize) === 'number' &&
                             file.size > options.maxFileSize) ||
                         (options.fileTypes &&
                             !options.fileTypes.test(file.type)) ||
                         !loadImage(
                             file,
-                            function (img) {
+                            img => {
                                 if (img.src) {
                                     data.img = img;
                                 }
@@ -176,24 +176,26 @@
             // Also stores the resized image as preview property.
             // Accepts the options maxWidth, maxHeight, minWidth,
             // minHeight, canvas and crop:
-            resizeImage: function (data, options) {
+            resizeImage(data, options) {
                 if (options.disabled || !(data.canvas || data.img)) {
                     return data;
                 }
                 options = $.extend({canvas: true}, options);
-                var that = this,
-                    dfd = $.Deferred(),
-                    img = (options.canvas && data.canvas) || data.img,
-                    resolve = function (newImg) {
-                        if (newImg && (newImg.width !== img.width ||
-                                newImg.height !== img.height ||
-                                options.forceResize)) {
-                            data[newImg.getContext ? 'canvas' : 'img'] = newImg;
-                        }
-                        data.preview = newImg;
-                        dfd.resolveWith(that, [data]);
-                    },
-                    thumbnail;
+                var that = this;
+                var dfd = $.Deferred();
+                var img = (options.canvas && data.canvas) || data.img;
+
+                var resolve = newImg => {
+                    if (newImg && (newImg.width !== img.width ||
+                            newImg.height !== img.height ||
+                            options.forceResize)) {
+                        data[newImg.getContext ? 'canvas' : 'img'] = newImg;
+                    }
+                    data.preview = newImg;
+                    dfd.resolveWith(that, [data]);
+                };
+
+                var thumbnail;
                 if (data.exif) {
                     if (options.orientation === true) {
                         options.orientation = data.exif.get('Orientation');
@@ -221,16 +223,16 @@
 
             // Saves the processed image given as data.canvas
             // inplace at data.index of data.files:
-            saveImage: function (data, options) {
+            saveImage(data, options) {
                 if (!data.canvas || options.disabled) {
                     return data;
                 }
-                var that = this,
-                    file = data.files[data.index],
-                    dfd = $.Deferred();
+                var that = this;
+                var file = data.files[data.index];
+                var dfd = $.Deferred();
                 if (data.canvas.toBlob) {
                     data.canvas.toBlob(
-                        function (blob) {
+                        blob => {
                             if (!blob.name) {
                                 if (file.type === blob.type) {
                                     blob.name = file.name;
@@ -259,31 +261,33 @@
                 return dfd.promise();
             },
 
-            loadImageMetaData: function (data, options) {
+            loadImageMetaData(data, options) {
                 if (options.disabled) {
                     return data;
                 }
-                var that = this,
-                    dfd = $.Deferred();
-                loadImage.parseMetaData(data.files[data.index], function (result) {
+                var that = this;
+                var dfd = $.Deferred();
+                loadImage.parseMetaData(data.files[data.index], result => {
                     $.extend(data, result);
                     dfd.resolveWith(that, [data]);
                 }, options);
                 return dfd.promise();
             },
 
-            saveImageMetaData: function (data, options) {
+            saveImageMetaData(data, options) {
                 if (!(data.imageHead && data.canvas &&
                         data.canvas.toBlob && !options.disabled)) {
                     return data;
                 }
-                var file = data.files[data.index],
-                    blob = new Blob([
-                        data.imageHead,
-                        // Resized images always have a head size of 20 bytes,
-                        // including the JPEG marker and a minimal JFIF header:
-                        this._blobSlice.call(file, 20)
-                    ], {type: file.type});
+                var file = data.files[data.index];
+
+                var blob = new Blob([
+                    data.imageHead,
+                    // Resized images always have a head size of 20 bytes,
+                    // including the JPEG marker and a minimal JFIF header:
+                    this._blobSlice.call(file, 20)
+                ], {type: file.type});
+
                 blob.name = file.name;
                 data.files[data.index] = blob;
                 return data;
@@ -291,14 +295,14 @@
 
             // Sets the resized version of the image as a property of the
             // file object, must be called after "saveImage":
-            setImage: function (data, options) {
+            setImage(data, options) {
                 if (data.preview && !options.disabled) {
                     data.files[data.index][options.name || 'preview'] = data.preview;
                 }
                 return data;
             },
 
-            deleteImageReferences: function (data, options) {
+            deleteImageReferences(data, options) {
                 if (!options.disabled) {
                     delete data.img;
                     delete data.canvas;

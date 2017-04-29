@@ -12,7 +12,7 @@
 /* jshint nomen:false */
 /* global define, window */
 
-(function (factory) {
+((factory => {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -26,7 +26,7 @@
             window.jQuery
         );
     }
-}(function ($) {
+})($ => {
     'use strict';
 
     var originalAdd = $.blueimp.fileupload.prototype.options.add;
@@ -45,11 +45,9 @@
                 }
                 */
             ],
-            add: function (e, data) {
+            add(e, data) {
                 var $this = $(this);
-                data.process(function () {
-                    return $this.fileupload('process', data);
-                });
+                data.process(() => $this.fileupload('process', data));
                 originalAdd.call(this, e, data);
             }
         },
@@ -64,13 +62,13 @@
             */
         },
 
-        _processFile: function (data, originalData) {
-            var that = this,
-                dfd = $.Deferred().resolveWith(that, [data]),
-                chain = dfd.promise();
+        _processFile(data, originalData) {
+            var that = this;
+            var dfd = $.Deferred().resolveWith(that, [data]);
+            var chain = dfd.promise();
             this._trigger('process', null, data);
-            $.each(data.processQueue, function (i, settings) {
-                var func = function (data) {
+            $.each(data.processQueue, (i, settings) => {
+                var func = data => {
                     if (originalData.errorThrown) {
                         return $.Deferred()
                                 .rejectWith(that, [originalData]).promise();
@@ -84,11 +82,11 @@
                 chain = chain.pipe(func, settings.always && func);
             });
             chain
-                .done(function () {
+                .done(() => {
                     that._trigger('processdone', null, data);
                     that._trigger('processalways', null, data);
                 })
-                .fail(function () {
+                .fail(() => {
                     that._trigger('processfail', null, data);
                     that._trigger('processalways', null, data);
                 });
@@ -99,13 +97,13 @@
         // are strings starting with an "@", using the remaining
         // substring as key for the option map,
         // e.g. "@autoUpload" is replaced with options.autoUpload:
-        _transformProcessQueue: function (options) {
+        _transformProcessQueue(options) {
             var processQueue = [];
             $.each(options.processQueue, function () {
-                var settings = {},
-                    action = this.action,
-                    prefix = this.prefix === true ? action : this.prefix;
-                $.each(this, function (key, value) {
+                var settings = {};
+                var action = this.action;
+                var prefix = this.prefix === true ? action : this.prefix;
+                $.each(this, (key, value) => {
                     if ($.type(value) === 'string' &&
                             value.charAt(0) === '@') {
                         settings[key] = options[
@@ -123,33 +121,35 @@
         },
 
         // Returns the number of files currently in the processsing queue:
-        processing: function () {
+        processing() {
             return this._processing;
         },
 
         // Processes the files given as files property of the data parameter,
         // returns a Promise object that allows to bind callbacks:
-        process: function (data) {
-            var that = this,
-                options = $.extend({}, this.options, data);
+        process(data) {
+            var that = this;
+            var options = $.extend({}, this.options, data);
             if (options.processQueue && options.processQueue.length) {
                 this._transformProcessQueue(options);
                 if (this._processing === 0) {
                     this._trigger('processstart');
                 }
-                $.each(data.files, function (index) {
-                    var opts = index ? $.extend({}, options) : options,
-                        func = function () {
-                            if (data.errorThrown) {
-                                return $.Deferred()
-                                        .rejectWith(that, [data]).promise();
-                            }
-                            return that._processFile(opts, data);
-                        };
+                $.each(data.files, index => {
+                    var opts = index ? $.extend({}, options) : options;
+
+                    var func = () => {
+                        if (data.errorThrown) {
+                            return $.Deferred()
+                                    .rejectWith(that, [data]).promise();
+                        }
+                        return that._processFile(opts, data);
+                    };
+
                     opts.index = index;
                     that._processing += 1;
                     that._processingQueue = that._processingQueue.pipe(func, func)
-                        .always(function () {
+                        .always(() => {
                             that._processing -= 1;
                             if (that._processing === 0) {
                                 that._trigger('processstop');
@@ -160,7 +160,7 @@
             return this._processingQueue;
         },
 
-        _create: function () {
+        _create() {
             this._super();
             this._processing = 0;
             this._processingQueue = $.Deferred().resolveWith(this)
