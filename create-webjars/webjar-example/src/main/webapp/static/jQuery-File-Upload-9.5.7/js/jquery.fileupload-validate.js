@@ -11,7 +11,7 @@
 
 /* global define, window */
 
-(function (factory) {
+((factory => {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -25,7 +25,7 @@
             window.jQuery
         );
     }
-}(function ($) {
+})($ => {
     'use strict';
 
     // Append to the default processQueue:
@@ -76,14 +76,14 @@
 
         processActions: {
 
-            validate: function (data, options) {
+            validate(data, options) {
                 if (options.disabled) {
                     return data;
                 }
-                var dfd = $.Deferred(),
-                    settings = this.options,
-                    file = data.files[data.index],
-                    fileSize;
+                var dfd = $.Deferred();
+                var settings = this.options;
+                var file = data.files[data.index];
+                var fileSize;
                 if (options.minFileSize || options.maxFileSize) {
                     fileSize = file.size;
                 }

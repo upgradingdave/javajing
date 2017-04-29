@@ -12,7 +12,7 @@
 /* jshint nomen:false */
 /* global define, window */
 
-(function (factory) {
+((factory => {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -21,16 +21,16 @@
         // Browser globals:
         factory(window.jQuery);
     }
-}(function ($) {
+})($ => {
     'use strict';
 
     $.widget('blueimp.fileupload', $.blueimp.fileupload, {
 
         options: {
-            processdone: function (e, data) {
+            processdone(e, data) {
                 data.context.find('.start').button('enable');
             },
-            progress: function (e, data) {
+            progress(e, data) {
                 if (data.context) {
                     data.context.find('.progress').progressbar(
                         'option',
@@ -39,7 +39,7 @@
                     );
                 }
             },
-            progressall: function (e, data) {
+            progressall(e, data) {
                 var $this = $(this);
                 $this.find('.fileupload-progress')
                     .find('.progress').progressbar(
@@ -57,9 +57,9 @@
             }
         },
 
-        _renderUpload: function (func, files) {
-            var node = this._super(func, files),
-                showIconText = $(window).width() > 480;
+        _renderUpload(func, files) {
+            var node = this._super(func, files);
+            var showIconText = $(window).width() > 480;
             node.find('.progress').empty().progressbar();
             node.find('.start').button({
                 icons: {primary: 'ui-icon-circle-arrow-e'},
@@ -75,9 +75,9 @@
             return node;
         },
 
-        _renderDownload: function (func, files) {
-            var node = this._super(func, files),
-                showIconText = $(window).width() > 480;
+        _renderDownload(func, files) {
+            var node = this._super(func, files);
+            var showIconText = $(window).width() > 480;
             node.find('.delete').button({
                 icons: {primary: 'ui-icon-trash'},
                 text: showIconText
@@ -88,18 +88,18 @@
             return node;
         },
 
-        _startHandler: function (e) {
+        _startHandler(e) {
             $(e.currentTarget).button('disable');
             this._super(e);
         },
 
-        _transition: function (node) {
+        _transition(node) {
             var deferred = $.Deferred();
             if (node.hasClass('fade')) {
                 node.fadeToggle(
                     this.options.transitionDuration,
                     this.options.transitionEasing,
-                    function () {
+                    () => {
                         deferred.resolveWith(node);
                     }
                 );
@@ -109,7 +109,7 @@
             return deferred;
         },
 
-        _create: function () {
+        _create() {
             this._super();
             this.element
                 .find('.fileupload-buttonbar')
@@ -128,7 +128,7 @@
                 .end().find('.progress').progressbar();
         },
 
-        _destroy: function () {
+        _destroy() {
             this.element
                 .find('.fileupload-buttonbar')
                 .find('.fileinput-button').each(function () {

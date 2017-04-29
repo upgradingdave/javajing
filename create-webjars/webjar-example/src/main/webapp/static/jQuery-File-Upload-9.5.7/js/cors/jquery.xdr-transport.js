@@ -14,7 +14,7 @@
 
 /* global define, window, XDomainRequest */
 
-(function (factory) {
+((factory => {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -23,10 +23,10 @@
         // Browser globals:
         factory(window.jQuery);
     }
-}(function ($) {
+})($ => {
     'use strict';
     if (window.XDomainRequest && !$.support.cors) {
-        $.ajaxTransport(function (s) {
+        $.ajaxTransport(s => {
             if (s.crossDomain && s.async) {
                 if (s.timeout) {
                     s.xdrTimeout = s.timeout;
@@ -34,7 +34,7 @@
                 }
                 var xdr;
                 return {
-                    send: function (headers, completeCallback) {
+                    send(headers, completeCallback) {
                         var addParamChar = /\?/.test(s.url) ? '&' : '?';
                         function callback(status, statusText, responses, responseHeaders) {
                             xdr.onload = xdr.onerror = xdr.ontimeout = $.noop;
@@ -54,7 +54,7 @@
                             s.type = 'POST';
                         }
                         xdr.open(s.type, s.url);
-                        xdr.onload = function () {
+                        xdr.onload = () => {
                             callback(
                                 200,
                                 'OK',
@@ -62,18 +62,18 @@
                                 'Content-Type: ' + xdr.contentType
                             );
                         };
-                        xdr.onerror = function () {
+                        xdr.onerror = () => {
                             callback(404, 'Not Found');
                         };
                         if (s.xdrTimeout) {
-                            xdr.ontimeout = function () {
+                            xdr.ontimeout = () => {
                                 callback(0, 'timeout');
                             };
                             xdr.timeout = s.xdrTimeout;
                         }
                         xdr.send((s.hasContent && s.data) || null);
                     },
-                    abort: function () {
+                    abort() {
                         if (xdr) {
                             xdr.onerror = $.noop();
                             xdr.abort();
